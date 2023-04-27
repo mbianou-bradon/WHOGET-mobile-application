@@ -5,9 +5,11 @@ export const styles = StyleSheet.create({
     loginContainer : {
         height: "100%",
         width: "100%",
-        paddingHorizontal: 10,
-        paddingBottom: 10,
+
         position: "relative"
+    },
+    majorContainer : {
+        paddingHorizontal: 10,
     },
     logoContainer : {
         width: "100%",
@@ -56,13 +58,16 @@ export const styles = StyleSheet.create({
 
     footer: {
         width: "100%",
-        flexDirection: "row",
-        justifyContent: "space-between",
         position: "absolute",
         bottom: 0,
-        paddingStart: 10,
+        paddingHorizontal: 10,
         paddingBottom: 10,
 
+    },
+    innerFooterContainer : {
+        
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     footerText : {
         fontSize: 12,

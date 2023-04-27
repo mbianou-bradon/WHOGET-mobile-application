@@ -36,12 +36,14 @@ export default function Login(){
 
                 </View>
             </View>
-
             <View style={styles.footer}>
-                <Text style={styles.footerText}>About</Text>
-                <Text style={styles.footerText}>Language</Text>
-                <Text style={styles.footerText}>&copy; WhoGet, Inc 2023</Text>
+                <View style={styles.innerFooterContainer}>
+                    <Text style={styles.footerText}>About</Text>
+                    <Text style={styles.footerText}>Language</Text>
+                    <Text style={styles.footerText}>&copy; WhoGet, Inc 2023</Text>
+                </View>
             </View>
+            
         </View>
     )
 }
