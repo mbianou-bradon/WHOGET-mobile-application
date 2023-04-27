@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./Login.screen.styles";
 import { LinearTextGradient } from "react-native-text-gradient";
 
@@ -19,14 +19,14 @@ export default function Login(){
                 
 
                 <View style={styles.loginOptionsContainer}>
-                    <Pressable style={styles.loginOptions}>
+                    <TouchableOpacity style={styles.loginOptions}>
                         <Image source={require("../../assets/icons/google.png")} />
                         <Text style={styles.loginOptionsText}>Sign in with Google</Text>
-                    </Pressable>
-                    <Pressable style={styles.loginOptions}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.loginOptions}>
                         <Image source={require("../../assets/icons/facebook.png")} />
                         <Text style={styles.loginOptionsText}>Sign in with Facebook</Text>
-                    </Pressable>
+                    </TouchableOpacity>
 
                     <View style={styles.policyContainer}>
                         <Text style={styles.policyText}>
