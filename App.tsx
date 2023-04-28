@@ -28,6 +28,7 @@ import Login from './src/screens/Login/Login';
 import Category from './src/components/Category/Category';
 import CategoriesSelect from './src/screens/Registration/CategoriesSelect/CategoriesSelect';
 import HowToContact from './src/screens/Registration/HowToContact/HowToContact';
+import Home from './src/screens/Home/Home';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -69,9 +70,11 @@ function App(): JSX.Element {
   return (
     <View style={backgroundStyle}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-        translucent={true}
+        // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        
+        // backgroundColor={backgroundStyle.backgroundColor}
+        backgroundColor={"#11A6DF"}
+        // translucent={true}
       />
 
         <View
@@ -79,7 +82,7 @@ function App(): JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
          {/* <Login/> */}
-         <HowToContact/>
+         <Home/>
         </View>
     </View>
   );

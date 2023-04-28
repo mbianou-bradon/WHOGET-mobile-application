@@ -2,6 +2,7 @@ import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native
 import Category from "../../../components/Category/Category";
 import { CategoryType } from "../../../../dataType";
 import { styles } from "./CategoriesSelect.screen.styles";
+import Header from "../../../components/Header/Header";
 
 
 export default function CategoriesSelect(){
@@ -92,24 +93,27 @@ export default function CategoriesSelect(){
 
 
     return (
-        <View style={styles.categoriesSelectContainer}>
-            <View style={styles.categoriesSelectDescContainer}>
+        <View>
+            <Header/>
+            <View style={styles.categoriesSelectContainer}>
+                <View style={styles.categoriesSelectDescContainer}>
 
-                <View style={styles.categoriesSelectDescSubContainerOne}>
-                    <Text style={styles.categoriesSelectDesc}>What topics are you interested in?</Text>
-                    <Text style={styles.categoriesSelectMinText}>Select at least two to continue</Text>
+                    <View style={styles.categoriesSelectDescSubContainerOne}>
+                        <Text style={styles.categoriesSelectDesc}>What topics are you interested in?</Text>
+                        <Text style={styles.categoriesSelectMinText}>Select at least two to continue</Text>
+                    </View>
                 </View>
-            </View>
 
 
-            <View style={styles.flatListContainerStyle}>
-                <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item}/>} keyExtractor={(item, index) => item._id}/>
-            </View>
+                <View style={styles.flatListContainerStyle}>
+                    <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item}/>} keyExtractor={(item, index) => item._id}/>
+                </View>
 
-            <View style={styles.continueBtnContainer}>
-                <TouchableOpacity style={styles.continueBtn}>
-                    <Text style={styles.continueBtnText}>Continue</Text>
-                </TouchableOpacity>
+                <View style={styles.continueBtnContainer}>
+                    <TouchableOpacity style={styles.continueBtn}>
+                        <Text style={styles.continueBtnText}>Continue</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
         
