@@ -1,7 +1,7 @@
 import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import Category from "../../components/Category/Category";
-import { CategoryType } from "../../../dataType";
-import { styles } from "../../../CategoriesSelect.screen.styles";
+import Category from "../../../components/Category/Category";
+import { CategoryType } from "../../../../dataType";
+import { styles } from "./CategoriesSelect.screen.styles";
 
 
 export default function CategoriesSelect(){
@@ -105,12 +105,6 @@ export default function CategoriesSelect(){
             <View style={styles.flatListContainerStyle}>
                 <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item}/>} keyExtractor={(item, index) => item._id}/>
             </View>
-            
-            {/* <ScrollView style={styles.} col>
-                {
-                    categoryTempData.map(category => <Category key={category._id} category={category}/>)
-                }
-            </ScrollView> */}
 
             <View style={styles.continueBtnContainer}>
                 <TouchableOpacity style={styles.continueBtn}>
