@@ -25,6 +25,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Login from './src/screens/Login/Login';
+import Category from './src/components/Category/Category';
+import CategoriesSelect from './src/screens/Registration/CategoriesSelect';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -74,7 +76,8 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-         <Login/>
+         {/* <Login/> */}
+         <CategoriesSelect/>
         </View>
     </SafeAreaView>
   );
