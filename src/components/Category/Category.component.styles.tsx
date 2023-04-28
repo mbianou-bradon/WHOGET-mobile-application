@@ -6,11 +6,11 @@ export const styles = StyleSheet.create({
         borderColor: "#11A6DF",
         borderRadius: 15,
         width: 170,
-        height: 50,
+        height: 55,
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 15,
-        marginHorizontal: 5,
+        marginHorizontal: 3,
     },
     categoryText : {
         fontSize: 18,

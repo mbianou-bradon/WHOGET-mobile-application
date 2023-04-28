@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Category from "../../components/Category/Category";
 import { CategoryType } from "../../../dataType";
 import { styles } from "../../../CategoriesSelect.screen.styles";
@@ -55,18 +55,68 @@ export default function CategoriesSelect(){
             _id : "13",
             name: "Web Development"
         },
+        {
+            _id : "14",
+            name: "Designing"
+        },
+        {
+            _id : "15",
+            name: "Hair Dressing"
+        },
+        {
+            _id : "16",
+            name: "Cooking"
+        },
+        {
+            _id : "17",
+            name: "Education"
+        },
+        {
+            _id : "18",
+            name: "Copywriting"
+        },
+        {
+            _id : "19",
+            name: "Football"
+        },
+        {
+            _id : "20",
+            name: "Musics"
+        },
+        {
+            _id : "21",
+            name: "Mobile Phones"
+        },
 
     ]
 
 
     return (
-        <View>
-            <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item}/>} keyExtractor={(item, index) => item._id}/>
-            {/* <ScrollView style={styles.scrollViewContainerStyle} col>
+        <View style={styles.categoriesSelectContainer}>
+            <View style={styles.categoriesSelectDescContainer}>
+
+                <View style={styles.categoriesSelectDescSubContainerOne}>
+                    <Text style={styles.categoriesSelectDesc}>What topics are you interested in?</Text>
+                    <Text style={styles.categoriesSelectMinText}>Select at least two to continue</Text>
+                </View>
+            </View>
+
+
+            <View style={styles.flatListContainerStyle}>
+                <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item}/>} keyExtractor={(item, index) => item._id}/>
+            </View>
+            
+            {/* <ScrollView style={styles.} col>
                 {
                     categoryTempData.map(category => <Category key={category._id} category={category}/>)
                 }
             </ScrollView> */}
+
+            <View style={styles.continueBtnContainer}>
+                <TouchableOpacity style={styles.continueBtn}>
+                    <Text style={styles.continueBtnText}>Continue</Text>
+                </TouchableOpacity>
+            </View>
         </View>
         
     )
