@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, Text, TextInput, View } from "react-native";
+import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import Header from "../../components/Header/Header";
 import { styles } from "./Home.screen.styles";
+import Ask from "../../components/Ask/Ask";
 
 
 export default function Home(){
@@ -36,6 +37,19 @@ export default function Home(){
                     <View style={styles.askQuestionSubContainerTwo}>
                         <Text style={styles.askQuestionSubContainerTwoText}>Ask</Text>
                     </View>
+                </View>
+
+                <View style={styles.askContainer}>
+                    <ScrollView>
+                        <Ask/>
+                        <Ask/>
+                        <Ask/>
+                        <Ask/>
+                        <Ask/>
+                        <Ask/>
+                        <Ask/>
+                    </ScrollView>
+                    
                 </View>
             </View>
         </View>

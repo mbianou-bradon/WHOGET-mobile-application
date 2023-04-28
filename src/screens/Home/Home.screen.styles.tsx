@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     homeContainer : {
         height: "100%",
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
         backgroundColor: "#F0F0F0"
     },
     homeSubContainerOne : {
@@ -76,5 +76,8 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "500",
         color: "white"
+    },
+    askContainer : {
+        marginVertical: 20
     }
 })
