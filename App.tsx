@@ -1,12 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
 import type {PropsWithChildren} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   SafeAreaView,
   ScrollView,
@@ -34,6 +30,110 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
+export type RootStackParams = {
+  Home: undefined;
+  Search: undefined;
+  Ask: undefined;
+  Notification: undefined;
+  Profile: undefined;
+}
+
+
+const RootStack = createBottomTabNavigator<RootStackParams>()
+
+function App() :JSX.Element {
+
+  return (
+    <NavigationContainer>
+      <StatusBar/>
+      <RootStack.Navigator initialRouteName='Home'>
+          <RootStack.Screen name='Home' component={Home}/>
+          <RootStack.Screen name='Search' component={Home}/>
+          <RootStack.Screen name='Ask' component={Home}/>
+          <RootStack.Screen name='Notification' component={Home}/>
+          <RootStack.Screen name='Profile' component={Home}/>
+      </RootStack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // function Section({children, title}: SectionProps): JSX.Element {
 //   const isDarkMode = useColorScheme() === 'dark';
 //   return (
@@ -60,33 +160,33 @@ type SectionProps = PropsWithChildren<{
 //   );
 // }
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+// function App(): JSX.Element {
+//   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+//   const backgroundStyle = {
+//     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+//   };
 
-  return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+//   return (
+//     <View style={backgroundStyle}>
+//       <StatusBar
+//         // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         
-        // backgroundColor={backgroundStyle.backgroundColor}
-        backgroundColor={"#11A6DF"}
-        // translucent={true}
-      />
+//         // backgroundColor={backgroundStyle.backgroundColor}
+//         backgroundColor={"#11A6DF"}
+//         // translucent={true}
+//       />
 
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-         {/* <Login/> */}
-         <Home/>
-        </View>
-    </View>
-  );
-}
+//         <View
+//           style={{
+//             backgroundColor: isDarkMode ? Colors.black : Colors.white,
+//           }}>
+//          {/* <Login/> */}
+//          <Home/>
+//         </View>
+//     </View>
+//   );
+// }
 
 
-export default App;
+// export default App;

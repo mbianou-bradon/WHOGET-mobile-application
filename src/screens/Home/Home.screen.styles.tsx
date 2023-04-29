@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     profileImageContainer : {
         width: 42,
         height: 42,
+        borderWidth:1,
         borderRadius: 50,
         backgroundColor: "white",
         padding:2
@@ -32,7 +33,8 @@ export const styles = StyleSheet.create({
         backgroundColor: "white",
         width: "65%",
         height: 42,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        borderRadius: 15
     },
     searchIconContainer : {
         width: 15,

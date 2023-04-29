@@ -16,9 +16,10 @@ export const styles = StyleSheet.create({
     profileImageContainer : {
         width: 42,
         height: 42,
+        borderWidth: 1,
         borderRadius: 50,
         backgroundColor: "white",
-        padding:2
+        padding:2,
     },
     profileImage : {
         width: "100%",
