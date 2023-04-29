@@ -25,6 +25,10 @@ import Category from './src/components/Category/Category';
 import CategoriesSelect from './src/screens/Registration/CategoriesSelect/CategoriesSelect';
 import HowToContact from './src/screens/Registration/HowToContact/HowToContact';
 import Home from './src/screens/Home/Home';
+import Search from './src/screens/Search/Search';
+import AskScreen from './src/screens/Ask/Ask';
+import Notification from './src/screens/Notification/Notification';
+import Profile from './src/screens/Profile/Profile';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -45,19 +49,19 @@ function App() :JSX.Element {
 
   return (
     <NavigationContainer>
-      <StatusBar/>
-      <RootStack.Navigator initialRouteName='Home'>
+      <StatusBar backgroundColor={"#11A6DF"} />
+      <RootStack.Navigator initialRouteName='Home' screenOptions={{headerShown: false}}>
           <RootStack.Screen name='Home' component={Home}/>
-          <RootStack.Screen name='Search' component={Home}/>
-          <RootStack.Screen name='Ask' component={Home}/>
-          <RootStack.Screen name='Notification' component={Home}/>
-          <RootStack.Screen name='Profile' component={Home}/>
+          <RootStack.Screen name='Search' component={Search}/>
+          <RootStack.Screen name='Ask' component={AskScreen}/>
+          <RootStack.Screen name='Notification' component={Notification}/>
+          <RootStack.Screen name='Profile' component={Profile}/>
       </RootStack.Navigator>
     </NavigationContainer>
   )
 }
 
-
+export default App;
 
 
 
