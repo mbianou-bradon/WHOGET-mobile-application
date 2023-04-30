@@ -26,7 +26,7 @@ import CategoriesSelect from './src/screens/Registration/CategoriesSelect/Catego
 import HowToContact from './src/screens/Registration/HowToContact/HowToContact';
 import Home from './src/screens/Home/Home';
 import Search from './src/screens/Search/Search';
-import AskScreen from './src/screens/Ask/Ask';
+import AskScreen from './src/screens/Ask/AskScreen';
 import Notification from './src/screens/Notification/Notification';
 import Profile from './src/screens/Profile/Profile';
 
