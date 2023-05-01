@@ -48,6 +48,6 @@ export const styles = StyleSheet.create({
     continueBtnText: {
         fontSize: 20,
         fontWeight: "500",
-        color: "white"
+        color: theme.color.neutral_white
     }
 })

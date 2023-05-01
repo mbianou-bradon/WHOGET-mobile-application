@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     policyText : {
         width: "85%",
         fontSize: 12,
-        color: "black",
+        color: theme.color.neutral_black,
         fontWeight: "500",
     },
 
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
     },
     footerText : {
         fontSize: 12,
-        color: "black",
+        color: theme.color.neutral_black,
         fontWeight: "500"
     }
 })

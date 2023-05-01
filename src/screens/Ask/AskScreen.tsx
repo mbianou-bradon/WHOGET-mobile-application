@@ -7,7 +7,16 @@ export default function AskScreen(){
     return (
         <View>
             <Header/>
-            <Text>Ask Screen</Text>
+            <View>
+                <View></View>
+                <View>
+                    <Text>Tips</Text>
+                    <View>
+                        <View></View>
+                        
+                    </View>
+                </View>
+            </View>
         </View>
     )
 }

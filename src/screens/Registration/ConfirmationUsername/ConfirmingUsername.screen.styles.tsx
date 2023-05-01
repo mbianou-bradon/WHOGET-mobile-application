@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     confirmationContainer: {
         height: "100%",
         paddingHorizontal: 17,
-        backgroundColor: "white"
+        backgroundColor: theme.color.neutral_white
     },
     logoContainer : {
         width: "100%",
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     },
     confirmaionText: {
         fontSize: 10,
-        color: "black",
+        color: theme.color.neutral_black,
         marginTop: 60,
         marginBottom: 10,
     },
@@ -52,6 +52,6 @@ export const styles = StyleSheet.create({
     continueBtnText: {
         fontSize: 18,
         fontWeight: "500",
-        color: "white"
+        color: theme.color.neutral_white
     }
 })

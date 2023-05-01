@@ -11,5 +11,6 @@ export const theme = {
     neutral_gray_light : "#EEEEEEE",
     neutral_gray_lighter : "#FBF7F7",
     neutral_black : "black",
+    neutral_white : "white",
     }
 }

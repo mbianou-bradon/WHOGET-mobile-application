@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         height: 42,
         borderWidth:1,
         borderRadius: 50,
-        backgroundColor: "white",
+        backgroundColor: theme.color.neutral_white,
         padding:2
     },
     profileImage : {
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 5,
         alignItems: "center",
-        backgroundColor: "white",
+        backgroundColor: theme.color.neutral_white,
         width: "65%",
         height: 42,
         paddingHorizontal: 15,
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     },
     askQuestionContainer: {
         flexDirection: "row",
-        backgroundColor: "white",
+        backgroundColor: theme.color.neutral_white,
         height: 54,
         borderRadius: 15,
         justifyContent: "space-between"
@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     askQuestionSubContainerTwoText : {
         fontSize: 20,
         fontWeight: "500",
-        color: "white"
+        color: theme.color.neutral_white
     },
     askContainer : {
         marginVertical: 20

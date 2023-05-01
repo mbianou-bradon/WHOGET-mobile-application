@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     askContainer: {
         paddingHorizontal: 15,
         paddingVertical: 10,
-        backgroundColor: "white",
+        backgroundColor: theme.color.neutral_white,
         marginBottom: 9,
     },
     askHeaderStyle : {
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
         height: 42,
         borderWidth: 1,
         borderRadius: 50,
-        backgroundColor: "white",
+        backgroundColor: theme.color.neutral_white,
         padding:2,
     },
     profileImage : {
