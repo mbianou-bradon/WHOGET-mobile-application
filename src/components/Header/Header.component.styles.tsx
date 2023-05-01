@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native"
+import { theme } from "../../theme/theme"
 
 export const styles = StyleSheet.create({
     headerContainer : {
@@ -6,7 +7,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingBottom: 19,
-        backgroundColor: "#11A6DF",
+        backgroundColor: theme.color.primary_blue_light,
     },
     headerLogo : {}
 })

@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../../theme/theme";
 
 
 export const styles = StyleSheet.create({
@@ -20,14 +21,14 @@ export const styles = StyleSheet.create({
     howToContactDesc: {
         width: "80%",
         fontSize: 28,
-        color: "#11A6DF",
+        color: theme.color.primary_blue_light,
         lineHeight: 37,
         textAlign: "center",
         marginBottom: 10,
     },
     howToContactMinText: {
         fontSize: 14,
-        color: "#11A6DF",
+        color: theme.color.primary_blue_light,
         textAlign: "center",
     },
     contactOptionsContainer: {
@@ -40,7 +41,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         height: 62,
         paddingHorizontal: 22,
-        backgroundColor: "#EEEEEE",
+        backgroundColor: theme.color.neutral_gray_light,
         borderRadius: 15,
     },
     continueBtnContainer: {
@@ -52,7 +53,7 @@ export const styles = StyleSheet.create({
     continueBtn: {
         height: 55,
         width: "100%",
-        backgroundColor: "#11A6DF",
+        backgroundColor: theme.color.primary_blue_light,
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center"

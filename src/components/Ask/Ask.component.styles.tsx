@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../theme/theme";
 
 
 export const styles = StyleSheet.create({
@@ -28,7 +29,7 @@ export const styles = StyleSheet.create({
     askerUsernameStyle : {
         fontSize: 16,
         fontWeight: "500",
-        color: "black"
+        color: theme.color.neutral_black,
     },
     askerCreationDate : {
         fontSize: 10,
@@ -39,13 +40,13 @@ export const styles = StyleSheet.create({
     },
     askCategoryText : {
         fontSize: 10,
-        color: "#11A6DF"
+        color: theme.color.primary_blue_light
     },
     askBodyContainer: {},
     askBodyText : {
         fontSize: 20,
         fontWeight: "400",
-        color: "black",
+        color: theme.color.neutral_black,
         lineHeight: 25
     },
     askExpiringDateContainer : {
@@ -58,6 +59,6 @@ export const styles = StyleSheet.create({
     askExpiringDateText: {
         fontSize: 10,
         fontWeight: "400",
-        color: "#11A6DF",
+        color: theme.color.primary_blue_light,
     }
 })

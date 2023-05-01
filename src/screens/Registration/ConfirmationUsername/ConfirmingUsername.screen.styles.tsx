@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../../theme/theme";
 
 
 export const styles = StyleSheet.create({
@@ -27,7 +28,7 @@ export const styles = StyleSheet.create({
         width: "85%",
     },
     changeUsernameContainer : {
-        backgroundColor: "#EEEEEE",
+        backgroundColor: theme.color.neutral_gray_light,
         borderRadius: 15,
     },
     usernameSubContainer : {
@@ -42,7 +43,7 @@ export const styles = StyleSheet.create({
     continueBtn: {
         height: "100%",
         width: "100%",
-        backgroundColor: "#11A6DF",
+        backgroundColor: theme.color.primary_blue_light,
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center"

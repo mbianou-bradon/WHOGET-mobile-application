@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../theme/theme";
 
 
 export const styles = StyleSheet.create({
@@ -71,7 +72,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: 30,
-        backgroundColor: "#11A6DF",
+        backgroundColor: theme.color.primary_blue_light,
         borderRadius: 15,
     },
     askQuestionSubContainerTwoText : {

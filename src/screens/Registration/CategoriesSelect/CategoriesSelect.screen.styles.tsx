@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../../theme/theme";
 
 
 export const styles = StyleSheet.create({
@@ -16,13 +17,13 @@ export const styles = StyleSheet.create({
     },
     categoriesSelectDesc: {
         fontSize: 28,
-        color: "#11A6DF",
+        color: theme.color.primary_blue_light,
         lineHeight: 37,
         textAlign: "center",
     },
     categoriesSelectMinText: {
         fontSize: 14,
-        color: "#11A6DF",
+        color: theme.color.primary_blue_light,
         textAlign: "center",
     },
     flatListContainerStyle: {
@@ -38,7 +39,7 @@ export const styles = StyleSheet.create({
     continueBtn: {
         height: 55,
         width: "100%",
-        backgroundColor: "#11A6DF",
+        backgroundColor: theme.color.primary_blue_light,
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center"

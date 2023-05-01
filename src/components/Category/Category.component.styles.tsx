@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native"
+import { theme } from "../../theme/theme"
 
 export const styles = StyleSheet.create({
     categoryContainer: {
         borderWidth: 1,
-        borderColor: "#11A6DF",
+        borderColor: theme.color.primary_blue_light,
         borderRadius: 15,
         width: 170,
         height: 55,
@@ -15,6 +16,6 @@ export const styles = StyleSheet.create({
     categoryText : {
         fontSize: 18,
         fontWeight: "500",
-        color: "#11A6DF",
+        color: theme.color.primary_blue_light,
     }
 })
