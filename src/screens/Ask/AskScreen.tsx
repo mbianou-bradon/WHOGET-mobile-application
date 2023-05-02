@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../components/Header/Header";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from "./AskScreen.screen.styles";
@@ -11,7 +11,9 @@ export default function AskScreen(){
             <Header/>
             <View style={styles.AskMainContainer}>
                 <View style={styles.AskSubContainerOne}>
-                    <View></View>
+                    <View>
+                        <Image source={require("../../assets/icons/backarrow.png")} />
+                    </View>
                     <View style={styles.tipsContainer}>
                         <Text>Tips</Text>
                         <View style={styles.tipsSubContainer}>
@@ -59,7 +61,10 @@ export default function AskScreen(){
                 </View>
 
                 {/* Upload picture */}
-                <View style={styles.dropdownContainer}>
+                <View style={[styles.dropdownContainer,styles.uploadContainer]}>
+                    <View>
+                        <Image source={require("../../assets/icons/upload.png")} />
+                    </View>
                     <Text>Upload picture</Text>
                 </View>
                 

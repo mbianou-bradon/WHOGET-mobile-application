@@ -9,9 +9,13 @@ export const styles = StyleSheet.create({
 
     },
     AskSubContainerOne : {
+        flexDirection : "row",
+        alignItems : "center",
+        gap : 15,
         paddingVertical : 14
     },
     tipsContainer : {
+        width : "90%",
         backgroundColor : theme.color.neutral_white,
         paddingVertical : 8,
         paddingHorizontal : 13,
@@ -27,6 +31,8 @@ export const styles = StyleSheet.create({
         height: 150,
         backgroundColor: theme.color.neutral_white,
         marginBottom : 12,
+        borderRadius : 10, 
+        paddingHorizontal : 5,
     },
     AskText : {
         fontSize : 12,
@@ -38,7 +44,8 @@ export const styles = StyleSheet.create({
         marginBottom : 12,
         paddingHorizontal : 14,
         flexDirection : "row",
-        alignItems : "center"
+        alignItems : "center",
+        borderRadius : 10
     },
     noticeContainer : {
         marginTop : -10,
@@ -48,6 +55,11 @@ export const styles = StyleSheet.create({
     noticeText : {
         fontSize : 8,
         color : theme.color.neutral_black
+    },
+    uploadContainer : {
+        justifyContent : "center",
+        alignItems : "center",
+        gap : 10
     },
     askBtnContainer: {
         height: 50,

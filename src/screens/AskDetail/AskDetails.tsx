@@ -26,7 +26,7 @@ export default function AskDetails(){
                     </View>
                 </View>
 
-                <View>
+                <View style={styles.bodyContainer}>
                     <View style={styles.askTextContainer}>
                         <View style={styles.askCategoryContainer}>
                             <Text style={styles.askCategoryText}>#Rentals</Text>
