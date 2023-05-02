@@ -1,9 +1,6 @@
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
-import { CategoryType } from "../../../dataType";
-import { theme } from "../../theme/theme";
-import DropDownPicker from "react-native-dropdown-picker";
 import { styles } from "./Filter.component.styles";
 
 

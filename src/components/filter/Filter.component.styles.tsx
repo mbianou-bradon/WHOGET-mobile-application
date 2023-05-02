@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         marginBottom : 50
     },
     dropdownContainer : {
-        borderWidth : 2,
+        borderWidth : 1,
         borderColor : theme.color.primary_blue_light,
         borderRadius : 15,
         height: 55,

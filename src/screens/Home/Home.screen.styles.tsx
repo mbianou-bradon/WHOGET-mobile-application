@@ -6,13 +6,13 @@ export const styles = StyleSheet.create({
     homeContainer : {
         height: "100%",
         paddingHorizontal: 10,
-        backgroundColor: "#F0F0F0"
+        backgroundColor: "#F0F0F0",
     },
     homeSubContainerOne : {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingVertical: 21,
+        paddingVertical: 18,
     },
 
     profileImageContainer : {
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
         width: "65%",
         height: 42,
         paddingHorizontal: 15,
-        borderRadius: 15
+        borderRadius: 10
     },
     searchIconContainer : {
         width: 15,
@@ -54,8 +54,8 @@ export const styles = StyleSheet.create({
     askQuestionContainer: {
         flexDirection: "row",
         backgroundColor: theme.color.neutral_white,
-        height: 54,
-        borderRadius: 15,
+        height: 44,
+        borderRadius: 10,
         justifyContent: "space-between"
     },
     askQuestionSubContainer: {
@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 30
     },
     askQuestionSubContainerText : {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: "500",
         color: "#B6B4B4"
     },
@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 30,
         backgroundColor: theme.color.primary_blue_light,
-        borderRadius: 15,
+        borderRadius: 10,
     },
     askQuestionSubContainerTwoText : {
         fontSize: 20,
