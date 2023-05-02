@@ -51,7 +51,7 @@ function App() :JSX.Element {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={theme.color.primary_blue_light} />
-      <RootStack.Navigator initialRouteName='Ask' screenOptions={{headerShown: false}}>
+      <RootStack.Navigator initialRouteName='Profile' screenOptions={{headerShown: false}}>
           <RootStack.Screen name='Home' component={Home}/>
           <RootStack.Screen name='Search' component={Search}/>
           <RootStack.Screen name='Ask' component={AskScreen}/>
