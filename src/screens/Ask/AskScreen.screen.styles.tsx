@@ -45,7 +45,11 @@ export const styles = StyleSheet.create({
         paddingHorizontal : 14,
         flexDirection : "row",
         alignItems : "center",
+        borderWidth : 0,
         borderRadius : 10
+    },
+    inputStyles : {
+        color: theme.color.neutral_gray
     },
     noticeContainer : {
         marginTop : -10,

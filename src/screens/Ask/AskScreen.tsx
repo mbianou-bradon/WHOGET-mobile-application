@@ -2,9 +2,22 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../components/Header/Header";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from "./AskScreen.screen.styles";
+import DropDownPicker from "react-native-dropdown-picker";
+import React from "react";
+import { categoryTempData, locationData, timeData } from "../../data/standardData";
 
 
 export default function AskScreen(){
+    const [openCategory, setOpenCategory] = React.useState(false);
+    const [openLocation, setOpenLocation] = React.useState(false);
+    const [openTime, setOpenTime] = React.useState(false);
+    const [categoryValue, setCategoryValue] = React.useState(null);
+    const [locationValue, setLocationValue] = React.useState(null);
+    const [timeValue, setTimeValue] = React.useState(null);
+
+    const [categoryItems, setCategoryItems] = React.useState(categoryTempData);
+    const [locationItems, setLocationItems] = React.useState(locationData);
+    const [timeItems, setTimeItems] = React.useState(timeData);
 
     return (
         <View>
@@ -38,26 +51,66 @@ export default function AskScreen(){
                 <View style={styles.AskTextContainer}>
                     <TextInput placeholder="Enter your question here" multiline style={styles.AskText}/>
                 </View>
-
-                {/* Category dropdown */}
-                <View style={styles.dropdownContainer}>
-                    <Text>Category</Text>
-                </View>
-
-                {/* Location dropdown */}
-                <View style={styles.dropdownContainer}>
-                    <Text>Location</Text>
-                </View>
-
-                {/* How long ask will last dropdown */}
                 <View>
-                    <View style={styles.dropdownContainer}>
-                        <Text>How long do you want this ask to last</Text>
-                    </View>
-                    <View style={styles.noticeContainer}>
-                        <Text style={styles.noticeText}>All ask have a maximum of 7days to expire on this platform</Text>
-                    </View>
                     
+                    {/* Category dropdown */}
+                    <DropDownPicker
+                        schema={{label: 'value', value: 'key'}}
+                        open={openCategory}
+                        value={categoryValue}
+                        items={categoryItems}
+                        setOpen={setOpenCategory}
+                        setValue={setCategoryValue}
+                        setItems={setCategoryItems}
+                        listMode="MODAL"
+                        searchable
+                        placeholder="Category"
+                        style={styles.dropdownContainer}
+                        ArrowDownIconComponent={() => (
+                        <Image source={require('../../assets/icons/downarrow.png')} />
+                        )}
+                        placeholderStyle={styles.inputStyles}
+                    />
+
+                        {/* Location dropdown */}
+                    <DropDownPicker
+                        schema={{label: 'value', value: 'key'}}
+                        open={openLocation}
+                        value={locationValue}
+                        items={locationItems}
+                        setOpen={setOpenLocation}
+                        setValue={setLocationValue}
+                        setItems={setLocationItems}
+                        listMode="MODAL"
+                        searchable
+                        placeholder="Location"
+                        style={styles.dropdownContainer}
+                        ArrowDownIconComponent={() => (
+                        <Image source={require('../../assets/icons/downarrow.png')} />
+                        )}
+                        placeholderStyle={styles.inputStyles}
+                    />
+
+
+                    {/* How long ask will last dropdown */}
+                    <DropDownPicker
+                        schema={{label: 'value', value: 'key'}}
+                        open={openTime}
+                        value={timeValue}
+                        items={timeItems}
+                        setOpen={setOpenTime}
+                        setValue={setTimeValue}
+                        setItems={setTimeItems}
+                        listMode="MODAL"
+                        searchable
+                        placeholder="Latest date of need"
+                        style={styles.dropdownContainer}
+                        selectedItemLabelStyle={styles.inputStyles}
+                        ArrowDownIconComponent={() => (
+                        <Image source={require('../../assets/icons/downarrow.png')} />
+                        )}
+                        placeholderStyle={styles.inputStyles}
+                    />
                 </View>
 
                 {/* Upload picture */}
