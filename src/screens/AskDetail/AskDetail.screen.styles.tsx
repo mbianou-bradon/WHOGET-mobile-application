@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
         fontWeight: "400"
     },
     bodyContainer : {
-        paddingHorizontal : 26
+        paddingHorizontal : 18
     },
     askCategoryContainer : {
         marginBottom : 12,

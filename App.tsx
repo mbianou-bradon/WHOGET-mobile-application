@@ -30,6 +30,8 @@ import AskScreen from './src/screens/Ask/AskScreen';
 import Notification from './src/screens/Notification/Notification';
 import Profile from './src/screens/Profile/Profile';
 import { theme } from './src/theme/theme';
+import About from './src/screens/About/About';
+import AskDetails from './src/screens/AskDetail/AskDetails';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -51,8 +53,8 @@ function App() :JSX.Element {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={theme.color.primary_blue_light} />
-      <RootStack.Navigator initialRouteName='Search' screenOptions={{headerShown: false}}>
-          <RootStack.Screen name='Home' component={Home}/>
+      <RootStack.Navigator initialRouteName='Profile' screenOptions={{headerShown: false}}>
+          <RootStack.Screen name='Home' component={AskDetails}/>
           <RootStack.Screen name='Search' component={Search}/>
           <RootStack.Screen name='Ask' component={AskScreen}/>
           <RootStack.Screen name='Notification' component={Notification}/>

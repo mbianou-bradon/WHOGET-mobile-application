@@ -33,7 +33,7 @@ export default function AskDetails(){
                         </View>
                         <View>
                             <Text style={styles.askText}>
-                                Where can I find a beautiful two rooms aprtment in Buea for 35k
+                                Where can I find a beautiful two rooms apartment in Buea for 35k
                             </Text>
                         </View>
                     </View>
