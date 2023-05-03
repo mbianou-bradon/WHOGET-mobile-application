@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "flex-end",
-        paddingRight: 60,
+        paddingRight: 30,
         paddingTop: 4,
     },
     askExpiringDateText: {

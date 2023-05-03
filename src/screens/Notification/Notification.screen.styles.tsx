@@ -34,8 +34,7 @@ export const styles = StyleSheet.create({
   },
   markContainer: {
     marginTop : 10,
-    paddingTop : 13,
-    paddingBottom: 8,
+    paddingVertical : 13,
     paddingHorizontal: 20,
     backgroundColor : theme.color.neutral_white
   },
@@ -56,10 +55,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   notificationList : {
-    // width : "100%",
-    backgroundColor: "white", 
-    paddingVertical : 10,
-    // paddingHorizontal : 5
+    backgroundColor: theme.color.neutral_white,     
 
   },
 
