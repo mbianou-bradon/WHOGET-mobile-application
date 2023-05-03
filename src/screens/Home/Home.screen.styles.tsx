@@ -20,7 +20,6 @@ export const styles = StyleSheet.create({
         height: 42,
         borderWidth:1,
         borderRadius: 50,
-        backgroundColor: theme.color.neutral_white,
         padding:2
     },
     profileImage : {

@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
         alignItems: "center"
     },
     profileImageContainer : {
-        width: 42,
-        height: 42,
+        width: 32,
+        height: 32,
         borderWidth: 1,
         borderRadius: 50,
         backgroundColor: theme.color.neutral_white,
