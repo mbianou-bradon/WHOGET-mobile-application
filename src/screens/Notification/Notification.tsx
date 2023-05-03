@@ -7,7 +7,7 @@ export default function Notification(){
     return (
         <View>
             <Header/>
-            <Text>Notification Screen</Text>
+            <View></View>
         </View>
     )
 }
