@@ -4,7 +4,7 @@ import { theme } from "../../theme/theme";
 
 export const styles = StyleSheet.create({
     searchMainContainer : {
-        height : "100%",
+        height : "84%",
         backgroundColor : theme.color.neutral_gray_lighter
     },
     searchHeaderContainer : {

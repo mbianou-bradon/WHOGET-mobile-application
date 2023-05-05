@@ -5,6 +5,7 @@ import { styles } from "./AskScreen.screen.styles";
 import DropDownPicker from "react-native-dropdown-picker";
 import React from "react";
 import { categoryTempData, locationData, timeData } from "../../data/standardData";
+import BackBtn from "../../components/backBtn/backBtn";
 
 
 export default function AskScreen(){
@@ -24,9 +25,7 @@ export default function AskScreen(){
             <Header/>
             <View style={styles.AskMainContainer}>
                 <View style={styles.AskSubContainerOne}>
-                    <View>
-                        <Image source={require("../../assets/icons/backarrow.png")} />
-                    </View>
+                    <BackBtn/>
                     <View style={styles.tipsContainer}>
                         <Text>Tips</Text>
                         <View style={styles.tipsSubContainer}>

@@ -6,12 +6,16 @@ export const styles = StyleSheet.create({
     howToContactContainer: {
         height: "100%",
         paddingHorizontal: 5,
-        paddingVertical: 30,
+        paddingVertical: 10,
     },
     howToContactDescContainer: {
+        flexDirection : "row",
         paddingBottom: 34,
+        alignItems : "center",
+        paddingHorizontal : 5,
     },
     howToContactDescSubContainerOne: {
+        width: "90%",
         justifyContent: "center",
         alignItems: "center",
     },

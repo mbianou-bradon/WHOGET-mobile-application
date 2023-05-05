@@ -3,6 +3,7 @@ import {theme} from '../../theme/theme';
 
 export const styles = StyleSheet.create({
   mainContainer: {
+    height : "93.5%",
     paddingVertical: 10,
   },
   headerContainer: {

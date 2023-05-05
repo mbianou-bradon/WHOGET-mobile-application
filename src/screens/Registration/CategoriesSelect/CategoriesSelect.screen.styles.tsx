@@ -6,12 +6,16 @@ export const styles = StyleSheet.create({
     categoriesSelectContainer: {
         height: "100%",
         paddingHorizontal: 5,
-        paddingVertical: 30,
+        paddingVertical: 10,
     },
     categoriesSelectDescContainer: {
+        flexDirection : "row",
         paddingBottom: 34,
+        alignItems : "center",
+        paddingHorizontal : 5,
     },
     categoriesSelectDescSubContainerOne: {
+        width : "90%",
         justifyContent: "center",
         alignItems: "center",
     },
@@ -27,11 +31,11 @@ export const styles = StyleSheet.create({
         textAlign: "center",
     },
     flatListContainerStyle: {
-        height: "70%"
+        height: "60%"
         
     },
     continueBtnContainer: {
-        height: "15%",
+        height: "10%",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",

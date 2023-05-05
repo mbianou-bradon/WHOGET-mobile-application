@@ -4,7 +4,7 @@ import { theme } from "../../theme/theme";
 
 export const styles = StyleSheet.create({
     homeContainer : {
-        height: "100%",
+        height: "84%",
         paddingHorizontal: 10,
         backgroundColor: "#F0F0F0",
     },

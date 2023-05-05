@@ -32,12 +32,14 @@ import Profile from './src/screens/Profile/Profile';
 import { theme } from './src/theme/theme';
 import About from './src/screens/About/About';
 import AskDetails from './src/screens/AskDetail/AskDetails';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ConfirmingUsername from './src/screens/Registration/ConfirmationUsername/ConfirmingUsername';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export type RootStackParams = {
+export type TabStackParams = {
   Home: undefined;
   Search: undefined;
   Ask: undefined;
@@ -45,20 +47,47 @@ export type RootStackParams = {
   Profile: undefined;
 }
 
+export type NativeStackParams = {
+  Main : TabStackParams;
+  AskDetails : undefined;
+  Login : undefined;
+  About : undefined;
+  HowToContact : undefined;
+  CategoriesSelect : undefined;
+  ConfirmationUsername : undefined;
+}
 
-const RootStack = createBottomTabNavigator<RootStackParams>()
+const Tab = createBottomTabNavigator<TabStackParams>()
+const RootStack = createNativeStackNavigator<NativeStackParams>()
+
+const TabNavigationRoute = () : JSX.Element => {
+  
+  return (
+    <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}}>
+        <Tab.Screen name='Home' component={Home}/>
+        <Tab.Screen name='Search' component={Search}/>
+        <Tab.Screen name='Ask' component={AskScreen}/>
+        <Tab.Screen name='Notification' component={Notification}/>
+        <Tab.Screen name='Profile' component={Profile}/>
+    </Tab.Navigator>
+  )
+}
+
+
 
 function App() :JSX.Element {
 
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={theme.color.primary_blue_light} />
-      <RootStack.Navigator initialRouteName='Profile' screenOptions={{headerShown: false}}>
-          <RootStack.Screen name='Home' component={Home}/>
-          <RootStack.Screen name='Search' component={Search}/>
-          <RootStack.Screen name='Ask' component={AskScreen}/>
-          <RootStack.Screen name='Notification' component={Notification}/>
-          <RootStack.Screen name='Profile' component={Profile}/>
+      <RootStack.Navigator screenOptions={{headerShown : false}}>
+        <RootStack.Screen name="Main" component={TabNavigationRoute} />
+        <RootStack.Screen name="Login" component={Login} />
+        <RootStack.Screen name="About" component={About}/>
+        <RootStack.Screen name="AskDetails" component={AskDetails} />
+        <RootStack.Screen name="HowToContact" component={HowToContact} />
+        <RootStack.Screen name="CategoriesSelect" component={CategoriesSelect}/>
+        <RootStack.Screen name="ConfirmationUsername" component={ConfirmingUsername} />
       </RootStack.Navigator>
     </NavigationContainer>
   )

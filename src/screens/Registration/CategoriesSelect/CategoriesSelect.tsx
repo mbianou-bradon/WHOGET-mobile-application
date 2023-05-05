@@ -3,6 +3,7 @@ import Category from "../../../components/Category/Category";
 import { CategoryType } from "../../../../dataType";
 import { styles } from "./CategoriesSelect.screen.styles";
 import Header from "../../../components/Header/Header";
+import BackBtn from "../../../components/backBtn/backBtn";
 
 
 export default function CategoriesSelect(){
@@ -97,7 +98,7 @@ export default function CategoriesSelect(){
             <Header/>
             <View style={styles.categoriesSelectContainer}>
                 <View style={styles.categoriesSelectDescContainer}>
-
+                    <BackBtn />
                     <View style={styles.categoriesSelectDescSubContainerOne}>
                         <Text style={styles.categoriesSelectDesc}>What topics are you interested in?</Text>
                         <Text style={styles.categoriesSelectMinText}>Select at least two to continue</Text>

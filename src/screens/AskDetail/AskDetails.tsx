@@ -1,5 +1,6 @@
 import { Image, Text, View } from "react-native";
 import { styles } from "./AskDetail.screen.styles";
+import BackBtn from "../../components/backBtn/backBtn";
 
 
 
@@ -10,9 +11,7 @@ export default function AskDetails(){
         <View style={styles.askDetailMain}>
             <View>
                 <View style={styles.headerContainer}>
-                    <View>
-                        <Image source={require("../../assets/icons/backarrow.png")}/>
-                    </View>
+                    <BackBtn/>
                     <View>
                         <View style={styles.askHeaderStyle}>
                             <View style={styles.profileImageContainer}>

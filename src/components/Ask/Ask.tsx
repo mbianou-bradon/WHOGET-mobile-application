@@ -1,11 +1,16 @@
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { styles } from "./Ask.component.styles";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackParams } from "../../../App";
 
 
 export default function Ask(){
 
+    const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
+
     return(
-        <View style={styles.askContainer}>
+        <Pressable style={styles.askContainer} onPress={() => navigation.navigate("CategoriesSelect")}>
             <View>
                 <View style={styles.askHeaderStyle}>
                     <View style={styles.profileImageContainer}>
@@ -28,6 +33,6 @@ export default function Ask(){
                     <Text style={styles.askExpiringDateText}>expires in 22 hours</Text>
                 </View>
             </View>
-        </View>
+        </Pressable>
     )
 }

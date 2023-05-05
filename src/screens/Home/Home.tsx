@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ScrollView, Text, TextInput, View } from "react-native";
+import { Image, SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import Header from "../../components/Header/Header";
 import { styles } from "./Home.screen.styles";
 import Ask from "../../components/Ask/Ask";
@@ -41,7 +41,10 @@ export default function Home(){
                 </View>
 
                 <View style={styles.askContainer}>
-                    <ScrollView>
+                    <ScrollView style={{paddingBottom: 100}}>
+                        <Ask/>
+                        <Ask/>
+                        <Ask/>
                         <Ask/>
                         <Ask/>
                         <Ask/>
