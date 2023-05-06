@@ -3,6 +3,7 @@ import { styles } from "./Ask.component.styles";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../App";
+import { theme } from "../../theme/theme";
 
 
 export default function Ask(){
@@ -10,7 +11,7 @@ export default function Ask(){
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
     return(
-        <Pressable style={styles.askContainer} onPress={() => navigation.navigate("AskDetails")}>
+        <Pressable android_ripple={{color: theme.color.neutral_gray_light}} style={styles.askContainer} onPress={() => navigation.navigate("AskDetails")}>
             <View>
                 <View style={styles.askHeaderStyle}>
                     <View style={styles.profileImageContainer}>

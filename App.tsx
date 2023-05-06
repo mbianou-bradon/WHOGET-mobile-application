@@ -5,24 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   Image,
-  SafeAreaView,
-  ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import Login from './src/screens/Login/Login';
-import Category from './src/components/Category/Category';
 import CategoriesSelect from './src/screens/Registration/CategoriesSelect/CategoriesSelect';
 import HowToContact from './src/screens/Registration/HowToContact/HowToContact';
 import Home from './src/screens/Home/Home';
@@ -35,6 +21,7 @@ import About from './src/screens/About/About';
 import AskDetails from './src/screens/AskDetail/AskDetails';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ConfirmingUsername from './src/screens/Registration/ConfirmationUsername/ConfirmingUsername';
+import Ionic from "react-native-vector-icons/Ionicons"
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -65,10 +52,29 @@ const TabNavigationRoute = () : JSX.Element => {
   
   return (
     <Tab.Navigator initialRouteName='Home' 
-      screenOptions={{
+      screenOptions={({route}) =>({
         headerShown: false,
         tabBarHideOnKeyboard : true,
-      }}
+        tabBarIcon: ({size, focused, color}) => {
+          let iconName : string = "";
+          if(route.name === 'Home') {
+            iconName = focused? "home" : "home-outline";
+          }
+          else if(route.name === 'Search') {
+            iconName = focused? "search-sharp" : "search-outline";
+          }
+          else if(route.name === 'Notification') {
+            iconName = focused? "notifications" : "notifications-outline";
+          }
+          else if(route.name === 'Profile') {
+            iconName = focused? "person-circle" : "person-circle-outline";
+          }
+
+          return <Ionic name={iconName} size={size} color={color} />
+        },
+        tabBarActiveTintColor : theme.color.primary_blue_light,
+        tabBarInactiveTintColor : theme.color.primary_blue_light
+      })}
     >
         <Tab.Screen name='Home' component={Home}/>
         <Tab.Screen name='Search' component={Search}/>

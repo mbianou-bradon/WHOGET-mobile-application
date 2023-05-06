@@ -1,10 +1,10 @@
 import React from "react";
-import { Image, SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
+import { Image, Pressable, SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import Header from "../../components/Header/Header";
 import { styles } from "./Home.screen.styles";
 import Ask from "../../components/Ask/Ask";
-import ConfirmingUsername from "../Registration/ConfirmationUsername/ConfirmingUsername";
-
+import Feather from "react-native-vector-icons/Feather"
+import { theme } from "../../theme/theme";
 
 export default function Home(){
 
@@ -26,9 +26,9 @@ export default function Home(){
                         <TextInput placeholder="Search" autoComplete="name" autoCorrect style={styles.searchText}/>
                     </View>
 
-                    <View>
-                        <Image source={require("../../assets/icons/filter.png")}/>
-                    </View>
+                    <Pressable android_ripple={{color:theme.color.primary_blue_light}}>
+                        <Feather name="filter" size={35} />
+                    </Pressable>
                 </View>
 
                 <View style={styles.askQuestionContainer}>

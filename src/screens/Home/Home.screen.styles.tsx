@@ -4,7 +4,7 @@ import { theme } from "../../theme/theme";
 
 export const styles = StyleSheet.create({
     homeContainer : {
-        height: "84%",
+        height: "85%",
         paddingHorizontal: 10,
         backgroundColor: "#F0F0F0",
     },
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingVertical: 18,
+        paddingVertical: 15,
     },
 
     profileImageContainer : {
