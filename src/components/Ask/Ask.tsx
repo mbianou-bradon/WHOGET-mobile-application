@@ -10,7 +10,7 @@ export default function Ask(){
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
     return(
-        <Pressable style={styles.askContainer} onPress={() => navigation.navigate("CategoriesSelect")}>
+        <Pressable style={styles.askContainer} onPress={() => navigation.navigate("AskDetails")}>
             <View>
                 <View style={styles.askHeaderStyle}>
                     <View style={styles.profileImageContainer}>

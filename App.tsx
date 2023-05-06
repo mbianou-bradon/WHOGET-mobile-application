@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -63,10 +64,30 @@ const RootStack = createNativeStackNavigator<NativeStackParams>()
 const TabNavigationRoute = () : JSX.Element => {
   
   return (
-    <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}}>
+    <Tab.Navigator initialRouteName='Home' 
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard : true,
+      }}
+    >
         <Tab.Screen name='Home' component={Home}/>
         <Tab.Screen name='Search' component={Search}/>
-        <Tab.Screen name='Ask' component={AskScreen}/>
+        <Tab.Screen 
+          name='Ask' 
+          component={AskScreen}
+          options={{
+            title: 'Ask',
+            tabBarIcon : ({size, focused, color})=>{
+              if(focused)
+                return (
+                  <Image source={require("./src/assets/images/ask_icon.png")} />
+                )
+              // return(
+              //   <Image source={require("./src/assets/icons/")}/>
+              // )
+            }
+          }}
+        />
         <Tab.Screen name='Notification' component={Notification}/>
         <Tab.Screen name='Profile' component={Profile}/>
     </Tab.Navigator>

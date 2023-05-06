@@ -1,11 +1,15 @@
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { styles } from "./NotificationComponent.component.styles";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackParams } from "../../../App";
 
 
 export default function NotificationComponent(){
 
+    const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
     return(
-        <View style={styles.notificationContainer}>
+        <Pressable style={styles.notificationContainer} onPress={()=> navigation.navigate("AskDetails")}>
             <View>
                 <View style={styles.notificationSubContainer}>
                     <View style={styles.notificationHeaderStyle}>
@@ -35,6 +39,6 @@ export default function NotificationComponent(){
                     <Text style={styles.askExpiringDateText}>expires in 22 hours</Text>
                 </View>
             </View>
-        </View>
+        </Pressable>
     )
 }

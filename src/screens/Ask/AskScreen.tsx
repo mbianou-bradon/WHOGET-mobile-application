@@ -61,7 +61,7 @@ export default function AskScreen(){
                         setOpen={setOpenCategory}
                         setValue={setCategoryValue}
                         setItems={setCategoryItems}
-                        listMode="MODAL"
+                        listMode="FLATLIST"
                         searchable
                         placeholder="Category"
                         style={styles.dropdownContainer}
