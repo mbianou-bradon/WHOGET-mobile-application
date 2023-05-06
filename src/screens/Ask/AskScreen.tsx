@@ -26,11 +26,12 @@ export default function AskScreen(){
     function handleImageUpload(){
         console.log("handle Image executed")
         ImagePicker.openPicker({
-            width : 300,
-            height : 400,
+            // width : 300,
+            // height : 400,
             cropping : false,
         })
         .then(image => {
+            console.log(image.filename)
             SetSelectImageList((prevImage)=>[
                 {
                     fileName: image.filename,
