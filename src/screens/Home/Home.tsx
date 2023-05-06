@@ -7,17 +7,30 @@ import Feather from "react-native-vector-icons/Feather"
 import { theme } from "../../theme/theme";
 import Filter from "../../components/filter/Filter";
 import Ionic from "react-native-vector-icons/Ionicons"
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackParams, TabStackParams } from "../../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export default function Home(){
 
     const [hasProfile, setHasProfile] = React.useState<boolean>(true);
     const [filterModalIsOpen, setFilterModalIsOpen] = React.useState(false);
+    const [isAuth, SetIsAuth] = React.useState(false)
+
+    const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
+    const tabNavigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
 
     const handleFilterModal = () => {
         if(filterModalIsOpen)
             setFilterModalIsOpen(false)
         else 
             setFilterModalIsOpen(true)
+    }
+    const handleAskQuestionHome = () => {
+        if(isAuth)
+            tabNavigation.navigate("Ask")
+        else
+            nativeNavigation.navigate("Login")
     }
     return(
         <View>
@@ -60,14 +73,14 @@ export default function Home(){
                     }
                 </View>
 
-                <View style={styles.askQuestionContainer}>
+                <Pressable style={styles.askQuestionContainer} onPress={handleAskQuestionHome}>
                     <View style={styles.askQuestionSubContainer}>
                         <Text style={styles.askQuestionSubContainerText}>Ask your question</Text>
                     </View>
                     <View style={styles.askQuestionSubContainerTwo}>
                         <Text style={styles.askQuestionSubContainerTwoText}>Ask</Text>
                     </View>
-                </View>
+                </Pressable>
 
                 <View style={styles.askContainer}>
                     <ScrollView style={{paddingBottom: 100}}>

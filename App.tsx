@@ -45,11 +45,14 @@ export type NativeStackParams = {
   ConfirmationUsername : undefined;
 }
 
+
+
 const Tab = createBottomTabNavigator<TabStackParams>()
 const RootStack = createNativeStackNavigator<NativeStackParams>()
 
 const TabNavigationRoute = () : JSX.Element => {
-  
+
+  const [isAuth, SetIsAuth] = React.useState(false)
   return (
     <Tab.Navigator initialRouteName='Home' 
       screenOptions={({route}) =>({
@@ -79,7 +82,7 @@ const TabNavigationRoute = () : JSX.Element => {
     >
         <Tab.Screen name='Home' component={Home}/>
         <Tab.Screen name='Search' component={Search}/>
-        <Tab.Screen 
+        {isAuth && <Tab.Screen 
           name='Ask' 
           component={AskScreen}
           options={{
@@ -94,9 +97,12 @@ const TabNavigationRoute = () : JSX.Element => {
               // )
             }
           }}
-        />
-        <Tab.Screen name='Notification' component={Notification}/>
+        />}
+        {isAuth && 
+        <Tab.Screen name='Notification' component={Notification}/> }
+        {isAuth &&
         <Tab.Screen name='Profile' component={Profile}/>
+        } 
     </Tab.Navigator>
   )
 }
