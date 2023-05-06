@@ -27,27 +27,29 @@ export const styles = StyleSheet.create({
         textAlign : "center"
     },
     profileImageContainer : {
-        width : 138,
-        height : 138,
+        width : 130,
+        height : 130,
         borderWidth : 1,
         borderColor : theme.color.primary_blue_light,
         borderRadius : 80,
         backgroundColor : theme.color.neutral_white,
         position : "absolute",
-        bottom : -68,
+        bottom : -60,
         left: 110,
     },
     profileImageSubContainer : {
         position : "relative"
     },
     cameraContainer : {
-        width : 51,
-        height : 51,
+        width : 45,
+        height : 45,
         borderRadius : 50,
         backgroundColor : theme.color.primary_blue_light,
         position : "absolute",
-        bottom : -145,
-        left : 85
+        bottom : -135,
+        left : 85,
+        justifyContent: "center",
+        alignItems: "center",
     },
     camera : {
         width: "100%",
@@ -74,10 +76,12 @@ export const styles = StyleSheet.create({
         justifyContent : "space-between",
         // gap : 16,
     },
+    IconColor : {
+        color: theme.color.neutral_black
+    },
     IconContainer : {
         width: 22,
         height: 22,
-        
     },
     userIconContainer : {
         borderWidth:1,

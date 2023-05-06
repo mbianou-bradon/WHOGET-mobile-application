@@ -20,7 +20,10 @@ export const styles = StyleSheet.create({
     searchText : {
         fontSize : 14,
         fontWeight : "400",
-        color : theme.color.neutral_gray,
+        color : theme.color.neutral_black,
         width : "160%",
     },
+    searchTextPlaceholderTextColor : {
+        color : theme.color.neutral_gray
+    }
 })

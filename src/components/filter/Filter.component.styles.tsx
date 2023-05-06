@@ -4,10 +4,11 @@ import { theme } from "../../theme/theme";
 
 export const styles = StyleSheet.create({
     filterContainer: {
-        paddingTop : 60,
+        width: "100%",
+        paddingTop : 40,
         paddingHorizontal: 15,
-        backgroundColor : theme.color.neutral_white,
-        height: "100%"
+        backgroundColor : theme.color.primary_blue_light,
+        borderRadius : 10
     },
     filterSubContainerOne : {
         marginBottom : 50
@@ -35,7 +36,8 @@ export const styles = StyleSheet.create({
     },
     btnMainContainer : {
         flexDirection : "row",
-        justifyContent : "space-between"
+        justifyContent : "space-between",
+        marginBottom : 20,
     },
     btnContainer: {
         width: "45%",
@@ -44,32 +46,34 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
     },
     cancelBtn: {
-        height: 55,
+        height: 40,
         width: "100%",
         backgroundColor: theme.color.neutral_white,
         borderWidth : 1,
         borderColor : theme.color.primary_blue_light,
-        borderRadius: 15,
+        borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
 
     },
     filterBtn: {
-        height: 55,
+        height: 40,
         width: "100%",
         backgroundColor: theme.color.primary_blue_light,
-        borderRadius: 15,
+        borderRadius: 10,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        borderWidth:1,
+        borderColor : theme.color.neutral_white
 
     },
     cancelBtnText: {
-        fontSize: 20,
+        fontSize: 14,
         fontWeight: "500",
         color: theme.color.primary_blue_light
     },
     filterBtnText: {
-        fontSize: 20,
+        fontSize: 14,
         fontWeight: "500",
         color: theme.color.neutral_white
     }

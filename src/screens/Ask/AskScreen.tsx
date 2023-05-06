@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../components/Header/Header";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from "./AskScreen.screen.styles";
@@ -6,6 +6,8 @@ import DropDownPicker from "react-native-dropdown-picker";
 import React from "react";
 import { categoryTempData, locationData, timeData } from "../../data/standardData";
 import BackBtn from "../../components/backBtn/backBtn";
+import Ionic from "react-native-vector-icons/Ionicons"
+import ImagePicker from "react-native-image-crop-picker"
 
 
 export default function AskScreen(){
@@ -19,6 +21,42 @@ export default function AskScreen(){
     const [categoryItems, setCategoryItems] = React.useState(categoryTempData);
     const [locationItems, setLocationItems] = React.useState(locationData);
     const [timeItems, setTimeItems] = React.useState(timeData);
+
+
+    function handleImageUpload(){
+        console.log("handle Image executed")
+        ImagePicker.openPicker({
+            width : 300,
+            height : 400,
+            cropping : false,
+        })
+        .then(image => {
+            SetSelectImageList((prevImage)=>[
+                {
+                    fileName: image.filename,
+                    path: image.path,
+                    height: image.height,
+                    width: image.width,
+                    size: image.size
+                },
+                ...prevImage
+            ])
+        })
+    }
+
+    // Upload Picture Button
+
+    function UploadPicture(){
+
+        return(
+            <Pressable style={[styles.dropdownContainer,styles.uploadContainer]} onPress={()=>handleImageUpload()}>
+                <Ionic name='cloud-upload-outline' size={20}/>
+                <Text>Upload picture</Text>
+            </Pressable>
+        )
+    } 
+
+    const [selectedImageList, SetSelectImageList] = React.useState<any[]>([<UploadPicture/>])
 
     return (
         <View>
@@ -113,11 +151,21 @@ export default function AskScreen(){
                 </View>
 
                 {/* Upload picture */}
-                <View style={[styles.dropdownContainer,styles.uploadContainer]}>
-                    <View>
-                        <Image source={require("../../assets/icons/upload.png")} />
-                    </View>
-                    <Text>Upload picture</Text>
+                <View>
+                    <FlatList 
+                        data={selectedImageList}
+                        renderItem={
+                            ({item})=> {
+                                return item.path? (
+                                <View>
+                                    <Image source={{ uri: item.path }}/>
+                                </View>
+                                ) : (
+                                    item
+                                );
+                            }
+                        }
+                    />
                 </View>
                 
                 <View>

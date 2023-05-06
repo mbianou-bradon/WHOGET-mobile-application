@@ -70,10 +70,11 @@ const TabNavigationRoute = () : JSX.Element => {
             iconName = focused? "person-circle" : "person-circle-outline";
           }
 
-          return <Ionic name={iconName} size={size} color={color} />
+          return <Ionic name={iconName} size={22} color={color} />
         },
         tabBarActiveTintColor : theme.color.primary_blue_light,
-        tabBarInactiveTintColor : theme.color.primary_blue_light
+        tabBarInactiveTintColor : theme.color.primary_blue_light,
+        tabBarStyle : {height : 60,paddingBottom:5}
       })}
     >
         <Tab.Screen name='Home' component={Home}/>

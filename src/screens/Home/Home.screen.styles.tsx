@@ -13,8 +13,11 @@ export const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingVertical: 15,
+        position: "relative"
     },
-
+    IconColor : {
+        color: theme.color.neutral_black
+    },
     profileImageContainer : {
         width: 42,
         height: 42,

@@ -101,20 +101,3 @@ export default function Filter() {
   );
 }
 
-{
-  /* <SelectList
-    setSelected={(val: string) => setSelectedTime(val)}
-    data={timeData}
-    save="value"
-    boxStyles={styles.dropdownContainer}
-    placeholder="Latest date of need"
-    maxHeight={100}
-    dropdownStyles={styles.dropdownStyles}
-    dropdownTextStyles={styles.dropdownTextStyles}
-    inputStyles={styles.inputStyles}
-    arrowicon={
-        <Image source={require('../../assets/icons/downarrow.png')} />
-    }
-    notFoundText="No Result Found!"
-    /> */
-}
