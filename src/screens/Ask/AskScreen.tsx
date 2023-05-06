@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../components/Header/Header";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from "./AskScreen.screen.styles";
@@ -23,7 +23,7 @@ export default function AskScreen(){
     return (
         <View>
             <Header/>
-            <View style={styles.AskMainContainer}>
+            <ScrollView style={styles.AskMainContainer} showsVerticalScrollIndicator={false}>
                 <View style={styles.AskSubContainerOne}>
                     <BackBtn/>
                     <View style={styles.tipsContainer}>
@@ -127,7 +127,7 @@ export default function AskScreen(){
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     )
 }
