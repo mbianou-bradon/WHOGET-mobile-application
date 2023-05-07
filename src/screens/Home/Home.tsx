@@ -10,12 +10,13 @@ import Ionic from "react-native-vector-icons/Ionicons"
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackParams, TabStackParams } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useAppSelector } from "../../redux/store/hooks";
 
 export default function Home(){
 
     const [hasProfile, setHasProfile] = React.useState<boolean>(true);
     const [filterModalIsOpen, setFilterModalIsOpen] = React.useState(false);
-    const [isAuth, SetIsAuth] = React.useState(false)
+    const isAuth = useAppSelector(state=>state.userReducer.isAuth)
 
     const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
     const tabNavigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()

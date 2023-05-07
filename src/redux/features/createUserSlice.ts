@@ -4,11 +4,11 @@ import type { RootState } from "../store/store";
 
 
 const initialState = {
-    exerciseData: []
+    isAuth : false
 };
 
 export const createUserSlice = createSlice({
-    name: "userData",
+    name: "user",
     initialState,
     reducers: {},
 })

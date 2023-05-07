@@ -22,6 +22,7 @@ import AskDetails from './src/screens/AskDetail/AskDetails';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ConfirmingUsername from './src/screens/Registration/ConfirmationUsername/ConfirmingUsername';
 import Ionic from "react-native-vector-icons/Ionicons"
+import { useAppSelector } from "./src/redux/store/hooks"
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -52,7 +53,7 @@ const RootStack = createNativeStackNavigator<NativeStackParams>()
 
 const TabNavigationRoute = () : JSX.Element => {
 
-  const [isAuth, SetIsAuth] = React.useState(false)
+  const isAuth = useAppSelector(state => state.userReducer.isAuth)
   return (
     <Tab.Navigator initialRouteName='Home' 
       screenOptions={({route}) =>({

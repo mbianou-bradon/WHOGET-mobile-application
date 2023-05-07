@@ -3,7 +3,7 @@ import { createUserSlice } from '../features/createUserSlice';
 
 export const store = configureStore({
     reducer:{
-        createUserreducer : createUserSlice.reducer,
+        userReducer : createUserSlice.reducer,
 
     }
 })
