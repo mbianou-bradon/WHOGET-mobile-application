@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 24,
         paddingHorizontal: 42,
-        backgroundColor: theme.color.neutral_gray_light,
+        backgroundColor: theme.color.neutral_gray,
         borderRadius: 15,
     },
     loginOptionsText : {

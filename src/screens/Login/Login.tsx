@@ -1,10 +1,14 @@
 import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./Login.screen.styles";
 import { LinearTextGradient } from "react-native-text-gradient";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackParams } from "../../../App";
 
 
 
 export default function Login(){
+    const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
 
     return (
         <View style={styles.loginContainer}>
@@ -38,7 +42,7 @@ export default function Login(){
             </View>
             <View style={styles.footer}>
                 <View style={styles.innerFooterContainer}>
-                    <Text style={styles.footerText}>About</Text>
+                    <Pressable onPress={()=>navigation.navigate("About")}><Text style={styles.footerText}>About</Text></Pressable>
                     <Text style={styles.footerText}>Language</Text>
                     <Text style={styles.footerText}>&copy; WhoGet, Inc 2023</Text>
                 </View>
