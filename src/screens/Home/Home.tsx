@@ -33,6 +33,10 @@ export default function Home(){
         else
             nativeNavigation.navigate("Login")
     }
+
+    const handleFilterBtn = () => {}
+
+    
     return(
         <View>
             <Header/>
@@ -66,7 +70,7 @@ export default function Home(){
                         style={{backgroundColor:theme.color.neutral_black, opacity:0.2}}
                         >
                             <View>
-                                <Filter />
+                                <Filter cancel={handleFilterModal} filter={handleFilterBtn}/>
 
                                 <Pressable onPress={handleFilterModal} style={{height:"100%"}}></Pressable>
                             </View>

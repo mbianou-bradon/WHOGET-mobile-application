@@ -5,7 +5,10 @@ import {styles} from './Filter.component.styles';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { categoryTempData, locationData, timeData } from '../../data/standardData';
 
-export default function Filter() {
+export default function Filter(props : {
+  cancel : any,
+  filter : any,
+}) {
   const [selectedCategory, setSelectedCategory] = React.useState('');
   const [selectedLocation, setSelectedLocation] = React.useState('');
   const [selectedTime, setSelectedTime] = React.useState('');
@@ -85,13 +88,13 @@ export default function Filter() {
 
         <View style={styles.btnMainContainer}>
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={styles.cancelBtn}>
+            <TouchableOpacity style={styles.cancelBtn} onPress={props.cancel}>
               <Text style={styles.cancelBtnText}>Cancel</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={styles.filterBtn}>
+            <TouchableOpacity style={styles.filterBtn} onPress={props.filter}>
               <Text style={styles.filterBtnText}>Apply filter</Text>
             </TouchableOpacity>
           </View>
