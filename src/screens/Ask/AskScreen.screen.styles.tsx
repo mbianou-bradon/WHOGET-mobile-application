@@ -85,5 +85,17 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "500",
         color: theme.color.neutral_white
-    }
+    },
+    askBtnInactive: {
+        height: "100%",
+        width: "80%",
+        backgroundColor: theme.color.primary_blue,
+        opacity : 0.8,
+        borderRadius: 15,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 20,
+
+    },
 })

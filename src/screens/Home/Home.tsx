@@ -22,6 +22,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAppSelector} from '../../redux/store/hooks';
 import {FlatList} from 'react-native-gesture-handler';
 import axios from 'axios';
+import client from '../../config/axios';
 
 export default function Home() {
   const [hasProfile, setHasProfile] = React.useState<boolean>(true);
@@ -37,12 +38,12 @@ export default function Home() {
     useNavigation<NativeStackNavigationProp<TabStackParams>>();
 
   React.useEffect(() => {
-    axios
-      .get('https://whoget.onrender.com/api/asks?category=')
+    client
+      .get('/api/asks?category=All')
       .then(response => {
         const data = response.data.asks;
         const CategoriesData = response.data.category;
-        // console.log(CategoriesData);
+        console.log(data.length);
         setAllAsk(data);
         setAllCategories(CategoriesData);
       })
@@ -142,6 +143,7 @@ export default function Home() {
         </Pressable>
 
         <View style={styles.askContainer}>
+
           <FlatList
             data={allAsk}
             renderItem={({item}) => {
