@@ -1,13 +1,56 @@
-import { Image, Text, View, ScrollView } from "react-native";
+import { Image, Text, View, ScrollView, Modal, Pressable } from "react-native";
 import Header from "../../components/Header/Header";
 import { styles } from "./Profile.screen.styles";
 import Ionic from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import EvilIcon from "react-native-vector-icons/EvilIcons"
 import { theme } from "../../theme/theme";
+import React from "react";
+import ImagePicker from "react-native-image-crop-picker"
 
 
 export default function Profile(){
+    const profile = require("../../assets/icons/search.png")
+    const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false)
+    const [profileImage, setProfileImage] = React.useState('file:///storage/emulated/0/Android/data/com.whogetmobileapplication/files/Pictures/image-3053ca79-f298-4d1e-93b7-b85f258dccd92343739600252528079.jpg');
+
+    const handleProfileModal = () => {
+        if(isProfileModalOpen)
+            setIsProfileModalOpen(!isProfileModalOpen)
+        else
+            setIsProfileModalOpen(!isProfileModalOpen)
+    }
+
+    const handleCameraImage = () => {
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: false,
+        })
+        .then(image => {
+        console.log(image);
+        setProfileImage(image.path);
+        setIsProfileModalOpen(false)
+        console.log(profileImage)
+        });
+        
+    }
+
+    const handleProfileImageUpload = ()=> {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: false
+        })
+        .then(image => {
+            console.log(image);
+            setProfileImage(image.path);
+            setIsProfileModalOpen(false)
+        });
+        
+    }
+    
+    // console.log(profileImage)
 
     return (
         <View>
@@ -24,13 +67,36 @@ export default function Profile(){
                     </View>
                     <View style={styles.profileImageContainer}>
                         <View style={styles.profileImageSubContainer}>
-                            <View></View>
-                            <View style={styles.cameraContainer}>
-                                <EvilIcon name="camera" size={38} color={theme.color.neutral_white}/>
+                            <View style={{backgroundColor:'red', height:125,width:125,borderRadius:80}}>
+                                <Image source={{uri:profileImage}} style={{width:"100%",height:"100%",borderRadius:80}}/>
                             </View>
+                            <Pressable style={styles.cameraContainer} onPress={handleProfileModal}>
+                                <EvilIcon name="camera" size={38} color={theme.color.neutral_white}/>
+                            </Pressable>
                         </View>
                     </View>
                 </View>
+                {
+                    isProfileModalOpen &&
+                    <Modal 
+                        transparent
+                        visible={isProfileModalOpen}
+                        animationType="fade"
+                        onRequestClose={()=>setIsProfileModalOpen(false)}
+                    >
+                        <View style={styles.profileModalContainer}>
+                            <Pressable style={{height:"100%", backgroundColor:"black",opacity:0.4}} onPress={handleProfileModal}></Pressable>
+                            <View style={styles.profileModalContainerChooses}>
+                                <Pressable style={styles.modalChooses} android_ripple={{color : theme.color.primary_blue_light}} onPress={handleCameraImage}>
+                                    <Text>Take photo</Text>
+                                </Pressable>
+                                <Pressable style={styles.modalChooses} android_ripple={{color : theme.color.primary_blue_light}} onPress={handleProfileImageUpload}>
+                                    <Text>Choose existing photo</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </Modal>
+                }
 
                 <View style={styles.bodyContainer}>
                     <View style={styles.userInfoContainer}>
@@ -83,6 +149,8 @@ export default function Profile(){
                         </View>
                     </View>
                 </View>
+
+                {/* <Image source={{uri:profileImage}}/> */}
             </ScrollView>
         </View>
     )

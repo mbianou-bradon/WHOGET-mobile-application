@@ -29,10 +29,12 @@ export const styles = StyleSheet.create({
     profileImageContainer : {
         width : 130,
         height : 130,
-        borderWidth : 1,
+        justifyContent:"center",
+        alignItems: "center",
+        borderWidth : 2,
         borderColor : theme.color.primary_blue_light,
         borderRadius : 80,
-        backgroundColor : theme.color.neutral_white,
+        backgroundColor : theme.color.neutral_gray,
         position : "absolute",
         bottom : -60,
         left: 110,
@@ -46,10 +48,11 @@ export const styles = StyleSheet.create({
         borderRadius : 50,
         backgroundColor : theme.color.primary_blue_light,
         position : "absolute",
-        bottom : -135,
+        bottom : 0,
         left : 85,
         justifyContent: "center",
         alignItems: "center",
+        // zIndex:99,
     },
     camera : {
         width: "100%",
@@ -109,5 +112,20 @@ export const styles = StyleSheet.create({
     },
     pencilIcon : {
         // paddingBottom : 10
+    },
+    profileModalContainer : {
+        position:"relative", 
+        height:"100%"
+    },
+    profileModalContainerChooses : {
+        backgroundColor: "white",
+        gap: 1, 
+        paddingVertical:1, 
+        width:"100%",
+        position:"absolute", 
+        top:"40%",
+    },
+    modalChooses : {
+        padding:20
     }
 })

@@ -34,9 +34,11 @@ export default function Home(){
             nativeNavigation.navigate("Login")
     }
 
-    const handleFilterBtn = () => {}
+    const handleFilterBtn = () => {
+        handleFilterModal()
+    }
 
-    
+
     return(
         <View>
             <Header/>

@@ -1,5 +1,6 @@
 {
-  "name": "whogetMobileApplication",
+  "proxy": "https://whoget.onrender.com/",
+  "name": "whogetmobileapp",
   "version": "0.0.1",
   "private": true,
   "scripts": {

@@ -6,8 +6,10 @@ import DropDownPicker from "react-native-dropdown-picker";
 import React from "react";
 import { categoryTempData, locationData, timeData } from "../../data/standardData";
 import BackBtn from "../../components/backBtn/backBtn";
-import Ionic from "react-native-vector-icons/Ionicons"
+import Ionic from "react-native-vector-icons/Ionicons";
+import MdIcon from "react-native-vector-icons/MaterialIcons"
 import ImagePicker from "react-native-image-crop-picker"
+import { theme } from "../../theme/theme";
 
 
 export default function AskScreen(){
@@ -26,12 +28,12 @@ export default function AskScreen(){
     function handleImageUpload(){
         console.log("handle Image executed")
         ImagePicker.openPicker({
-            // width : 300,
-            // height : 400,
+            width : 300,
+            height : 400,
             cropping : false,
         })
         .then(image => {
-            console.log(image.filename)
+            console.log(image)
             SetSelectImageList((prevImage)=>[
                 {
                     fileName: image.filename,
@@ -57,7 +59,23 @@ export default function AskScreen(){
         )
     } 
 
-    const [selectedImageList, SetSelectImageList] = React.useState<any[]>([<UploadPicture/>])
+    const AddImageBtn = ()=>{
+        return(
+            <Pressable style={{width:60,height:60,borderWidth:1,borderColor:theme.color.primary_blue_light,borderRadius:10,backgroundColor:"white",justifyContent:"center",alignItems:"center"}} onPress={handleImageUpload}>
+                <MdIcon name="add-photo-alternate" size={35} color={theme.color.primary_blue_light}/>
+            </Pressable>
+        )
+    }
+
+
+    let numOfImages: boolean = false
+    const [selectedImageList, SetSelectImageList] = React.useState<any[]>([<AddImageBtn/>])
+
+    
+    if(selectedImageList.length > 1)
+        numOfImages = true
+    else
+        numOfImages = false
 
     return (
         <View>
@@ -153,13 +171,17 @@ export default function AskScreen(){
 
                 {/* Upload picture */}
                 <View>
-                    <FlatList 
+                    { numOfImages ? <FlatList 
                         data={selectedImageList}
+                        numColumns={4}
+                        ItemSeparatorComponent={() => {
+                        return <View style={{margin:16}}></View>;
+                        }}
                         renderItem={
                             ({item})=> {
                                 return item.path? (
-                                <View>
-                                    <Image source={{ uri: item.path }}/>
+                                <View style={{width:60, height:60,borderRadius:10,marginHorizontal:5}}>
+                                    <Image source={{ uri: item.path }} style={{width:"100%",height:"100%", borderRadius:10}}/>
                                 </View>
                                 ) : (
                                     item
@@ -167,6 +189,9 @@ export default function AskScreen(){
                             }
                         }
                     />
+                    :
+                    <UploadPicture/>
+                    }
                 </View>
                 
                 <View>

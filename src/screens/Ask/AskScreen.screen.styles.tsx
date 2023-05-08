@@ -4,7 +4,7 @@ import { theme } from "../../theme/theme";
 
 export const styles = StyleSheet.create({
     AskMainContainer : {
-        height : "100%", 
+        height : "93%", 
         paddingHorizontal : 10,
 
     },

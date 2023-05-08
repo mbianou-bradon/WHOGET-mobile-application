@@ -4,7 +4,7 @@ import type { RootState } from "../store/store";
 
 
 const initialState = {
-    isAuth : false
+    isAuth : true
 };
 
 export const createUserSlice = createSlice({
