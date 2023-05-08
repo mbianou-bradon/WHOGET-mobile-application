@@ -91,11 +91,11 @@ const TabNavigationRoute = () : JSX.Element => {
             tabBarIcon : ({size, focused, color})=>{
               if(focused)
                 return (
-                  <Image source={require("./src/assets/images/ask_icon.png")} />
+                  <Image source={require("./src/assets/images/ask_icon_active.png")}/>
                 )
-              // return(
-              //   <Image source={require("./src/assets/icons/")}/>
-              // )
+              return(
+                <Image source={require("./src/assets/images/ask_icon.png")}/>
+              )
             }
           }}
         />}
