@@ -8,6 +8,7 @@ import { categoryTempData, locationData, timeData } from '../../data/standardDat
 export default function Filter(props : {
   cancel : any,
   filter : any,
+  categoryData : [{}]
 }) {
   const [selectedCategory, setSelectedCategory] = React.useState('');
   const [selectedLocation, setSelectedLocation] = React.useState('');
@@ -20,7 +21,7 @@ export default function Filter(props : {
   const [locationValue, setLocationValue] = React.useState(null);
   const [timeValue, setTimeValue] = React.useState(null);
 
-  const [categoryItems, setCategoryItems] = React.useState(categoryTempData);
+  const [categoryItems, setCategoryItems] = React.useState(props.categoryData);
   const [locationItems, setLocationItems] = React.useState(locationData);
   const [timeItems, setTimeItems] = React.useState(timeData);
 
@@ -31,7 +32,7 @@ export default function Filter(props : {
       <View>
         <View style={styles.filterSubContainerOne}>
           <DropDownPicker
-            schema={{label: 'value', value: 'key'}}
+            schema={{label: 'name', value: '_id'}}
             open={openCategory}
             value={categoryValue}
             items={categoryItems}

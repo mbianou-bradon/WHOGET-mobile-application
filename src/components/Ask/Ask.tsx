@@ -4,9 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../App";
 import { theme } from "../../theme/theme";
+import { askType } from "../../../dataType";
 
 
-export default function Ask(){
+export default function Ask(props : {data : askType}){
 
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
@@ -23,11 +24,11 @@ export default function Ask(){
                     </View>
                 </View>
                 <View style={styles.askCategoryContainer}>
-                    <Text style={styles.askCategoryText}>#Rentals</Text>
+                    <Text style={styles.askCategoryText}>#{props.data.category}</Text>
                 </View>
                 <View>
                     <Text style={styles.askBodyText}>
-                        Where can I find a beautiful two rooms apartment in Buea for 35k
+                        {props.data.message}
                     </Text>
                 </View>
                 <View style={styles.askExpiringDateContainer}>
