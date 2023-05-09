@@ -23,6 +23,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ConfirmingUsername from './src/screens/Registration/ConfirmationUsername/ConfirmingUsername';
 import Ionic from "react-native-vector-icons/Ionicons"
 import { useAppSelector } from "./src/redux/store/hooks"
+import SplashScreen from 'react-native-splash-screen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -111,6 +112,10 @@ const TabNavigationRoute = () : JSX.Element => {
 
 
 function App() :JSX.Element {
+
+  React.useEffect(()=>{
+    SplashScreen.hide();
+  },[])
 
   return (
     <NavigationContainer>
