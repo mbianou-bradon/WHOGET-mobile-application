@@ -5,6 +5,7 @@ import {
   Pressable,
   ScrollView,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -23,7 +24,6 @@ import Ionic from 'react-native-vector-icons/Ionicons';
 import MdIcon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {theme} from '../../theme/theme';
-import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TabStackParams } from '../../../App';
@@ -67,8 +67,7 @@ export default function AskScreen() {
       ]);
     });
   }
-
-  // Upload Picture Button
+  
 
   function UploadPicture() {
     return (
@@ -104,21 +103,45 @@ export default function AskScreen() {
     );
   };
 
-  let numOfImages: boolean = false;
   const [selectedImageList, SetSelectImageList] = React.useState<any[]>([
     <AddImageBtn />,
   ]);
+
+  let refinedImagesArray;
+
+  const refinedImages = () => {
+    refinedImagesArray = Array.from(selectedImageList);
+    refinedImagesArray.pop();
+  }
+  // Upload Picture Button
+    let numOfImages: boolean = false;
+  
 
   if (selectedImageList.length > 1) numOfImages = true;
   else numOfImages = false;
 
   const handleUploadImageToStore = async() => {
     console.log("Upload Image to FireStore is going on here");
+    refinedImages()
+
+    if(refinedImagesArray.length <=0){
+      ToastAndroid.showWithGravity("No Image Selected", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      setIsLoading(false);
+      return 0;
+    }
+    if(refinedImagesArray.length >3){
+      ToastAndroid.showWithGravity("You CANNOT add more than 3 Images", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      setIsLoading(false);
+      return 0;
+    }
+    else {
+      console.log("You can Proceed!")
+    }
   }
 
     const postAsk = () => {
         
-        client.post('/api/asks',
+        client.post('/asks',
         {
         message : askMessage,
         category: categoryValue,

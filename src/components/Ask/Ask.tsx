@@ -12,7 +12,7 @@ export default function Ask(props : {data : askType}){
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
     return(
-        <Pressable android_ripple={{color: theme.color.neutral_gray_light}} style={styles.askContainer} onPress={() => navigation.navigate("AskDetails")}>
+        <Pressable android_ripple={{color: theme.color.neutral_gray_light}} style={styles.askContainer} onPress={() => navigation.navigate("AskDetails", {id: props.data._id})}>
             <View>
                 <View style={styles.askHeaderStyle}>
                     <View style={styles.profileImageContainer}>

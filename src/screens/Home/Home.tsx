@@ -25,31 +25,40 @@ import axios from 'axios';
 import client from '../../config/axios';
 
 export default function Home() {
+  // Fetch Params states
+  const [category, setCategory] = React.useState('');
+  const [search, setSearch] = React.useState('');
+  const [page, setPage] = React.useState(1);
+  const [limit, setLimit] = React.useState(10);
+
+
   const [hasProfile, setHasProfile] = React.useState<boolean>(true);
   const [filterModalIsOpen, setFilterModalIsOpen] = React.useState(false);
   const [allAsk, setAllAsk] = React.useState([]);
   const [allCategories, setAllCategories] = React.useState([]);
+  
+  
   const isAuth = useAppSelector(state => state.userReducer.isAuth);
-  // const baseURL = process.env.
-
   const nativeNavigation =
     useNavigation<NativeStackNavigationProp<NativeStackParams>>();
   const tabNavigation =
     useNavigation<NativeStackNavigationProp<TabStackParams>>();
 
+
+
   React.useEffect(() => {
     client
-      .get('/api/asks?category=All')
+      .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}`)
       .then(response => {
         const data = response.data.asks;
         const CategoriesData = response.data.category;
         console.log(data.length);
         setAllAsk(data);
         setAllCategories(CategoriesData);
+        setCategory("");
       })
-
       .catch(err => console.log('---->', err));
-  }, []);
+  }, [category,limit,search,page]);
 
   const handleFilterModal = () => {
     if (filterModalIsOpen) setFilterModalIsOpen(false);
@@ -60,7 +69,8 @@ export default function Home() {
     else nativeNavigation.navigate('Login');
   };
 
-  const handleFilterBtn = () => {
+  const handleFilterBtn = (category:string) => {
+    setCategory(category)
     handleFilterModal();
   };
 

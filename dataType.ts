@@ -5,6 +5,7 @@ export interface CategoryType {
 }
 
 export interface askType {
+    _id : string,
     message: string,
     category:string,
     image: string,

@@ -8,7 +8,7 @@ import { categoryTempData, locationData, timeData } from '../../data/standardDat
 export default function Filter(props : {
   cancel : any,
   filter : any,
-  categoryData : [{}]
+  categoryData : never[]
 }) {
   const [selectedCategory, setSelectedCategory] = React.useState('');
   const [selectedLocation, setSelectedLocation] = React.useState('');
@@ -25,14 +25,18 @@ export default function Filter(props : {
   const [locationItems, setLocationItems] = React.useState(locationData);
   const [timeItems, setTimeItems] = React.useState(timeData);
 
+  const applyCatgoryToFilter = () => {
+    props.filter(categoryValue)
+  }
 
+  console.log("filter:", categoryValue);
 
   return (
     <View style={styles.filterContainer}>
       <View>
         <View style={styles.filterSubContainerOne}>
           <DropDownPicker
-            schema={{label: 'name', value: '_id'}}
+            schema={{label: 'name', value: 'name'}}
             open={openCategory}
             value={categoryValue}
             items={categoryItems}
@@ -95,7 +99,7 @@ export default function Filter(props : {
           </View>
 
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={styles.filterBtn} onPress={props.filter}>
+            <TouchableOpacity style={styles.filterBtn} onPress={applyCatgoryToFilter}>
               <Text style={styles.filterBtnText}>Apply filter</Text>
             </TouchableOpacity>
           </View>

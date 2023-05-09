@@ -1,16 +1,54 @@
-import { Image, Text, View } from "react-native";
+import { Image, Text, View, Linking, Pressable, ActivityIndicator } from "react-native";
 import { styles } from "./AskDetail.screen.styles";
 import BackBtn from "../../components/backBtn/backBtn";
 import Header from "../../components/Header/Header";
+import React from "react";
+import client from "../../config/axios";
+import { askType } from "../../../dataType";
+import { theme } from "../../theme/theme";
+import LoadingScreen from "../../components/Loading/Loading";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { TabStackParams } from "../../../App";
 
 
 
-export default function AskDetails(){
+export default function AskDetails({route}){
 
+    const [details, setDetails] = React.useState<askType>();
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
+
+    const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
+
+    console.log(route.params);
+    const id = route.params.id
+
+    const fetchAskDetails = () => {
+        client.get(`/asks/${id}`)
+        .then((response)=>{
+            const data = response.data.data
+            console.log(data);
+            setDetails(data);
+            setIsLoading(false);
+        })
+        .catch((err)=>{
+            console.log(err);
+            setIsLoading(false);
+            navigation.goBack();
+        })
+    }
+
+    React.useEffect(()=>{
+        fetchAskDetails()
+    },[id])
 
     return (
         <View>
             <Header/>
+            { isLoading?
+
+            <LoadingScreen/>
+            :
             <View style={styles.askDetailMain}>
                 <View>
                     <View style={styles.headerContainer}>
@@ -31,11 +69,13 @@ export default function AskDetails(){
                     <View style={styles.bodyContainer}>
                         <View style={styles.askTextContainer}>
                             <View style={styles.askCategoryContainer}>
-                                <Text style={styles.askCategoryText}>#Rentals</Text>
+                                <Text style={styles.askCategoryText}>#{details?.category}</Text>
                             </View>
                             <View>
                                 <Text style={styles.askText}>
-                                    Where can I find a beautiful two rooms apartment in Buea for 35k
+                                    {
+                                        details?.message
+                                    }
                                 </Text>
                             </View>
                         </View>
@@ -62,9 +102,9 @@ export default function AskDetails(){
                             <View>
                                 <Image source={require("../../assets/icons/whatsapp_xl.png")} />
                             </View>
-                            <View>
+                            {/* <Pressable onPress={()=>{Linking.openURL(`tel:${}`)}}>
                                 <Image source={require("../../assets/icons/phone_xl.png")} />
-                            </View>
+                            </Pressable> */}
                         </View>
 
                         <View>
@@ -78,6 +118,7 @@ export default function AskDetails(){
                     </View>
                 </View>
             </View>
+        }
         </View>
         
     )
