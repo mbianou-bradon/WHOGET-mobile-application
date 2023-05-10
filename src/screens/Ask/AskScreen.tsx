@@ -28,6 +28,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TabStackParams } from '../../../App';
 import client from '../../config/axios';
+import  { storage }  from "../../config/firebaseConfig"
+import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid"
+
 
 export default function AskScreen() {
   const [openCategory, setOpenCategory] = React.useState(false);
@@ -37,6 +41,7 @@ export default function AskScreen() {
   const [locationValue, setLocationValue] = React.useState(null);
   const [timeValue, setTimeValue] = React.useState(null);
   const [askMessage, setAskMessage] = React.useState("");
+  const [imagesURL, setImagesURL] = React.useState<string[]>([]);
 
   const [categoryItems, setCategoryItems] = React.useState(categoryTempData);
   const [locationItems, setLocationItems] = React.useState(locationData);
@@ -54,7 +59,7 @@ export default function AskScreen() {
       height: 400,
       cropping: false,
     }).then(image => {
-      console.log(image);
+      console.log(image.path);
       SetSelectImageList(prevImage => [
         {
           fileName: image.filename,
@@ -65,6 +70,7 @@ export default function AskScreen() {
         },
         ...prevImage,
       ]);
+      
     });
   }
   
@@ -83,16 +89,7 @@ export default function AskScreen() {
   const AddImageBtn = () => {
     return (
       <Pressable
-        style={{
-          width: 60,
-          height: 60,
-          borderWidth: 1,
-          borderColor: theme.color.primary_blue_light,
-          borderRadius: 10,
-          backgroundColor: 'white',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
+        style={styles.addImageBtn}
         onPress={handleImageUpload}>
         <MdIcon
           name="add-photo-alternate"
@@ -106,75 +103,105 @@ export default function AskScreen() {
   const [selectedImageList, SetSelectImageList] = React.useState<any[]>([
     <AddImageBtn />,
   ]);
-
-  let refinedImagesArray;
+  let refinedImagesArray : any[];
 
   const refinedImages = () => {
     refinedImagesArray = Array.from(selectedImageList);
     refinedImagesArray.pop();
+    refinedImagesArray = refinedImagesArray.map(image => image.path);
   }
-  // Upload Picture Button
-    let numOfImages: boolean = false;
-  
 
+  // Upload Picture Button
+  let numOfImages: boolean = false;
   if (selectedImageList.length > 1) numOfImages = true;
   else numOfImages = false;
 
   const handleUploadImageToStore = async() => {
     console.log("Upload Image to FireStore is going on here");
     refinedImages()
-
+    console.log(refinedImagesArray);
     if(refinedImagesArray.length <=0){
-      ToastAndroid.showWithGravity("No Image Selected", ToastAndroid.SHORT, ToastAndroid.CENTER)
-      setIsLoading(false);
       return 0;
     }
-    if(refinedImagesArray.length >3){
-      ToastAndroid.showWithGravity("You CANNOT add more than 3 Images", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    else if(refinedImagesArray.length >4){
+      ToastAndroid.showWithGravity("You CANNOT add more than 4 Images", ToastAndroid.SHORT, ToastAndroid.CENTER)
       setIsLoading(false);
       return 0;
     }
     else {
       console.log("You can Proceed!")
+      try {
+        for(let i=0; i < selectedImageList.length; i++){
+
+        const uri = refinedImagesArray[i]
+
+        const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function () {
+            resolve(xhr.response);
+          };
+          xhr.onerror = function (e) {
+            console.log(e);
+            reject(new TypeError("Network request failed"));
+          };
+          xhr.responseType = "blob";
+          xhr.open("GET", uri, true);
+          xhr.send(null);
+        });
+
+
+        const storageRef = ref(storage, `/whoget/usersImages/image-${v4()}`);
+        const uploadTask = await uploadBytes(storageRef, blob);
+
+       blob.close();
+
+      const newURL = await getDownloadURL(storageRef);
+
+       setImagesURL((prevURL)=> [newURL, ...prevURL])
+      }
+      } catch (error) {
+        console.log(error);
+      }
+      
     }
   }
-
-    const postAsk = () => {
-        
-        client.post('/asks',
-        {
-        message : askMessage,
-        category: categoryValue,
-        // image: "[]",
-        duration: Number(timeValue),
-        visibility: true,
-        location: locationValue,
-        userInfo: {
-	        _id : "64426f22ecf3cf6ec153d070",
-            userName: "Mbianou Bradon",
-            userProfile: "https://cdn.hashnode.com/res/hashnode/image/upload/v1677841863722/ui0fi1r4b.png"
-        }
+  console.log(imagesURL);
+  
+  const postAsk = async () => {
+    setIsLoading(true);
+    await handleUploadImageToStore()
+    client.post('/asks',
+    {
+    message : askMessage,
+    category: categoryValue,
+    image: [...imagesURL],
+    duration: Number(timeValue),
+    visibility: true,
+    location: locationValue,
+    report: 0,
+    userInfo: {
+      _id : "64426f22ecf3cf6ec153d070",
+      userName: "Mbianou Bradon",
+      userProfile: "https://cdn.hashnode.com/res/hashnode/image/upload/v1677841863722/ui0fi1r4b.png"
+    }
     }) 
     .then((response) => {
-        console.log("Ask successfully Posted!")
-        setIsLoading(false);
-        navigation.navigate("Home")
-        return (console.log(response.data))
-        }   
+      console.log("Ask successfully Posted!")
+      setIsLoading(false);
+      setAskMessage("");
+      setImagesURL([]);
+      navigation.navigate("Home")
+      return (console.log(response.data))
+      }   
     )
     .catch((err) => {
-        console.log("From AskScreen:", err)
-        setIsLoading(false);
+      console.log("From AskScreen:", err)
+      setIsLoading(false);
     })
   }
 
-  const handlePostAndAsk = () => {
-    setIsLoading(true)
-    handleUploadImageToStore()
-    .then(() => {
-        postAsk();
-    })
-    
+  const handlePostAndAsk = async() => {
+    postAsk();
   }
 
 

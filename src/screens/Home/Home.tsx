@@ -23,6 +23,7 @@ import {useAppSelector} from '../../redux/store/hooks';
 import {FlatList} from 'react-native-gesture-handler';
 import axios from 'axios';
 import client from '../../config/axios';
+import LoadingScreen from '../../components/Loading/Loading';
 
 export default function Home() {
   // Fetch Params states
@@ -36,7 +37,7 @@ export default function Home() {
   const [filterModalIsOpen, setFilterModalIsOpen] = React.useState(false);
   const [allAsk, setAllAsk] = React.useState([]);
   const [allCategories, setAllCategories] = React.useState([]);
-  
+  const [isLoading, setIsLoading] = React.useState(true);
   
   const isAuth = useAppSelector(state => state.userReducer.isAuth);
   const nativeNavigation =
@@ -55,9 +56,13 @@ export default function Home() {
         console.log(data.length);
         setAllAsk(data);
         setAllCategories(CategoriesData);
-        setCategory("");
+        // setCategory("");
+        setIsLoading(false);
       })
-      .catch(err => console.log('---->', err));
+      .catch(err => {
+        console.log('---->', err)
+        setIsLoading(false);
+      });
   }, [category,limit,search,page]);
 
   const handleFilterModal = () => {
@@ -77,6 +82,9 @@ export default function Home() {
   return (
     <View>
       <Header />
+      { isLoading? 
+      <LoadingScreen/> 
+      :
       <View style={styles.homeContainer}>
         <View style={styles.homeSubContainerOne}>
           {hasProfile ? (
@@ -167,6 +175,7 @@ export default function Home() {
           />
         </View>
       </View>
+    }
     </View>
   );
 }

@@ -65,6 +65,16 @@ export const styles = StyleSheet.create({
         alignItems : "center",
         gap : 10
     },
+    addImageBtn : {
+        width: 60,
+        height: 60,
+        borderWidth: 1,
+        borderColor: theme.color.primary_blue_light,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     askBtnContainer: {
         height: 50,
         alignItems: "center",
