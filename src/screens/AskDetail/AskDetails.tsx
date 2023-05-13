@@ -14,11 +14,19 @@ import client from '../../config/axios';
 import {askType} from '../../../dataType';
 import {theme} from '../../theme/theme';
 import LoadingScreen from '../../components/Loading/Loading';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {TabStackParams} from '../../../App';
+import {NativeStackParams, TabStackParams} from '../../../App';
+import { formatDistance, formatDistanceToNow } from 'date-fns';
 
-export default function AskDetails({route}) {
+
+type AskDetailsScreenRouteProp = RouteProp<NativeStackParams, "AskDetails">;
+
+interface Props {
+  route : AskDetailsScreenRouteProp
+}
+
+export default function AskDetails({route}:Props) {
   const [details, setDetails] = React.useState<askType>();
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
@@ -46,6 +54,13 @@ export default function AskDetails({route}) {
   React.useEffect(() => {
     fetchAskDetails();
   }, [id]);
+
+    const createDate = new Date(details?.createdAt);
+    const duration = (details?.duration * 86400000 ) || 0;
+    const expiringDate = new Date(createDate.getTime() + duration);
+
+
+
 
   return (
     <View>
@@ -96,8 +111,8 @@ export default function AskDetails({route}) {
 
               <View style={styles.askTimeContainer}>
                 <View style={styles.askTimeSubContainer}>
-                  <Text style={styles.askTimeText}>Posted 2 hours ago</Text>
-                  <Text style={styles.askTimeText}>Expires in 22 hours</Text>
+                  <Text style={styles.askTimeText}>Posted {formatDistanceToNow(new Date(createDate), {addSuffix:true})}</Text>
+                  <Text style={styles.askTimeText}>Expires in {formatDistance(createDate, expiringDate)}</Text>
                 </View>
               </View>
 

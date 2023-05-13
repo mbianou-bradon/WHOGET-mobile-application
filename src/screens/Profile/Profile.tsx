@@ -1,4 +1,4 @@
-import { Image, Text, View, ScrollView, Modal, Pressable } from "react-native";
+import { Image, Text, View, ScrollView, Modal, Pressable, TouchableOpacity } from "react-native";
 import Header from "../../components/Header/Header";
 import { styles } from "./Profile.screen.styles";
 import Ionic from "react-native-vector-icons/Ionicons";
@@ -7,12 +7,21 @@ import EvilIcon from "react-native-vector-icons/EvilIcons"
 import { theme } from "../../theme/theme";
 import React from "react";
 import ImagePicker from "react-native-image-crop-picker"
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { useAppDispatch } from "../../redux/store/hooks";
+import { createUserSlice } from "../../redux/features/createUserSlice";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { TabStackParams } from "../../../App";
 
 
 export default function Profile(){
     const profile = require("../../assets/icons/search.png")
     const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false)
     const [profileImage, setProfileImage] = React.useState('file:///storage/emulated/0/Android/data/com.whogetmobileapplication/files/Pictures/image-3053ca79-f298-4d1e-93b7-b85f258dccd92343739600252528079.jpg');
+    const dispatch = useAppDispatch();
+    const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
+
 
     const handleProfileModal = () => {
         if(isProfileModalOpen)
@@ -50,7 +59,16 @@ export default function Profile(){
         
     }
     
-    // console.log(profileImage)
+    const handleLogout = async() => {
+        await GoogleSignin.signOut()
+        .then(()=>{
+            dispatch(createUserSlice.actions.globalAuth(false));
+        })
+        .catch((err)=> console.log(err))
+        .finally(()=>{
+            navigation.navigate("Home");
+        })
+    }
 
     return (
         <View>
@@ -148,8 +166,11 @@ export default function Profile(){
                             <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/>
                         </View>
                     </View>
-                </View>
 
+                    <TouchableOpacity style={{marginTop:40}} onPress={handleLogout}>
+                        <Text style={{textAlign:"right", color:"red"}}>Log Out</Text>
+                    </TouchableOpacity>
+                </View>
                 {/* <Image source={{uri:profileImage}}/> */}
             </ScrollView>
         </View>

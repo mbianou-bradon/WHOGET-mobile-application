@@ -24,6 +24,7 @@ import ConfirmingUsername from './src/screens/Registration/ConfirmationUsername/
 import Ionic from "react-native-vector-icons/Ionicons"
 import { useAppSelector } from "./src/redux/store/hooks"
 import SplashScreen from 'react-native-splash-screen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -39,7 +40,7 @@ export type TabStackParams = {
 
 export type NativeStackParams = {
   Main : TabStackParams;
-  AskDetails : undefined;
+  AskDetails : {id : string};
   Login : undefined;
   About : undefined;
   HowToContact : undefined;
@@ -118,18 +119,20 @@ function App() :JSX.Element {
   },[])
 
   return (
-    <NavigationContainer>
-      <StatusBar backgroundColor={theme.color.primary_blue_light} />
-      <RootStack.Navigator screenOptions={{headerShown : false}}>
-        <RootStack.Screen name="Main" component={TabNavigationRoute} />
-        <RootStack.Screen name="Login" component={Login} />
-        <RootStack.Screen name="About" component={About}/>
-        <RootStack.Screen name="AskDetails" component={AskDetails} />
-        <RootStack.Screen name="HowToContact" component={HowToContact} />
-        <RootStack.Screen name="CategoriesSelect" component={CategoriesSelect}/>
-        <RootStack.Screen name="ConfirmationUsername" component={ConfirmingUsername} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{flex:1}}>
+      <NavigationContainer>
+        <StatusBar backgroundColor={theme.color.primary_blue_light} />
+        <RootStack.Navigator screenOptions={{headerShown : false}}>
+          <RootStack.Screen name="Main" component={TabNavigationRoute} />
+          <RootStack.Screen name="Login" component={Login} />
+          <RootStack.Screen name="About" component={About}/>
+          <RootStack.Screen name="AskDetails" component={AskDetails} />
+          <RootStack.Screen name="HowToContact" component={HowToContact} />
+          <RootStack.Screen name="CategoriesSelect" component={CategoriesSelect}/>
+          <RootStack.Screen name="ConfirmationUsername" component={ConfirmingUsername} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   )
 }
 

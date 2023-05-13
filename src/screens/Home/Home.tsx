@@ -30,7 +30,7 @@ export default function Home() {
   const [category, setCategory] = React.useState('');
   const [search, setSearch] = React.useState('');
   const [page, setPage] = React.useState(1);
-  const [limit, setLimit] = React.useState(10);
+  const [limit, setLimit] = React.useState(50);
 
 
   const [hasProfile, setHasProfile] = React.useState<boolean>(true);
