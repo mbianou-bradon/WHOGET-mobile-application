@@ -5,11 +5,17 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../App";
 import { theme } from "../../theme/theme";
 import { askType } from "../../../dataType";
+import { formatDistance, formatDistanceToNow } from "date-fns";
 
 
 export default function Ask(props : {data : askType}){
 
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
+    const createDate = new Date(props.data.createdAt);
+    const duration = (props.data.duration * 86400000 ) || 0;
+    const expiringDate = new Date(createDate.getTime() + duration);
+    console.log(createDate);
+    console.log(expiringDate);
 
     return(
         <Pressable android_ripple={{color: theme.color.neutral_gray_light}} style={styles.askContainer} onPress={() => navigation.navigate("AskDetails", {id: props.data._id})}>
@@ -20,7 +26,7 @@ export default function Ask(props : {data : askType}){
                     </View>
                     <View>
                         <Text style={styles.askerUsernameStyle}>Mbianou Bradon</Text>
-                        <Text style={styles.askerCreationDate}>2 hours ago</Text>
+                        <Text style={styles.askerCreationDate}>{formatDistanceToNow(new Date(createDate), {addSuffix:true})}</Text>
                     </View>
                 </View>
                 <View style={styles.askCategoryContainer}>
@@ -32,7 +38,7 @@ export default function Ask(props : {data : askType}){
                     </Text>
                 </View>
                 <View style={styles.askExpiringDateContainer}>
-                    <Text style={styles.askExpiringDateText}>expires in 22 hours</Text>
+                    <Text style={styles.askExpiringDateText}>expires in {formatDistance(createDate, expiringDate)}</Text>
                 </View>
             </View>
         </Pressable>
