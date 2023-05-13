@@ -21,3 +21,19 @@ export interface askType {
     createdAt: string,
     updatedAt: Date,
 }
+
+export interface UserType {
+    username: string,
+    profileImage: string,
+    age: number,
+    town: string,
+    country: string,
+    category: string[],
+    phoneNumber: string,
+    userEmail: string,
+    userWhatsapp: string,
+    email:string,
+    strikes :number,
+    ban: boolean,
+    firstTime: boolean,
+}

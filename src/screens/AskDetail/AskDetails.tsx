@@ -60,10 +60,10 @@ export default function AskDetails({route}:Props) {
     const createDate = new Date(details?.createdAt);
     const duration = (details?.duration * 86400000 ) || 0;
     const expiringDate = new Date(createDate.getTime() + duration);
-    const whatsapp = details?.userWhatsapp || 237671242032;
-    const phoneNumber = details?.userPhoneNumber || 671242032;
-    const email = details?.userEmail || "mbianoubradon2000@gmail.com"; 
-    const userName = details?.userName || "Mbianou Bradon";
+    const whatsapp = details?.userWhatsapp
+    const phoneNumber = details?.userPhoneNumber 
+    const email = details?.userEmail
+    const userName = details?.userName
 let url = ""
     const message = `Hello ${userName}, I saw your ask you posted on ${createDate.toDateString()} and I can offer my services`
     const emailConf = {
@@ -134,7 +134,7 @@ let url = ""
     <View>
       <Header />
       {isLoading ? (
-        <LoadingScreen />
+        <LoadingScreen text={"Getting Ask Details From Database"}/>
       ) : (
         <View style={styles.askDetailMain}>
           <View>
@@ -150,9 +150,9 @@ let url = ""
                   </View>
                   <View>
                     <Text style={styles.askerUsernameStyle}>
-                      Mbianou Bradon
+                      {details?.userName}
                     </Text>
-                    <Text style={styles.askerCreationDate}>Buea-Cameroon</Text>
+                    <Text style={styles.askerCreationDate}>{details?.image}-Cameroon</Text>
                   </View>
                 </View>
               </View>

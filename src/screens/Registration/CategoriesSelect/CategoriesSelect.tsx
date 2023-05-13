@@ -4,9 +4,25 @@ import { CategoryType } from "../../../../dataType";
 import { styles } from "./CategoriesSelect.screen.styles";
 import Header from "../../../components/Header/Header";
 import BackBtn from "../../../components/backBtn/backBtn";
+import React from "react";
+import { useAppDispatch } from "../../../redux/store/hooks";
+import { createUserSlice } from "../../../redux/features/createUserSlice";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackParams } from "../../../../App";
 
 
 export default function CategoriesSelect(){
+    const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+    const [categoriesArray, setCategoriesArray] = React.useState<string[]>([]);
+    const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
+    const dispatch = useAppDispatch()
+
+    React.useEffect(()=> {
+        setCategoriesArray([...new Set(selectedCategories)])
+        console.log("categoriesArray:",categoriesArray)
+    },[selectedCategories])
+
 
     const categoryTempData : CategoryType[] = [
         {
@@ -91,7 +107,22 @@ export default function CategoriesSelect(){
         },
 
     ]
+    const handleInterest = (name: string) => {
+        setSelectedCategories(prevState =>[...prevState, name])
+        console.log("selectedCategories:",selectedCategories)
+        
+    }
+   
+    const handleNextScreen = () => {
+        dispatch(createUserSlice.actions.createNewUser({key:"category", value:`${categoriesArray}`}))
+        navigation.navigate("HowToContact");
+    }
+    
+    
+    
+    
 
+    
 
     return (
         <View>
@@ -107,11 +138,11 @@ export default function CategoriesSelect(){
 
 
                 <View style={styles.flatListContainerStyle}>
-                    <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item}/>} keyExtractor={(item, index) => item._id}/>
+                    <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item} onPress={()=>handleInterest(category.item.name)}/>} keyExtractor={(item, index) => item._id}/>
                 </View>
 
                 <View style={styles.continueBtnContainer}>
-                    <TouchableOpacity style={styles.continueBtn}>
+                    <TouchableOpacity style={styles.continueBtn} onPress={handleNextScreen}>
                         <Text style={styles.continueBtnText}>Continue</Text>
                     </TouchableOpacity>
                 </View>

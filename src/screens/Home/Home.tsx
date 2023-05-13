@@ -83,7 +83,7 @@ export default function Home() {
     <View>
       <Header />
       { isLoading? 
-      <LoadingScreen/> 
+      <LoadingScreen text={"Getting Data for the database"}/> 
       :
       <View style={styles.homeContainer}>
         <View style={styles.homeSubContainerOne}>

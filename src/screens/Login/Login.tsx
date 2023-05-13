@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./Login.screen.styles";
 import { LinearTextGradient } from "react-native-text-gradient";
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +8,9 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth from "@react-native-firebase/auth"
 import { useAppDispatch } from "../../redux/store/hooks";
 import { createUserSlice } from "../../redux/features/createUserSlice";
+import client from "../../config/axios";
+import React from "react";
+import LoadingScreen from "../../components/Loading/Loading";
 
 GoogleSignin.configure({
     webClientId: "1041431862852-k0lm222rv53ffmsbd2n40hp2i5ksvoot.apps.googleusercontent.com",
@@ -19,6 +22,9 @@ export default function Login(){
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
     const tabNavigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
     const dispatch = useAppDispatch()
+    const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
+
 
     async function handleGoogleAuthBtn() {
         // Check if your device supports Google Play
@@ -34,15 +40,47 @@ export default function Login(){
     }
     const handleGoogleAuth =() => {
         handleGoogleAuthBtn()
-        .then( () =>
-            dispatch(createUserSlice.actions.globalAuth(true)),
+        .then( (response) => {
+            const isNew =  response.additionalUserInfo?.isNewUser
+            const userEmail = response.user.email
             
-        )
+            if(isNew){
+                dispatch(createUserSlice.actions.createNewUser({key:"username", value:`${response.user.displayName}`}))
+                dispatch(createUserSlice.actions.globalAuth(true))
+                navigation.navigate("CategoriesSelect");
+            }
+            else {
+                setIsLoading(true);
+                client.get(`/users/${userEmail}`)
+                .then((response)=>{
+                    const data = response.data.data
+                    dispatch(createUserSlice.actions.currentUser(data))
+                    dispatch(createUserSlice.actions.globalAuth(true))
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+                .finally(() => {
+                    tabNavigation.navigate("Home");
+                })
+            }
+        })
         .catch(err => console.log(err))
-        .finally(()=>tabNavigation.navigate("Home"))
+    }
+
+    const handleFacebookAuthBtn = () => {
+        Alert.alert(
+            "FACEBOOK AUTHENTICATION",
+            "Oops! Something went wrong, you might consider using Google Sign In instead.",
+            [{text: "OK!"}]
+        )
     }
 
     return (
+        <>
+        {isLoading? <LoadingScreen text="Getting User Info" />
+        :
         <View style={styles.loginContainer}>
             <View style={styles.majorContainer}>
                 <View style={styles.logoContainer}>
@@ -59,7 +97,7 @@ export default function Login(){
                         <Image source={require("../../assets/icons/google.png")} />
                         <Text style={styles.loginOptionsText}>Sign in with Google</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.loginOptions}>
+                    <TouchableOpacity style={styles.loginOptions} onPress={handleFacebookAuthBtn}>
                         <Image source={require("../../assets/icons/facebook.png")} />
                         <Text style={styles.loginOptionsText}>Sign in with Facebook</Text>
                     </TouchableOpacity>
@@ -81,5 +119,7 @@ export default function Login(){
             </View>
             
         </View>
+    }
+    </>
     )
 }

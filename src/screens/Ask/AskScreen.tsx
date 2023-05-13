@@ -142,6 +142,7 @@ export default function AskScreen() {
     }
   };
   console.log('ImagesUrl:', imagesURL);
+  const refinedUrl = imagesURL.filter((url) => url !==undefined);
 
   const postAsk = async () => {
     setIsLoading(true);
@@ -150,17 +151,17 @@ export default function AskScreen() {
       .post('/asks', {
         message: askMessage,
         category: categoryValue,
-        image: [...imagesURL],
+        image: refinedUrl,
         duration: Number(timeValue),
         visibility: true,
         location: locationValue,
         report: 0,
-        userInfo: {
-          _id: '64426f22ecf3cf6ec153d070',
-          userName: 'Mbianou Bradon',
-          userProfile:
-            'https://cdn.hashnode.com/res/hashnode/image/upload/v1677841863722/ui0fi1r4b.png',
-        },
+        userId: '64426f22ecf3cf6ec153d070',
+        userName: 'Mbianou Bradon',
+        userProfile: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1677841863722/ui0fi1r4b.png',
+        userPhone : "671242032",
+        userWhatsApp : "671242032",
+        userEmail : "mbianoubradon2000@gmail.com"
       })
       .then(response => {
         console.log('Ask successfully Posted!');
