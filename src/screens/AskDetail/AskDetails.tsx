@@ -18,6 +18,7 @@ import {Link, RouteProp, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NativeStackParams, TabStackParams} from '../../../App';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
+import { useAppSelector } from '../../redux/store/hooks';
 
 
 type AskDetailsScreenRouteProp = RouteProp<NativeStackParams, "AskDetails">;
@@ -29,8 +30,9 @@ interface Props {
 export default function AskDetails({route}:Props) {
   const [details, setDetails] = React.useState<askType>();
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
-
+  const isAuth = useAppSelector(state => state.userReducer.isAuth)
   const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>();
+  const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
 
   console.log(route.params);
   const id = route.params.id;
@@ -58,18 +60,74 @@ export default function AskDetails({route}:Props) {
     const createDate = new Date(details?.createdAt);
     const duration = (details?.duration * 86400000 ) || 0;
     const expiringDate = new Date(createDate.getTime() + duration);
-    const whatsapp = details?.userWhatsapp;
-    const phoneNumber = details?.userPhoneNumber;
-    const email = details?.userEmail;
-    const userName = details?.userName;
-
-    const message = `Hello ${userName},\n
-    I saw your ask you posted on ${createDate.toDateString()} and I can offer my services
-    `
+    const whatsapp = details?.userWhatsapp || 237671242032;
+    const phoneNumber = details?.userPhoneNumber || 671242032;
+    const email = details?.userEmail || "mbianoubradon2000@gmail.com"; 
+    const userName = details?.userName || "Mbianou Bradon";
+let url = ""
+    const message = `Hello ${userName}, I saw your ask you posted on ${createDate.toDateString()} and I can offer my services`
     const emailConf = {
       subject: `RESPONSE TO WHOGET ASK OF ${createDate.toDateString()}`,
       body : message
     }
+
+        
+      const handleAuthBeforeEmailResponse = () =>{ 
+        if(isAuth){
+        url = `mailto:${email}?subject=${encodeURIComponent(emailConf.subject)}&body=${encodeURIComponent(emailConf.body)}`
+        Linking.canOpenURL(url)
+        .then((supported)=>{
+          if(supported){
+            return Linking.openURL(url)
+          }
+          else {
+            console.log(`Cannot open URL: ${url}`)
+          }
+        })
+        .catch((err)=>console.log(`Error opening URL: ${err}`))
+          
+      }
+      else{
+        nativeNavigation.navigate("Login");
+      }
+    }
+      const handleAuthBeforePhoneResponse = () =>{ 
+        if(isAuth){
+        url = `tel:${phoneNumber}`
+        Linking.canOpenURL(url)
+        .then((supported)=>{
+          if(supported){
+            return Linking.openURL(url)
+          }
+          else {
+            console.log(`Cannot open URL: ${url}`)
+          }
+        })
+        .catch((err)=>console.log(`Error opening URL: ${err}`))
+      }
+      else{
+        nativeNavigation.navigate("Login");
+      }
+    }
+    const handleAuthBeforeWhatsAppResponse = () =>{ 
+      if(isAuth){
+      url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+      Linking.canOpenURL(url)
+      .then((supported)=>{
+        if(supported){
+          return Linking.openURL(url)
+        }
+        else {
+          console.log(`Cannot open URL: ${url}`)
+        }
+      })
+      .catch((err)=>console.log(`Error opening URL: ${err}`))
+      }
+      else{
+      nativeNavigation.navigate("Login");
+    }
+    }
+
 
 
   return (
@@ -129,25 +187,17 @@ export default function AskDetails({route}:Props) {
               <View style={styles.contactIconsContainer}>
                 {
                 email && 
-                <Pressable onPress={()=>{
-                  Linking.openURL(`
-                  mailto:${email}?subject=${encodeURIComponent(emailConf.subject)}&body=${encodeURIComponent(emailConf.body)}
-                  `)
-                }}>
+                <Pressable onPress={handleAuthBeforeEmailResponse}>
                   <Image source={require('../../assets/icons/google_xl.png')} />
                 </Pressable>
                 }
-                {whatsapp && <Pressable onPress={()=>{
-                  Linking.openURL(`
-                    https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}
-                  `)
-                }}>
+                {whatsapp && <Pressable onPress={handleAuthBeforeWhatsAppResponse}>
                   <Image
                     source={require('../../assets/icons/whatsapp_xl.png')}
                   />
                 </Pressable>}
 
-                {phoneNumber && <Pressable onPress={()=>{Linking.openURL(`tel:${phoneNumber}`)}}>
+                {phoneNumber && <Pressable onPress={handleAuthBeforePhoneResponse}>
                     <Image source={require("../../assets/icons/phone_xl.png")} />
                 </Pressable>}
               </View>

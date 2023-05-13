@@ -14,8 +14,6 @@ export default function Ask(props : {data : askType}){
     const createDate = new Date(props.data.createdAt);
     const duration = (props.data.duration * 86400000 ) || 0;
     const expiringDate = new Date(createDate.getTime() + duration);
-    console.log(createDate);
-    console.log(expiringDate);
 
     return(
         <Pressable android_ripple={{color: theme.color.neutral_gray_light}} style={styles.askContainer} onPress={() => navigation.navigate("AskDetails", {id: props.data._id})}>

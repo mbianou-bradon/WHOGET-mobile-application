@@ -1,5 +1,5 @@
 import {
-    ActivityIndicator,
+  ActivityIndicator,
   FlatList,
   Image,
   Pressable,
@@ -20,18 +20,24 @@ import {
   timeData,
 } from '../../data/standardData';
 import BackBtn from '../../components/backBtn/backBtn';
-import Ionic from 'react-native-vector-icons/Ionicons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MdIcon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {theme} from '../../theme/theme';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { TabStackParams } from '../../../App';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {TabStackParams} from '../../../App';
 import client from '../../config/axios';
-import  { storage }  from "../../config/firebaseConfig"
-import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
-import { v4 } from "uuid"
-
+import {storage} from '../../config/firebaseConfig';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  uploadBytes,
+} from 'firebase/storage';
+import {v4} from 'uuid';
+import AddImageBtn from '../../components/createAskBtns/AddImageBtn';
+import UploadPicture from '../../components/createAskBtns/UploadPicture';
 
 export default function AskScreen() {
   const [openCategory, setOpenCategory] = React.useState(false);
@@ -40,17 +46,30 @@ export default function AskScreen() {
   const [categoryValue, setCategoryValue] = React.useState(null);
   const [locationValue, setLocationValue] = React.useState(null);
   const [timeValue, setTimeValue] = React.useState(null);
-  const [askMessage, setAskMessage] = React.useState("");
+  const [askMessage, setAskMessage] = React.useState('');
   const [imagesURL, setImagesURL] = React.useState<string[]>([]);
 
   const [categoryItems, setCategoryItems] = React.useState(categoryTempData);
   const [locationItems, setLocationItems] = React.useState(locationData);
   const [timeItems, setTimeItems] = React.useState(timeData);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
+  const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>();
+  const [selectedImageList, SetSelectImageList] = React.useState<any[]>([
+    <AddImageBtn onPress={() => handleImageUpload()} />,
+  ]);
+  let refinedImagesArray: any[];
 
-  const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
+  const refinedImages = () => {
+    refinedImagesArray = Array.from(selectedImageList);
+    refinedImagesArray.pop();
+    refinedImagesArray = refinedImagesArray.map(image => image.path);
+  };
 
+  // Upload Picture Button
+  let numOfImages: boolean = false;
+  if (selectedImageList.length > 1) numOfImages = true;
+  else numOfImages = false;
 
   function handleImageUpload() {
     console.log('handle Image executed');
@@ -67,147 +86,99 @@ export default function AskScreen() {
           height: image.height,
           width: image.width,
           size: image.size,
+          id: Date.now().toString(),
         },
         ...prevImage,
       ]);
-      
     });
   }
-  
 
-  function UploadPicture() {
-    return (
-      <Pressable
-        style={[styles.dropdownContainer, styles.uploadContainer]}
-        onPress={() => handleImageUpload()}>
-        <Ionic name="cloud-upload-outline" size={20} />
-        <Text>Upload picture</Text>
-      </Pressable>
-    );
-  }
-
-  const AddImageBtn = () => {
-    return (
-      <Pressable
-        style={styles.addImageBtn}
-        onPress={handleImageUpload}>
-        <MdIcon
-          name="add-photo-alternate"
-          size={35}
-          color={theme.color.primary_blue_light}
-        />
-      </Pressable>
-    );
-  };
-
-  const [selectedImageList, SetSelectImageList] = React.useState<any[]>([
-    <AddImageBtn />,
-  ]);
-  let refinedImagesArray : any[];
-
-  const refinedImages = () => {
-    refinedImagesArray = Array.from(selectedImageList);
-    refinedImagesArray.pop();
-    refinedImagesArray = refinedImagesArray.map(image => image.path);
-  }
-
-  // Upload Picture Button
-  let numOfImages: boolean = false;
-  if (selectedImageList.length > 1) numOfImages = true;
-  else numOfImages = false;
-
-  const handleUploadImageToStore = async() => {
-    console.log("Upload Image to FireStore is going on here");
-    refinedImages()
+  const handleUploadImageToStore = async () => {
+    console.log('Upload Image to FireStore is going on here');
+    refinedImages();
     console.log(refinedImagesArray);
-    if(refinedImagesArray.length <=0){
+    if (refinedImagesArray.length <= 0) {
       return 0;
-    }
-    else if(refinedImagesArray.length >4){
-      ToastAndroid.showWithGravity("You CANNOT add more than 4 Images", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    } else if (refinedImagesArray.length > 4) {
+      ToastAndroid.showWithGravity(
+        'You CANNOT add more than 4 Images',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
       setIsLoading(false);
       return 0;
-    }
-    else {
-      console.log("You can Proceed!")
+    } else {
+      console.log('You can Proceed!');
       try {
-        for(let i=0; i < selectedImageList.length; i++){
+        for (let i = 0; i < selectedImageList.length; i++) {
+          const uri = refinedImagesArray[i];
 
-        const uri = refinedImagesArray[i]
+          const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+              resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+              console.log(e);
+              reject(new TypeError('Network request failed'));
+            };
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+            xhr.send(null);
+          });
 
-        const blob = await new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.onload = function () {
-            resolve(xhr.response);
-          };
-          xhr.onerror = function (e) {
-            console.log(e);
-            reject(new TypeError("Network request failed"));
-          };
-          xhr.responseType = "blob";
-          xhr.open("GET", uri, true);
-          xhr.send(null);
-        });
+          const storageRef = ref(storage, `/whoget/usersImages/image-${v4()}`);
+          const uploadTask = await uploadBytes(storageRef, blob);
 
+          blob.close();
 
-        const storageRef = ref(storage, `/whoget/usersImages/image-${v4()}`);
-        const uploadTask = await uploadBytes(storageRef, blob);
+          const newURL = await getDownloadURL(storageRef);
 
-       blob.close();
-
-      const newURL = await getDownloadURL(storageRef);
-
-       setImagesURL((prevURL)=> [newURL, ...prevURL])
-      }
+          setImagesURL(prevURL => [newURL, ...prevURL]);
+        }
       } catch (error) {
         console.log(error);
       }
-      
     }
-  }
-  console.log(imagesURL);
-  
+  };
+  console.log('ImagesUrl:', imagesURL);
+
   const postAsk = async () => {
     setIsLoading(true);
-    await handleUploadImageToStore()
-    client.post('/asks',
-    {
-    message : askMessage,
-    category: categoryValue,
-    image: [...imagesURL],
-    duration: Number(timeValue),
-    visibility: true,
-    location: locationValue,
-    report: 0,
-    userInfo: {
-      _id : "64426f22ecf3cf6ec153d070",
-      userName: "Mbianou Bradon",
-      userProfile: "https://cdn.hashnode.com/res/hashnode/image/upload/v1677841863722/ui0fi1r4b.png"
-    }
-    }) 
-    .then((response) => {
-      console.log("Ask successfully Posted!")
-      setIsLoading(false);
-      setAskMessage("");
-      setImagesURL([]);
-      navigation.navigate("Home")
-      return (console.log(response.data))
-      }   
-    )
-    .catch((err) => {
-      console.log("From AskScreen:", err)
-      setIsLoading(false);
-    })
-  }
+    await handleUploadImageToStore();
+    client
+      .post('/asks', {
+        message: askMessage,
+        category: categoryValue,
+        image: [...imagesURL],
+        duration: Number(timeValue),
+        visibility: true,
+        location: locationValue,
+        report: 0,
+        userInfo: {
+          _id: '64426f22ecf3cf6ec153d070',
+          userName: 'Mbianou Bradon',
+          userProfile:
+            'https://cdn.hashnode.com/res/hashnode/image/upload/v1677841863722/ui0fi1r4b.png',
+        },
+      })
+      .then(response => {
+        console.log('Ask successfully Posted!');
+        setIsLoading(false);
+        setAskMessage('');
+        setImagesURL([]);
+        navigation.navigate('Home');
+        return console.log(response.data);
+      })
+      .catch(err => {
+        console.log('From AskScreen:', err);
+        setIsLoading(false);
+      });
+  };
 
-  const handlePostAndAsk = async() => {
+  const handlePostAndAsk = async () => {
     postAsk();
-  }
-
-
-
-
-
+  };
 
   return (
     <View>
@@ -246,7 +217,7 @@ export default function AskScreen() {
             placeholder="Enter your question here"
             multiline
             style={styles.AskText}
-            onChangeText={(value)=>setAskMessage(value)}
+            onChangeText={value => setAskMessage(value)}
           />
         </View>
         <View>
@@ -326,7 +297,31 @@ export default function AskScreen() {
                       height: 60,
                       borderRadius: 10,
                       marginHorizontal: 5,
+                      marginVertical: 1,
+                      position: 'relative',
                     }}>
+                    <Pressable
+                      style={{
+                        position: 'absolute',
+                        top: -2,
+                        right: -2,
+                        zIndex: 99,
+                        backgroundColor: theme.color.neutral_white,
+                        borderRadius: 10,
+                        width: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                      onPress={() => {
+                        SetSelectImageList(images => {
+                          return images.filter(image => image.id !== item.id);
+                        });
+                      }}
+                      >
+                      <View>
+                        <FontAwesomeIcon name="times" color={'red'} size={20} />
+                      </View>
+                    </Pressable>
                     <Image
                       source={{uri: item.path}}
                       style={{width: '100%', height: '100%', borderRadius: 10}}
@@ -338,25 +333,27 @@ export default function AskScreen() {
               }}
             />
           ) : (
-            <UploadPicture />
+            <UploadPicture onPress={() => handleImageUpload()} />
           )}
         </View>
 
         <View>
           <View style={styles.askBtnContainer}>
-            {
-                !isLoading?
-            
-            (
-                <TouchableOpacity style={styles.askBtn} onPress={handlePostAndAsk}>
-                <Text style={styles.askBtnText}>Ask</Text> 
-                </TouchableOpacity>
-            ) :
-            <View style={styles.askBtnInactive}>
+            {!isLoading ? (
+              <TouchableOpacity
+                style={styles.askBtn}
+                onPress={handlePostAndAsk}>
+                <Text style={styles.askBtnText}>Ask</Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.askBtnInactive}>
                 <Text style={styles.askBtnText}>Asking In Process</Text>
-                <ActivityIndicator size="small" color={theme.color.primary_purple} />
-            </View>
-            }
+                <ActivityIndicator
+                  size="small"
+                  color={theme.color.primary_purple}
+                />
+              </View>
+            )}
           </View>
         </View>
       </ScrollView>
