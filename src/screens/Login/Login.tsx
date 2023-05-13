@@ -40,28 +40,6 @@ export default function Login(){
         return auth().signInWithCredential(googleCredential);
     }
     const handleGoogleAuth = async () => {
-        const checkAsyncStorageForToken = await AsyncStorage.getItem("@userAuthToken")
-
-        if(checkAsyncStorageForToken){
-            const googleCredential = auth.GoogleAuthProvider.credential(checkAsyncStorageForToken)
-            const userEmail = (await auth().signInWithCredential(googleCredential)).user.email
-            setIsLoading(true);
-                client.get(`/users/email/${userEmail}`)
-                .then((response)=>{
-                    const data = response.data.data
-                    console.log(data);
-                    dispatch(createUserSlice.actions.currentUser(data))
-                    dispatch(createUserSlice.actions.globalAuth(true))
-                    setIsLoading(false);
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-                .finally(() => {
-                    tabNavigation.navigate("Home");
-                })
-        }
-        else{
             handleGoogleAuthBtn()
             .then( (response) => {
                 const isNew =  response.additionalUserInfo?.isNewUser
@@ -91,7 +69,7 @@ export default function Login(){
                 }
             })
             .catch(err => console.log(err))
-        }
+        
     }
 
     const handleFacebookAuthBtn = () => {

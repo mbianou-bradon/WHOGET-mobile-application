@@ -24,13 +24,15 @@ import {FlatList} from 'react-native-gesture-handler';
 import axios from 'axios';
 import client from '../../config/axios';
 import LoadingScreen from '../../components/Loading/Loading';
+import { store } from '../../redux/store/store';
 
 export default function Home() {
   // Fetch Params states
-  const [category, setCategory] = React.useState('');
+  const [category, setCategory] = React.useState<string | string[]>('');
   const [search, setSearch] = React.useState('');
   const [page, setPage] = React.useState(1);
   const [limit, setLimit] = React.useState(50);
+  const hidden = false;
 
 
   const [hasProfile, setHasProfile] = React.useState<boolean>(true);
@@ -49,26 +51,54 @@ export default function Home() {
 
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener("focus",()=>{
+    if(isAuth){
+      const unsubscribe = navigation.addListener("focus",()=>{
       setCategory("");
-    })
-    client
-      .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}`)
-      .then(response => {
-        const data = response.data.asks;
-        const CategoriesData = response.data.category;
-        console.log(data.length);
-        setAllAsk(data);
-        setAllCategories(CategoriesData);
-        // setCategory("");
-        setIsLoading(false);
       })
-      .catch(err => {
-        console.log('---->', err)
-        setIsLoading(false);
-      });
+
+      const currentUserCategory = store.getState().userReducer.currentUser.category
+      setCategory(currentUserCategory)
+      client
+        .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}&hidden=${hidden}`)
+        .then(response => {
+          const data = response.data.asks;
+          const CategoriesData = response.data.category;
+          console.log(data.length);
+          setAllAsk(data);
+          setAllCategories(CategoriesData);
+          // setCategory("");
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.log('---->', err)
+          setIsLoading(false);
+        });
+        return unsubscribe
+        
+    }
+    else {
+      const unsubscribe = navigation.addListener("focus",()=>{
+      setCategory("");
+      })
+      client
+        .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}&hidden=${hidden}`)
+        .then(response => {
+          const data = response.data.asks;
+          const CategoriesData = response.data.category;
+          console.log(data.length);
+          setAllAsk(data);
+          setAllCategories(CategoriesData);
+          // setCategory("");
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.log('---->', err)
+          setIsLoading(false);
+        });
+        return unsubscribe;
+    }
     
-      return unsubscribe;
+      
   }, [category,limit,search,page]);
 
   const handleFilterModal = () => {

@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
         marginVertical : 36
     },
     askText : {
-        fontSize : 20,
+        fontSize : 16,
         color : theme.color.neutral_black,
         lineHeight: 25
     },

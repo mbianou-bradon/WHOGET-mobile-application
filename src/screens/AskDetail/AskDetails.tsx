@@ -34,12 +34,11 @@ export default function AskDetails({route}:Props) {
   const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>();
   const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
 
-  console.log(route.params);
   const id = route.params.id;
 
   const fetchAskDetails = () => {
     client
-      .get(`/asks/${id}`)
+      .get(`/asks/${id}?hidden=false`)
       .then(response => {
         const data = response.data.data;
         console.log(data);
@@ -61,15 +60,18 @@ export default function AskDetails({route}:Props) {
     const duration = (details?.duration * 86400000 ) || 0;
     const expiringDate = new Date(createDate.getTime() + duration);
     const whatsapp = details?.userWhatsapp
-    const phoneNumber = details?.userPhoneNumber 
+    const phoneNumber = details?.userPhone
     const email = details?.userEmail
     const userName = details?.userName
-let url = ""
+    let url = ""
     const message = `Hello ${userName}, I saw your ask you posted on ${createDate.toDateString()} and I can offer my services`
     const emailConf = {
       subject: `RESPONSE TO WHOGET ASK OF ${createDate.toDateString()}`,
       body : message
     }
+     let anonymous = `Anomymous${details?.userId}`
+    if(anonymous.length > 30)
+        anonymous = anonymous.slice(0, 20)
 
         
       const handleAuthBeforeEmailResponse = () =>{ 
@@ -129,7 +131,7 @@ let url = ""
     }
 
 
-
+    console.log(details?.userName)
   return (
     <View>
       <Header />
@@ -143,17 +145,21 @@ let url = ""
               <View>
                 <View style={styles.askHeaderStyle}>
                   <View style={styles.profileImageContainer}>
+                   {details?.userProfile !=="" || details.userProfile?
+                   <Image source={{uri:details?.userProfile}} style={styles.profileImage}/>
+                   :
                     <Image
                       source={require('../../assets/icons/userIcon.png')}
                       style={styles.profileImage}
                     />
+                   }
                   </View>
-                  <View>
-                    <Text style={styles.askerUsernameStyle}>
-                      {details?.userName}
+                  <Pressable>
+                    <Text style={styles.askerUsernameStyle} >
+                      {details?.userName? `${details.userName}` : `${anonymous}`}
                     </Text>
-                    <Text style={styles.askerCreationDate}>{`${details?.image} -`}Cameroon</Text>
-                  </View>
+                    <Text style={styles.askerCreationDate}>{`${details?.location} -`}Cameroon</Text>
+                  </Pressable>
                 </View>
               </View>
             </View>

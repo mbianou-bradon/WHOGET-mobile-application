@@ -5,14 +5,27 @@ import { UserType } from "../../../dataType";
 
 interface userState {
     isAuth : boolean,
-    currentUser : {},
+    currentUser :UserType,
     newUser :  UserType
 }
 
 
 const initialState : userState = {
     isAuth : false,
-    currentUser: {},
+    currentUser: {
+        username: "",
+        profileImage: "",
+        age: 0,
+        town: "",
+        country: "",
+        category: [],
+        phoneNumber: "",
+        userWhatsapp: "",
+        email:"",
+        strikes :0,
+        ban: false,
+        firstTime: true,
+    },
     newUser : {
         username: "",
         profileImage: "",

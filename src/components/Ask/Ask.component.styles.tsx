@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     },
     askBodyContainer: {},
     askBodyText : {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: "400",
         color: theme.color.neutral_black,
         lineHeight: 25

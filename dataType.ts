@@ -15,7 +15,7 @@ export interface askType {
     userId: string,
     userName: string,
     userProfile: string,
-    userPhoneNumber: string,
+    userPhone: string,
     userEmail: string,
     userWhatsapp: string,
     createdAt: string,
@@ -23,6 +23,7 @@ export interface askType {
 }
 
 export interface UserType {
+    _id? : string,
     username: string,
     profileImage: string,
     age: number,

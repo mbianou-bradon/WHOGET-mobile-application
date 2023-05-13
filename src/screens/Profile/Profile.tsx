@@ -25,10 +25,16 @@ export default function Profile({route}){
     const dispatch = useAppDispatch();
     const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
     const [userProfileInfo, setUserProfileInfo] = React.useState<UserType>() 
-
+    
     const currentUserInfo = store.getState().userReducer.currentUser._id
     console.log(currentUserInfo)
+
+    const  id  = route.params.id
+
+    const userId =  currentUserInfo || id 
+
     React.useEffect(()=>{
+
         getUser()
         .then((response)=>{
            const data = response.data.data
@@ -38,7 +44,7 @@ export default function Profile({route}){
     },[route])
 
 
-    const getUser = () => client.get(`/users/${currentUserInfo}`)
+    const getUser = () => client.get(`/users/${userId}`)
     const handleProfileModal = () => {
         if(isProfileModalOpen)
             setIsProfileModalOpen(!isProfileModalOpen)

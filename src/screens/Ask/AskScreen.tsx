@@ -28,17 +28,19 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {TabStackParams} from '../../../App';
 import client from '../../config/axios';
-import {storage} from '../../config/firebaseConfig';
+// import {storage} from '../../config/firebaseConfig';
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   uploadBytes,
 } from 'firebase/storage';
+import storage from "@react-native-firebase/storage";
 import {v4} from 'uuid';
 import AddImageBtn from '../../components/createAskBtns/AddImageBtn';
 import UploadPicture from '../../components/createAskBtns/UploadPicture';
 import { store } from '../../redux/store/store';
+import LoadingScreen from '../../components/Loading/Loading';
 
 export default function AskScreen() {
   const [openCategory, setOpenCategory] = React.useState(false);
@@ -54,6 +56,7 @@ export default function AskScreen() {
   const [locationItems, setLocationItems] = React.useState(locationData);
   const [timeItems, setTimeItems] = React.useState(timeData);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [loadingText, setLoadingText] = React.useState<string>("Ask In Progress!");
 
   const currentUserInfo = store.getState().userReducer.currentUser
 
@@ -62,6 +65,7 @@ export default function AskScreen() {
     <AddImageBtn onPress={() => handleImageUpload()} />,
   ]);
   let refinedImagesArray: any[];
+
 
   const refinedImages = () => {
     refinedImagesArray = Array.from(selectedImageList);
@@ -115,29 +119,16 @@ export default function AskScreen() {
       try {
         for (let i = 0; i < selectedImageList.length; i++) {
           const uri = refinedImagesArray[i];
+          setLoadingText("Uploading Images to Storage")
 
-          const blob = await new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-              resolve(xhr.response);
-            };
-            xhr.onerror = function (e) {
-              console.log(e);
-              reject(new TypeError('Network request failed'));
-            };
-            xhr.responseType = 'blob';
-            xhr.open('GET', uri, true);
-            xhr.send(null);
-          });
+          const { metadata } = await storage()
+          .ref(`whoget/usersImages/upload_${Date.now().toString()}}.png`)
+          .putFile(uri);
 
-          const storageRef = ref(storage, `/whoget/usersImages/image-${v4()}`);
-          const uploadTask = await uploadBytes(storageRef, blob);
+          const resultURL = await storage().ref(metadata.fullPath).getDownloadURL();
 
-          blob.close();
 
-          const newURL = await getDownloadURL(storageRef);
-
-          setImagesURL(prevURL => [newURL, ...prevURL]);
+          setImagesURL(prevURL => [resultURL, ...prevURL]);
         }
       } catch (error) {
         console.log(error);
@@ -145,33 +136,41 @@ export default function AskScreen() {
     }
   };
   console.log('ImagesUrl:', imagesURL);
-  const refinedUrl = [imagesURL[0], imagesURL[1],imagesURL[2],imagesURL[3]];
+  // const refinedUrl = [imagesURL[0], imagesURL[1],imagesURL[2],imagesURL[3]];
 
   const postAsk = async () => {
     setIsLoading(true);
     await handleUploadImageToStore();
     console.log("Posting Ask Now");
+    setLoadingText("ALMOST DONE: Posting Ask To Database")
+    const newAsk = {
+      message: askMessage,
+      category: categoryValue,
+      duration: Number(timeValue),
+      visibility: true,
+      location: locationValue,
+      report: 0,
+      userId: currentUserInfo._id,
+      userName: currentUserInfo.username,
+      userProfile: currentUserInfo.profileImage,
+      userPhone : currentUserInfo.phoneNumber,
+      userWhatsApp : currentUserInfo.userWhatsapp,
+      userEmail : currentUserInfo.email
+    }
     client
-      .post('/asks', {
-        message: askMessage,
-        category: categoryValue,
-        image: refinedUrl,
-        duration: Number(timeValue),
-        visibility: true,
-        location: locationValue,
-        report: 0,
-        userId: currentUserInfo._id,
-        userName: currentUserInfo.userName,
-        userProfile: currentUserInfo.profileImage,
-        userPhone : currentUserInfo.phoneNumber,
-        userWhatsApp : currentUserInfo.userWhatsapp,
-        userEmail : currentUserInfo.email
-      })
+      .post('/asks', {...newAsk,  images:imagesURL })
       .then(response => {
         console.log('Ask successfully Posted!');
         setIsLoading(false);
         setAskMessage('');
         setImagesURL([]);
+        setCategoryValue(null);
+        setLocationValue(null);
+        setTimeValue(null);
+        numOfImages = false;
+        SetSelectImageList([
+          <AddImageBtn onPress={() => handleImageUpload()} />,
+        ])
         navigation.navigate('Home');
         return console.log(response.data);
       })
@@ -186,6 +185,10 @@ export default function AskScreen() {
   };
 
   return (
+    <>{
+      isLoading? <LoadingScreen text={loadingText}/>
+      :
+    
     <View>
       <Header />
       <ScrollView
@@ -363,5 +366,7 @@ export default function AskScreen() {
         </View>
       </ScrollView>
     </View>
+}
+</>
   );
 }
