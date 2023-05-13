@@ -14,7 +14,7 @@ import client from '../../config/axios';
 import {askType} from '../../../dataType';
 import {theme} from '../../theme/theme';
 import LoadingScreen from '../../components/Loading/Loading';
-import {RouteProp, useNavigation} from '@react-navigation/native';
+import {Link, RouteProp, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NativeStackParams, TabStackParams} from '../../../App';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
@@ -58,8 +58,18 @@ export default function AskDetails({route}:Props) {
     const createDate = new Date(details?.createdAt);
     const duration = (details?.duration * 86400000 ) || 0;
     const expiringDate = new Date(createDate.getTime() + duration);
+    const whatsapp = details?.userWhatsapp;
+    const phoneNumber = details?.userPhoneNumber;
+    const email = details?.userEmail;
+    const userName = details?.userName;
 
-
+    const message = `Hello ${userName},\n
+    I saw your ask you posted on ${createDate.toDateString()} and I can offer my services
+    `
+    const emailConf = {
+      subject: `RESPONSE TO WHOGET ASK OF ${createDate.toDateString()}`,
+      body : message
+    }
 
 
   return (
@@ -117,17 +127,29 @@ export default function AskDetails({route}:Props) {
               </View>
 
               <View style={styles.contactIconsContainer}>
-                <View>
+                {
+                email && 
+                <Pressable onPress={()=>{
+                  Linking.openURL(`
+                  mailto:${email}?subject=${encodeURIComponent(emailConf.subject)}&body=${encodeURIComponent(emailConf.body)}
+                  `)
+                }}>
                   <Image source={require('../../assets/icons/google_xl.png')} />
-                </View>
-                <View>
+                </Pressable>
+                }
+                {whatsapp && <Pressable onPress={()=>{
+                  Linking.openURL(`
+                    https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}
+                  `)
+                }}>
                   <Image
                     source={require('../../assets/icons/whatsapp_xl.png')}
                   />
-                </View>
-                {/* <Pressable onPress={()=>{Linking.openURL(`tel:${}`)}}>
-                                <Image source={require("../../assets/icons/phone_xl.png")} />
-                            </Pressable> */}
+                </Pressable>}
+
+                {phoneNumber && <Pressable onPress={()=>{Linking.openURL(`tel:${phoneNumber}`)}}>
+                    <Image source={require("../../assets/icons/phone_xl.png")} />
+                </Pressable>}
               </View>
 
               <View>
