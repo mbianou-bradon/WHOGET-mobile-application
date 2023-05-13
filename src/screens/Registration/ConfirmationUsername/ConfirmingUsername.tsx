@@ -65,15 +65,11 @@ const createNewUser = store.getState().userReducer.newUser;
         console.log(data)
         // dispatch(createUserSlice.actions.currentUser(data))
         setIsLoading(false);
+        navigation.navigate("Home")
     })
     .catch((err)=>console.log(err))
     .finally
   }
-
-  const handleNextScreen = async () => {
-    await updateUserName();
-
-  };
   const text = "Registering User to the database. Please wait.";
 
   return (<>

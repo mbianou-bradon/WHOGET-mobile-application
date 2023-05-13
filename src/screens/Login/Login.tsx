@@ -11,6 +11,7 @@ import { createUserSlice } from "../../redux/features/createUserSlice";
 import client from "../../config/axios";
 import React from "react";
 import LoadingScreen from "../../components/Loading/Loading";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 GoogleSignin.configure({
     webClientId: "1041431862852-k0lm222rv53ffmsbd2n40hp2i5ksvoot.apps.googleusercontent.com",
@@ -38,22 +39,17 @@ export default function Login(){
         // Sign-in the user with the credential
         return auth().signInWithCredential(googleCredential);
     }
-    const handleGoogleAuth =() => {
-        handleGoogleAuthBtn()
-        .then( (response) => {
-            const isNew =  response.additionalUserInfo?.isNewUser
-            const userEmail = response.user.email
-            
-            if(isNew){
-                dispatch(createUserSlice.actions.createNewUser({key:"username", value:`${response.user.displayName}`}))
-                dispatch(createUserSlice.actions.globalAuth(true))
-                navigation.navigate("CategoriesSelect");
-            }
-            else {
-                setIsLoading(true);
-                client.get(`/users/${userEmail}`)
+    const handleGoogleAuth = async () => {
+        const checkAsyncStorageForToken = await AsyncStorage.getItem("@userAuthToken")
+
+        if(checkAsyncStorageForToken){
+            const googleCredential = auth.GoogleAuthProvider.credential(checkAsyncStorageForToken)
+            const userEmail = (await auth().signInWithCredential(googleCredential)).user.email
+            setIsLoading(true);
+                client.get(`/users/email/${userEmail}`)
                 .then((response)=>{
                     const data = response.data.data
+                    console.log(data);
                     dispatch(createUserSlice.actions.currentUser(data))
                     dispatch(createUserSlice.actions.globalAuth(true))
                     setIsLoading(false);
@@ -64,9 +60,38 @@ export default function Login(){
                 .finally(() => {
                     tabNavigation.navigate("Home");
                 })
-            }
-        })
-        .catch(err => console.log(err))
+        }
+        else{
+            handleGoogleAuthBtn()
+            .then( (response) => {
+                const isNew =  response.additionalUserInfo?.isNewUser
+                const userEmail = response.user.email
+                AsyncStorage.setItem("@userAuthToken", JSON.stringify(response.user.getIdToken()))
+                if(isNew){
+                    dispatch(createUserSlice.actions.createNewUser({key:"username", value:`${response.user.displayName}`}))
+                    dispatch(createUserSlice.actions.globalAuth(true))
+                    navigation.navigate("CategoriesSelect");
+                }
+                else {
+                    setIsLoading(true);
+                    client.get(`/users/email/${userEmail}`)
+                    .then((response)=>{
+                        const data = response.data.data
+                        console.log(data);
+                        dispatch(createUserSlice.actions.currentUser(data))
+                        dispatch(createUserSlice.actions.globalAuth(true))
+                        setIsLoading(false);
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+                    .finally(() => {
+                        tabNavigation.navigate("Home");
+                    })
+                }
+            })
+            .catch(err => console.log(err))
+        }
     }
 
     const handleFacebookAuthBtn = () => {

@@ -21,7 +21,7 @@ export default function HowToContact(){
     
         dispatch(createUserSlice.actions.createNewUser({key:"phoneNumber", value:`${userPhoneNumber}`}));
         dispatch(createUserSlice.actions.createNewUser({key:"userWhatsapp", value:`${userWhatsAppNumber}`}));
-        dispatch(createUserSlice.actions.createNewUser({key:"userEmail", value:`${userEmail}`}));
+        dispatch(createUserSlice.actions.createNewUser({key:"email", value:`${userEmail}`}));
         
     }
 

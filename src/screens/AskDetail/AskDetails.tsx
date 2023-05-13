@@ -152,7 +152,7 @@ let url = ""
                     <Text style={styles.askerUsernameStyle}>
                       {details?.userName}
                     </Text>
-                    <Text style={styles.askerCreationDate}>{details?.image}-Cameroon</Text>
+                    <Text style={styles.askerCreationDate}>{`${details?.image} -`}Cameroon</Text>
                   </View>
                 </View>
               </View>

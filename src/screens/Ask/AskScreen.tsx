@@ -38,6 +38,7 @@ import {
 import {v4} from 'uuid';
 import AddImageBtn from '../../components/createAskBtns/AddImageBtn';
 import UploadPicture from '../../components/createAskBtns/UploadPicture';
+import { store } from '../../redux/store/store';
 
 export default function AskScreen() {
   const [openCategory, setOpenCategory] = React.useState(false);
@@ -53,6 +54,8 @@ export default function AskScreen() {
   const [locationItems, setLocationItems] = React.useState(locationData);
   const [timeItems, setTimeItems] = React.useState(timeData);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  const currentUserInfo = store.getState().userReducer.currentUser
 
   const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>();
   const [selectedImageList, SetSelectImageList] = React.useState<any[]>([
@@ -142,11 +145,12 @@ export default function AskScreen() {
     }
   };
   console.log('ImagesUrl:', imagesURL);
-  const refinedUrl = imagesURL.filter((url) => url !==undefined);
+  const refinedUrl = [imagesURL[0], imagesURL[1],imagesURL[2],imagesURL[3]];
 
   const postAsk = async () => {
     setIsLoading(true);
     await handleUploadImageToStore();
+    console.log("Posting Ask Now");
     client
       .post('/asks', {
         message: askMessage,
@@ -156,12 +160,12 @@ export default function AskScreen() {
         visibility: true,
         location: locationValue,
         report: 0,
-        userId: '64426f22ecf3cf6ec153d070',
-        userName: 'Mbianou Bradon',
-        userProfile: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1677841863722/ui0fi1r4b.png',
-        userPhone : "671242032",
-        userWhatsApp : "671242032",
-        userEmail : "mbianoubradon2000@gmail.com"
+        userId: currentUserInfo._id,
+        userName: currentUserInfo.userName,
+        userProfile: currentUserInfo.profileImage,
+        userPhone : currentUserInfo.phoneNumber,
+        userWhatsApp : currentUserInfo.userWhatsapp,
+        userEmail : currentUserInfo.email
       })
       .then(response => {
         console.log('Ask successfully Posted!');

@@ -30,7 +30,6 @@ export interface UserType {
     country: string,
     category: string[],
     phoneNumber: string,
-    userEmail: string,
     userWhatsapp: string,
     email:string,
     strikes :number,

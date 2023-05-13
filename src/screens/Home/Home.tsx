@@ -44,10 +44,14 @@ export default function Home() {
     useNavigation<NativeStackNavigationProp<NativeStackParams>>();
   const tabNavigation =
     useNavigation<NativeStackNavigationProp<TabStackParams>>();
+  const navigation = useNavigation();
 
 
 
   React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus",()=>{
+      setCategory("");
+    })
     client
       .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}`)
       .then(response => {
@@ -63,6 +67,8 @@ export default function Home() {
         console.log('---->', err)
         setIsLoading(false);
       });
+    
+      return unsubscribe;
   }, [category,limit,search,page]);
 
   const handleFilterModal = () => {

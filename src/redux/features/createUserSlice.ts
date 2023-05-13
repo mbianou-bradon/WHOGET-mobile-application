@@ -21,7 +21,6 @@ const initialState : userState = {
         country: "",
         category: [],
         phoneNumber: "",
-        userEmail: "",
         userWhatsapp: "",
         email:"",
         strikes :0,

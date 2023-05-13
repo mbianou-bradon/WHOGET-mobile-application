@@ -18,7 +18,7 @@ import client from "../../config/axios";
 import { UserType } from "../../../dataType";
 
 
-export default function Profile(){
+export default function Profile({route}){
     const profile = require("../../assets/icons/search.png")
     const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false)
     const [profileImage, setProfileImage] = React.useState('file:///storage/emulated/0/Android/data/com.whogetmobileapplication/files/Pictures/image-3053ca79-f298-4d1e-93b7-b85f258dccd92343739600252528079.jpg');
@@ -26,17 +26,19 @@ export default function Profile(){
     const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
     const [userProfileInfo, setUserProfileInfo] = React.useState<UserType>() 
 
-    const currentUserInfo : string = store.getState().userReducer.currentUser.email
+    const currentUserInfo = store.getState().userReducer.currentUser._id
+    console.log(currentUserInfo)
     React.useEffect(()=>{
         getUser()
         .then((response)=>{
            const data = response.data.data
            setUserProfileInfo(data);
         })
-    },[])
+        .catch((err)=>console.log(err))
+    },[route])
 
 
-    const getUser = () => client.get(`/user/${currentUserInfo}`)
+    const getUser = () => client.get(`/users/${currentUserInfo}`)
     const handleProfileModal = () => {
         if(isProfileModalOpen)
             setIsProfileModalOpen(!isProfileModalOpen)
@@ -154,7 +156,7 @@ export default function Profile(){
                                 <Text style={styles.userInfoText}>{userProfileInfo?.email}</Text>
                             </View>
                                 
-                            <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/>
+                            {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
                         </View>
                     </View>
 
@@ -175,7 +177,7 @@ export default function Profile(){
                         <View style={styles.userInfoSubContainer}>
                             <View>
                                 <Text style={styles.smallHeaderText}>Location</Text>
-                                <Text style={styles.userInfoText}>{userProfileInfo?.town} - Cameroon</Text>
+                                <Text style={styles.userInfoText}>{`${userProfileInfo?.town} -`} Cameroon</Text>
                             </View>
                                 
                             {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
