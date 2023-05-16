@@ -29,7 +29,7 @@ export default function Home() {
   const [search, setSearch] = React.useState('');
   const [page, setPage] = React.useState(1);
   const [limit, setLimit] = React.useState(50);
-  const hidden = false;
+  const hidden = true;
 
 
   const [hasProfile, setHasProfile] = React.useState<boolean>(true);
@@ -39,6 +39,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = React.useState(true);
   
   const isAuth = useAppSelector(state => state.userReducer.isAuth);
+  const currentUser = store.getState().userReducer.currentUser
   const nativeNavigation =
     useNavigation<NativeStackNavigationProp<NativeStackParams>>();
   const tabNavigation =
@@ -55,6 +56,7 @@ export default function Home() {
 
       const currentUserCategory = store.getState().userReducer.currentUser.category
       setCategory(currentUserCategory)
+      console.log(currentUserCategory)
       client
         .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}&hidden=${hidden}`)
         .then(response => {
@@ -120,19 +122,19 @@ export default function Home() {
       :
       <View style={styles.homeContainer}>
         <View style={styles.homeSubContainerOne}>
-          {hasProfile ? (
+          {currentUser.profileImage === ""? (
             <Ionic
               name="person-circle-outline"
               size={45}
               color={styles.IconColor.color}
             />
           ) : (
-            <View style={styles.profileImageContainer}>
+            <Pressable style={styles.profileImageContainer} onPress={()=> tabNavigation.navigate("Profile")}>
               <Image
-                source={require('../../assets/icons/userIcon.png')}
+                source={{uri : currentUser.profileImage}}
                 style={styles.profileImage}
               />
-            </View>
+            </Pressable>
           )}
           <View style={styles.searchContainer}>
             <View style={styles.searchIconContainer}>
