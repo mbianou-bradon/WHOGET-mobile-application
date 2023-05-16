@@ -44,6 +44,7 @@ export default function Login(){
             .then( (response) => {
                 const isNew =  response.additionalUserInfo?.isNewUser
                 const userEmail = response.user.email
+                console.log(userEmail);
                 AsyncStorage.setItem("@userAuthToken", JSON.stringify(response.user.getIdToken()))
                 if(isNew){
                     dispatch(createUserSlice.actions.createNewUser({key:"username", value:`${response.user.displayName}`}))
@@ -61,14 +62,14 @@ export default function Login(){
                         setIsLoading(false);
                     })
                     .catch((error) => {
-                        console.log(error)
+                        console.log("KnownUser: ===>",error)
                     })
                     .finally(() => {
                         tabNavigation.navigate("Home");
                     })
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log("Auth ==>",err))
         
     }
 

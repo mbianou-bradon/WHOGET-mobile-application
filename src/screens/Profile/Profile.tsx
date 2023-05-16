@@ -18,20 +18,20 @@ import client from "../../config/axios";
 import { UserType } from "../../../dataType";
 
 
-export default function Profile({route}){
+export default function Profile(){
     const profile = require("../../assets/icons/search.png")
     const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false)
-    const [profileImage, setProfileImage] = React.useState('file:///storage/emulated/0/Android/data/com.whogetmobileapplication/files/Pictures/image-3053ca79-f298-4d1e-93b7-b85f258dccd92343739600252528079.jpg');
+    
     const dispatch = useAppDispatch();
     const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
     const [userProfileInfo, setUserProfileInfo] = React.useState<UserType>() 
     
-    const currentUserInfo = store.getState().userReducer.currentUser._id
+    const currentUserInfo = store.getState().userReducer.currentUser
     console.log(currentUserInfo)
+    const [profileImage, setProfileImage] = React.useState(currentUserInfo.profileImage);
+    // const  id  = route.params.id
 
-    const  id  = route.params.id
-
-    const userId =  currentUserInfo || id 
+    const userId =  currentUserInfo._id
 
     React.useEffect(()=>{
 
@@ -41,7 +41,7 @@ export default function Profile({route}){
            setUserProfileInfo(data);
         })
         .catch((err)=>console.log(err))
-    },[route])
+    },[])
 
 
     const getUser = () => client.get(`/users/${userId}`)

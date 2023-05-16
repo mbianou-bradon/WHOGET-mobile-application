@@ -83,7 +83,7 @@ const TabNavigationRoute = () : JSX.Element => {
         tabBarStyle : {height : 60,paddingBottom:5}
       })}
     >
-        <Tab.Screen name='Home' component={CategoriesSelect}/>
+        <Tab.Screen name='Home' component={Home}/>
         <Tab.Screen name='Search' component={Search}/>
         {isAuth && <Tab.Screen 
           name='Ask' 

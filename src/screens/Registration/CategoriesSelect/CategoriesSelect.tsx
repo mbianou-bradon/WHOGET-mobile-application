@@ -27,7 +27,7 @@ export default function CategoriesSelect(){
         .then((response)=>{
            const data = response.data
             setCategoryData(data)
-            console.log(data)
+            // console.log(data)
         })
     },[selectedCategories])
 
@@ -116,8 +116,12 @@ export default function CategoriesSelect(){
 
     ]
     const handleInterest = (name: string) => {
-        setSelectedCategories(prevState =>[...prevState, name])
-        console.log("selectedCategories:",selectedCategories)
+        if(selectedCategories.includes(name)){
+            setSelectedCategories(selectedCategories.filter((c)=> c !== name));
+        }
+        else 
+            setSelectedCategories(prevState =>[...prevState, name])
+        // console.log("selectedCategories:",selectedCategories)
         
     }
    

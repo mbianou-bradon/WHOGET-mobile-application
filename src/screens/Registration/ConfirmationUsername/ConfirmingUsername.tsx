@@ -56,7 +56,7 @@ export default function ConfirmingUsername() {
 const createNewUser = store.getState().userReducer.newUser;
   const registerUserToDatabase = async () => {
     // const createNewUser = useAppSelector(state => state.userReducer.newUser)
-    updateUserName();
+    await updateUserName();
     // console.log(createNewUser);
     setIsLoading(true);
     client.post("/users",createNewUser)
