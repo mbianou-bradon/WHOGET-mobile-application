@@ -67,6 +67,15 @@ export default function AskScreen() {
   let refinedImagesArray: any[];
 
 
+  React.useEffect(()=> {
+        client.get('/category')
+        .then((response)=>{
+           const data = response.data
+            setCategoryItems(data)
+            console.log(data)
+        })
+    },[])
+
   const refinedImages = () => {
     refinedImagesArray = Array.from(selectedImageList);
     refinedImagesArray.pop();

@@ -3,8 +3,6 @@ import {
   Image,
   Modal,
   Pressable,
-  SafeAreaView,
-  ScrollView,
   Text,
   TextInput,
   View,
@@ -21,7 +19,6 @@ import {NativeStackParams, TabStackParams} from '../../../App';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAppSelector} from '../../redux/store/hooks';
 import {FlatList} from 'react-native-gesture-handler';
-import axios from 'axios';
 import client from '../../config/axios';
 import LoadingScreen from '../../components/Loading/Loading';
 import { store } from '../../redux/store/store';
@@ -53,7 +50,7 @@ export default function Home() {
   React.useEffect(() => {
     if(isAuth){
       const unsubscribe = navigation.addListener("focus",()=>{
-      setCategory("");
+      setCategory(currentUserCategory)
       })
 
       const currentUserCategory = store.getState().userReducer.currentUser.category
@@ -119,7 +116,7 @@ export default function Home() {
     <View>
       <Header />
       { isLoading? 
-      <LoadingScreen text={"Getting Data for the database"}/> 
+      <LoadingScreen text={"Getting Data from the database"}/> 
       :
       <View style={styles.homeContainer}>
         <View style={styles.homeSubContainerOne}>

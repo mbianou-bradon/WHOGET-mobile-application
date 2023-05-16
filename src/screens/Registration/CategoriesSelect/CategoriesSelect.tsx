@@ -10,9 +10,11 @@ import { createUserSlice } from "../../../redux/features/createUserSlice";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../../App";
+import client from "../../../config/axios";
 
 
 export default function CategoriesSelect(){
+    const [categoryData, setCategoryData] = React.useState([])
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
     const [categoriesArray, setCategoriesArray] = React.useState<string[]>([]);
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
@@ -21,6 +23,12 @@ export default function CategoriesSelect(){
     React.useEffect(()=> {
         setCategoriesArray([...new Set(selectedCategories)])
         console.log("categoriesArray:",categoriesArray)
+        client.get('/category')
+        .then((response)=>{
+           const data = response.data
+            setCategoryData(data)
+            console.log(data)
+        })
     },[selectedCategories])
 
 
@@ -129,7 +137,7 @@ export default function CategoriesSelect(){
             <Header/>
             <View style={styles.categoriesSelectContainer}>
                 <View style={styles.categoriesSelectDescContainer}>
-                    <BackBtn />
+                    {/* <BackBtn /> */}
                     <View style={styles.categoriesSelectDescSubContainerOne}>
                         <Text style={styles.categoriesSelectDesc}>What topics are you interested in?</Text>
                         <Text style={styles.categoriesSelectMinText}>Select at least two to continue</Text>
@@ -138,7 +146,7 @@ export default function CategoriesSelect(){
 
 
                 <View style={styles.flatListContainerStyle}>
-                    <FlatList data={categoryTempData} numColumns={2} renderItem={(category) => <Category category={category.item} onPress={()=>handleInterest(category.item.name)}/>} keyExtractor={(item, index) => item._id}/>
+                    <FlatList data={categoryData} numColumns={2} renderItem={(category) => <Category category={category.item} onPress={()=>handleInterest(category.item.name)}/>} keyExtractor={(item, index) => item._id}/>
                 </View>
 
                 <View style={styles.continueBtnContainer}>

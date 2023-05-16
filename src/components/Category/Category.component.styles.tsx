@@ -12,10 +12,22 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: 15,
         marginHorizontal: 3,
+        position: "relative"
     },
     categoryText : {
         fontSize: 18,
         fontWeight: "500",
         color: theme.color.primary_blue_light,
+    },
+    checkStyles: {
+        position: "absolute",
+        top: 2,
+        right: 2,
+        width: 16,
+        height: 16,
+        backgroundColor: theme.color.primary_blue_light,
+        borderRadius: 15,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })

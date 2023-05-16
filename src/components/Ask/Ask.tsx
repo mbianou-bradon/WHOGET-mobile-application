@@ -20,13 +20,21 @@ export default function Ask(props : {data : askType}){
    if(message.length > 100)
         message = message.slice(0, 50) + "..."
     if(anonymous.length > 30)
-        anonymous = anonymous.slice(0, 20)
+        anonymous = anonymous.slice(0, 13)
     return(
         <Pressable android_ripple={{color: theme.color.neutral_gray_light}} style={styles.askContainer} onPress={() => navigation.navigate("AskDetails", {id: props.data._id})}>
             <View>
                 <View style={styles.askHeaderStyle}>
                     <View style={styles.profileImageContainer}>
-                        <Image source={require("../../assets/icons/userIcon.png")} style={styles.profileImage}/>
+                        {props.data.userProfile !=="" ||props.data.userProfile?
+                            <Image source={{uri:props.data.userProfile}} style={styles.profileImage}/>
+                            :
+                            <Image
+                            source={require('../../assets/icons/userIcon.png')}
+                            style={styles.profileImage}
+                            />
+                      }
+                        {/* <Image source={require("../../assets/icons/userIcon.png")} style={styles.profileImage}/> */}
                     </View>
                     <View>
                         <Text style={styles.askerUsernameStyle}>{props.data.userName? `${props.data.userName}` : `${anonymous}`}</Text>
