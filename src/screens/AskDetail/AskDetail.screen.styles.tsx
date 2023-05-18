@@ -61,8 +61,12 @@ export const styles = StyleSheet.create({
     },
     askImageContainer : {
         flexDirection : "row",
+        justifyContent: "center",
+        alignItems: "center",
         flexWrap: "wrap",
-        gap: 10
+        gap: 10,
+        width: "100%",
+        marginBottom: 20,
     },
     askTimeContainer : {
         flexDirection : "row",

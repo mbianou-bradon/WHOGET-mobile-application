@@ -3,6 +3,7 @@ import {
   Image,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -18,6 +19,7 @@ import {createUserSlice} from '../../../redux/features/createUserSlice';
 import client from '../../../config/axios';
 import { store } from '../../../redux/store/store';
 import LoadingScreen from '../../../components/Loading/Loading';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ConfirmingUsername() {
   const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>();
@@ -55,19 +57,24 @@ export default function ConfirmingUsername() {
 
 const createNewUser = store.getState().userReducer.newUser;
   const registerUserToDatabase = async () => {
-    // const createNewUser = useAppSelector(state => state.userReducer.newUser)
-    await updateUserName();
-    // console.log(createNewUser);
     setIsLoading(true);
     client.post("/users",createNewUser)
     .then((response)=>{
-        const data = response.data
+        const data = response.data.data
         console.log(data)
-        // dispatch(createUserSlice.actions.currentUser(data))
+        AsyncStorage.setItem("@userInfo", JSON.stringify(data));
+        dispatch(createUserSlice.actions.currentUser(data));
         setIsLoading(false);
         navigation.navigate("Home")
     })
-    .catch((err)=>console.log(err))
+    .catch((err)=>{
+      console.log(err)
+      ToastAndroid.showWithGravity(`${err.message}`, 
+      ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      )
+      setIsLoading(false)
+    })
     .finally
   }
   const text = "Registering User to the database. Please wait.";

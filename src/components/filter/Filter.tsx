@@ -7,12 +7,12 @@ import { categoryTempData, locationData, timeData } from '../../data/standardDat
 
 export default function Filter(props : {
   cancel : any,
-  filter : any,
+  filter : (category : any, location: any, dateLimit: any) => void,
   categoryData : never[]
 }) {
-  const [selectedCategory, setSelectedCategory] = React.useState('');
-  const [selectedLocation, setSelectedLocation] = React.useState('');
-  const [selectedTime, setSelectedTime] = React.useState('');
+  // const [selectedCategory, setSelectedCategory] = React.useState('');
+  // const [selectedLocation, setSelectedLocation] = React.useState('');
+  // const [selectedTime, setSelectedTime] = React.useState('');
 
   const [openCategory, setOpenCategory] = React.useState(false);
   const [openLocation, setOpenLocation] = React.useState(false);
@@ -25,11 +25,13 @@ export default function Filter(props : {
   const [locationItems, setLocationItems] = React.useState(locationData);
   const [timeItems, setTimeItems] = React.useState(timeData);
 
-  const applyCatgoryToFilter = () => {
-    props.filter(categoryValue)
+  const applyCategoryToFilter = () => {
+    props.filter(categoryValue, locationValue, timeValue)
   }
 
   console.log("filter:", categoryValue);
+  console.log("filter:", locationValue);
+  console.log("filter:", timeValue);
 
   return (
     <View style={styles.filterContainer}>
@@ -99,7 +101,7 @@ export default function Filter(props : {
           </View>
 
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={styles.filterBtn} onPress={applyCatgoryToFilter}>
+            <TouchableOpacity style={styles.filterBtn} onPress={applyCategoryToFilter}>
               <Text style={styles.filterBtnText}>Apply filter</Text>
             </TouchableOpacity>
           </View>

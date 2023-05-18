@@ -12,6 +12,7 @@ import client from "../../config/axios";
 import React from "react";
 import LoadingScreen from "../../components/Loading/Loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import getAsyncData from "../../utils/getAsyncStorage";
 
 GoogleSignin.configure({
     webClientId: "1041431862852-k0lm222rv53ffmsbd2n40hp2i5ksvoot.apps.googleusercontent.com",
@@ -32,7 +33,7 @@ export default function Login(){
         await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
         // Get the users ID token
         const { idToken } = await GoogleSignin.signIn();
-        console.log(idToken);
+        console.log("Token:",idToken);
         // Create a Google credential with the token
         const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
@@ -48,6 +49,7 @@ export default function Login(){
                 AsyncStorage.setItem("@userAuthToken", JSON.stringify(response.user.getIdToken()))
                 if(isNew){
                     dispatch(createUserSlice.actions.createNewUser({key:"username", value:`${response.user.displayName}`}))
+                    dispatch(createUserSlice.actions.createNewUser({key:"oAuthToken", value:`${response.user.getIdToken()}`}))
                     dispatch(createUserSlice.actions.globalAuth(true))
                     navigation.navigate("CategoriesSelect");
                 }
@@ -60,6 +62,7 @@ export default function Login(){
                         dispatch(createUserSlice.actions.currentUser(data))
                         dispatch(createUserSlice.actions.globalAuth(true))
                         setIsLoading(false);
+                        AsyncStorage.setItem("@userInfo", JSON.stringify(data));
                     })
                     .catch((error) => {
                         console.log("KnownUser: ===>",error)

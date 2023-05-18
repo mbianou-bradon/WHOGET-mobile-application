@@ -22,22 +22,39 @@ import {FlatList} from 'react-native-gesture-handler';
 import client from '../../config/axios';
 import LoadingScreen from '../../components/Loading/Loading';
 import { store } from '../../redux/store/store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import getAsyncData from '../../utils/getAsyncStorage';
+import { createUserSlice } from '../../redux/features/createUserSlice';
+
+
+interface IParams {
+  category: string | string[];
+  location?: string;
+  duration?: number;
+  limit: number;
+  page: number;
+  search: string;
+  hidden: boolean;
+}
 
 export default function Home() {
   // Fetch Params states
   const [category, setCategory] = React.useState<string | string[]>('');
-  const [search, setSearch] = React.useState('');
-  const [page, setPage] = React.useState(1);
-  const [limit, setLimit] = React.useState(50);
+  const [search, setSearch] = React.useState<string>('');
+  const [page, setPage] = React.useState<number>(1);
+  const [limit, setLimit] = React.useState<number>(50);
+  const [location, setLocation] = React.useState<string>("");
+  const [dateLimit, setDateLimit] = React.useState<number>();
   const hidden = true;
 
 
-  const [hasProfile, setHasProfile] = React.useState<boolean>(true);
+  // Data variables
   const [filterModalIsOpen, setFilterModalIsOpen] = React.useState(false);
   const [allAsk, setAllAsk] = React.useState([]);
   const [allCategories, setAllCategories] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   
+  // Navigation variables
   const isAuth = useAppSelector(state => state.userReducer.isAuth);
   const currentUser = store.getState().userReducer.currentUser
   const nativeNavigation =
@@ -46,59 +63,82 @@ export default function Home() {
     useNavigation<NativeStackNavigationProp<TabStackParams>>();
   const navigation = useNavigation();
 
+  React.useEffect(() => {
+    getAsyncData("@userInfo")
+    .then((response)=>{
+      console.log("Home Screen:",response);
+      if(response !== undefined)
+        store.dispatch(createUserSlice.actions.currentUser(response));
+      //  const parse = JSON.parse(response)
 
+        store.dispatch(createUserSlice.actions.globalAuth(true));
+    })
+  },[])
 
   React.useEffect(() => {
+    
+    const currentUserCategory = store.getState().userReducer.currentUser.category
+
+    const fetchAskData = async () => {
+      setIsLoading(true)
+      try {
+        const  params : IParams = {
+          category : category,
+          limit: limit,
+          page : page,
+          search : search,
+          hidden : hidden
+        }
+        
+        let endpoint = "/asks";
+        if( location || dateLimit){
+          endpoint = '/asks/filter';
+          params.location = location;
+          params.duration = dateLimit;
+          if (category) {
+            params.category = category;
+          }
+        }
+        const response = await client.get(endpoint, { params : params})
+        const data = response.data.asks;
+        const CategoriesData = response.data.category;
+        // console.log(data.length);
+        setAllAsk(data);
+        setAllCategories(CategoriesData);
+
+      } catch (error) {
+
+        console.log('---->', error)
+        setIsLoading(false);
+
+      } finally {
+
+        setIsLoading(false);
+
+      }
+    };
+
+
     if(isAuth){
+      setCategory(currentUserCategory)
       const unsubscribe = navigation.addListener("focus",()=>{
       setCategory(currentUserCategory)
       })
-
-      const currentUserCategory = store.getState().userReducer.currentUser.category
-      setCategory(currentUserCategory)
-      console.log(currentUserCategory)
-      client
-        .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}&hidden=${hidden}`)
-        .then(response => {
-          const data = response.data.asks;
-          const CategoriesData = response.data.category;
-          console.log(data.length);
-          setAllAsk(data);
-          setAllCategories(CategoriesData);
-          // setCategory("");
-          setIsLoading(false);
-        })
-        .catch(err => {
-          console.log('---->', err)
-          setIsLoading(false);
-        });
-        return unsubscribe
+      fetchAskData();
+      return unsubscribe
         
     }
     else {
       const unsubscribe = navigation.addListener("focus",()=>{
-      setCategory("");
+      setCategory("")
       })
-      client
-        .get(`/asks?category=${category}&limit=${limit}&page=${page}&search=${search}&hidden=${hidden}`)
-        .then(response => {
-          const data = response.data.asks;
-          const CategoriesData = response.data.category;
-          console.log(data.length);
-          setAllAsk(data);
-          setAllCategories(CategoriesData);
-          // setCategory("");
-          setIsLoading(false);
-        })
-        .catch(err => {
-          console.log('---->', err)
-          setIsLoading(false);
-        });
-        return unsubscribe;
+      fetchAskData();
+      return unsubscribe
     }
     
       
-  }, [category,limit,search,page]);
+  }, [category, location, dateLimit, limit, page, search, hidden, isAuth, currentUser, navigation]);
+
 
   const handleFilterModal = () => {
     if (filterModalIsOpen) setFilterModalIsOpen(false);
@@ -109,10 +149,24 @@ export default function Home() {
     else nativeNavigation.navigate('Login');
   };
 
-  const handleFilterBtn = (category:string) => {
+  const handleFilterBtn = async (category:string, location: string, date:number) => {
     setCategory(category)
+    setLocation(location);
+    setDateLimit(date);
     handleFilterModal();
   };
+
+  // const asyncUserInfor = async() => { 
+    
+  //   const info = await AsyncStorage.getItem("@userInfo")
+
+  //   console.log("UserInfo:", info)
+  
+  // }
+
+  // asyncUserInfor();
+
+  // console.log(asyncUserInfor);
 
   return (
     <View>

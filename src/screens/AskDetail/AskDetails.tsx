@@ -19,6 +19,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NativeStackParams, TabStackParams} from '../../../App';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from '../../redux/store/hooks';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 type AskDetailsScreenRouteProp = RouteProp<NativeStackParams, "AskDetails">;
@@ -56,9 +57,11 @@ export default function AskDetails({route}:Props) {
     fetchAskDetails();
   }, [id]);
 
-    const createDate = new Date(details?.createdAt);
-    const duration = (details?.duration * 86400000 ) || 0;
+    const createDate = new Date(details?.updatedAt!);
+    const duration = (Number(details?.duration) * 86400000 ) || 0;
     const expiringDate = new Date(createDate.getTime() + duration);
+
+    const images = details?.image!
     const whatsapp = details?.userWhatsapp
     const phoneNumber = details?.userPhone
     const email = details?.userEmail
@@ -177,10 +180,14 @@ export default function AskDetails({route}:Props) {
               </View>
 
               <View style={styles.askImageContainer}>
-                <View></View>
-                <View></View>
-                <View></View>
-                <View></View>
+                { images?.length !== 0 ?
+                  <FlatList data={images} numColumns={images?.length} renderItem={({item}) => {
+                    return <Image source={{uri: item}} style={{width:250, height: 250}}/>
+                  }}/>
+                  :
+                  <View></View>
+                }
+                
               </View>
 
               <View style={styles.askTimeContainer}>

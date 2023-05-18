@@ -21,22 +21,13 @@ import {
 } from '../../data/standardData';
 import BackBtn from '../../components/backBtn/backBtn';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import MdIcon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {theme} from '../../theme/theme';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {TabStackParams} from '../../../App';
 import client from '../../config/axios';
-// import {storage} from '../../config/firebaseConfig';
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  uploadBytes,
-} from 'firebase/storage';
 import storage from "@react-native-firebase/storage";
-import {v4} from 'uuid';
 import AddImageBtn from '../../components/createAskBtns/AddImageBtn';
 import UploadPicture from '../../components/createAskBtns/UploadPicture';
 import { store } from '../../redux/store/store';
@@ -145,7 +136,6 @@ export default function AskScreen() {
     }
   };
   console.log('ImagesUrl:', imagesURL);
-  // const refinedUrl = [imagesURL[0], imagesURL[1],imagesURL[2],imagesURL[3]];
 
   const postAsk = async () => {
     setIsLoading(true);
@@ -159,12 +149,7 @@ export default function AskScreen() {
       visibility: true,
       location: locationValue,
       report: 0,
-      userId: currentUserInfo._id,
-      userName: currentUserInfo.username,
-      userProfile: currentUserInfo.profileImage,
-      userPhone : currentUserInfo.phoneNumber,
-      userWhatsApp : currentUserInfo.userWhatsapp,
-      userEmail : currentUserInfo.email
+      user: currentUserInfo._id,
     }
     client
       .post('/asks', {...newAsk,  images:imagesURL })
@@ -267,7 +252,6 @@ export default function AskScreen() {
             setValue={setLocationValue}
             setItems={setLocationItems}
             listMode="MODAL"
-            searchable
             placeholder="Location"
             style={styles.dropdownContainer}
             ArrowDownIconComponent={() => (
@@ -286,7 +270,6 @@ export default function AskScreen() {
             setValue={setTimeValue}
             setItems={setTimeItems}
             listMode="MODAL"
-            searchable
             placeholder="Latest date of need"
             style={styles.dropdownContainer}
             selectedItemLabelStyle={styles.inputStyles}

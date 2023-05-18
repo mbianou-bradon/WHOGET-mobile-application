@@ -8,7 +8,7 @@ export interface askType {
     _id : string,
     message: string,
     category:string,
-    image: string,
+    image: string[],
     duration: number,
     visibility: boolean,
     location: string,
@@ -19,12 +19,13 @@ export interface askType {
     userEmail: string,
     userWhatsapp: string,
     createdAt: string,
-    updatedAt: Date,
+    updatedAt: string,
 }
 
 export interface UserType {
     _id? : string,
     username: string,
+    oAuthToken: string,
     profileImage: string,
     age: number,
     town: string,

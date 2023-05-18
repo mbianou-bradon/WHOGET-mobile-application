@@ -14,6 +14,7 @@ const initialState : userState = {
     isAuth : false,
     currentUser: {
         username: "",
+        oAuthToken: "",
         profileImage: "",
         age: 0,
         town: "",
@@ -28,6 +29,7 @@ const initialState : userState = {
     },
     newUser : {
         username: "",
+        oAuthToken: "",
         profileImage: "",
         age: 0,
         town: "",
