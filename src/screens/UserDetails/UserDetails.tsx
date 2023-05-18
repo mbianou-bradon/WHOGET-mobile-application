@@ -1,6 +1,6 @@
 import { Image, Text, View, ScrollView, Modal, Pressable, TouchableOpacity } from "react-native";
 import Header from "../../components/Header/Header";
-import { styles } from "./Profile.screen.styles";
+import { styles } from "./UserDetails.screen.styles";
 import Ionic from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import EvilIcon from "react-native-vector-icons/EvilIcons"
@@ -18,7 +18,7 @@ import client from "../../config/axios";
 import { UserType } from "../../../dataType";
 
 
-export default function Profile(){
+export default function UserDetails(){
     const profile = require("../../assets/icons/search.png")
     const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false)
     
@@ -103,18 +103,13 @@ export default function Profile(){
                             <Image source={require("../../assets/icons/backarrow_white.png")} />
                         </View>
                         <View style={styles.headerUsernameContainer}>
-                            <Text style={styles.headerUsernameText}>{currentUserInfo.username}</Text>
+                            <Text style={styles.headerUsernameText}>{userProfileInfo?.username}</Text>
                         </View>
                     </View>
                     <View style={styles.profileImageContainer}>
                         <View style={styles.profileImageSubContainer}>
-                            <View style={{backgroundColor:'white', height:125,width:125,borderRadius:80}}>
-                                {
-                                    profileImage !== ""? <Image source={{uri:profileImage}} style={{width:"100%",height:"100%",borderRadius:80}}/>
-                                    : 
-                                    <Image source={require("../../assets/images/cloud.png")} style={{width:"100%",height:"100%",borderRadius:80}}/>
-                                }
-                                
+                            <View style={{backgroundColor:'red', height:125,width:125,borderRadius:80}}>
+                                <Image source={{uri:profileImage}} style={{width:"100%",height:"100%",borderRadius:80}}/>
                             </View>
                             <Pressable style={styles.cameraContainer} onPress={handleProfileModal}>
                                 <EvilIcon name="camera" size={38} color={theme.color.neutral_white}/>
@@ -150,7 +145,7 @@ export default function Profile(){
                         <View style={styles.userInfoSubContainer}>
                             <View>
                                 <Text style={styles.smallHeaderText}>Username</Text>
-                                <Text style={styles.userInfoText}>{currentUserInfo.username}</Text>
+                                <Text style={styles.userInfoText}>{userProfileInfo?.username}</Text>
                             </View>
                                 
                             {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
@@ -164,7 +159,7 @@ export default function Profile(){
                         <View style={styles.userInfoSubContainer}>
                             <View>
                                 <Text style={styles.smallHeaderText}>Email</Text>
-                                <Text style={styles.userInfoText}>{currentUserInfo.email}</Text>
+                                <Text style={styles.userInfoText}>{userProfileInfo?.email}</Text>
                             </View>
                                 
                             {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
@@ -176,7 +171,7 @@ export default function Profile(){
                         <View style={styles.userInfoSubContainer}>
                             <View>
                                 <Text style={styles.smallHeaderText}>Number</Text>
-                                <Text style={styles.userInfoText}>+237 {currentUserInfo.phoneNumber}</Text>
+                                <Text style={styles.userInfoText}>+237 {userProfileInfo?.phoneNumber}</Text>
                             </View>
                                 
                             {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
@@ -188,7 +183,7 @@ export default function Profile(){
                         <View style={styles.userInfoSubContainer}>
                             <View>
                                 <Text style={styles.smallHeaderText}>Location</Text>
-                                <Text style={styles.userInfoText}>{`${currentUserInfo.town} -`} Cameroon</Text>
+                                <Text style={styles.userInfoText}>{`${userProfileInfo?.town} -`} Cameroon</Text>
                             </View>
                                 
                             {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
