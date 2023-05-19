@@ -42,22 +42,6 @@ export const styles = StyleSheet.create({
     profileImageSubContainer : {
         position : "relative"
     },
-    cameraContainer : {
-        width : 45,
-        height : 45,
-        borderRadius : 50,
-        backgroundColor : theme.color.primary_blue_light,
-        position : "absolute",
-        bottom : 0,
-        left : 85,
-        justifyContent: "center",
-        alignItems: "center",
-        // zIndex:99,
-    },
-    camera : {
-        width: "100%",
-        height : "100%",
-    },
     bodyContainer : {
         backgroundColor : theme.color.neutral_white,
         height : "100%",

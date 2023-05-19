@@ -30,34 +30,14 @@ export default function ConfirmingUsername() {
   );
   const dispatch = useAppDispatch();
 
-  const updateUserName = async () => {
-    Alert.alert(
-      'USERNAME CONFIRMATION',
-      `Your username will be changed from ${newUserInfoUsername} to ${userName}`,
-      [
-        {
-            text: "CANCEL"
-        },
-        {
-          text: 'CONFIRM',
-          onPress: () =>{
-            dispatch(
-              createUserSlice.actions.createNewUser({
-                key: 'username',
-                value: `${userName}`,
-              }),
-            )
-          },
-            
-        },
-      ],
-    );
-  };
-
 
 const createNewUser = store.getState().userReducer.newUser;
   const registerUserToDatabase = async () => {
     setIsLoading(true);
+
+    if(userName !== "")
+      dispatch(createUserSlice.actions.createNewUser({key: 'username', value: `${userName}`}))
+
     client.post("/users",createNewUser)
     .then((response)=>{
         const data = response.data.data
@@ -77,7 +57,7 @@ const createNewUser = store.getState().userReducer.newUser;
     })
     .finally
   }
-  const text = "Registering User to the database. Please wait.";
+  const text = "Registering User to the database. Please wait...";
 
   return (<>
     {isLoading? <LoadingScreen text={text}/> 

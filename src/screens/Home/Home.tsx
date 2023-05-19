@@ -3,6 +3,7 @@ import {
   Image,
   Modal,
   Pressable,
+  RefreshControl,
   Text,
   TextInput,
   View,
@@ -52,7 +53,8 @@ export default function Home() {
   const [filterModalIsOpen, setFilterModalIsOpen] = React.useState(false);
   const [allAsk, setAllAsk] = React.useState([]);
   const [allCategories, setAllCategories] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [refreshing, setRefreshing] = React.useState<boolean>(false)
   
   // Navigation variables
   const isAuth = useAppSelector(state => state.userReducer.isAuth);
@@ -102,7 +104,7 @@ export default function Home() {
         const response = await client.get(endpoint, { params : params})
         const data = response.data.asks;
         const CategoriesData = response.data.category;
-        // console.log(data.length);
+        AsyncStorage.setItem("@categoryList", JSON.stringify(CategoriesData));
         setAllAsk(data);
         setAllCategories(CategoriesData);
 
@@ -156,17 +158,34 @@ export default function Home() {
     handleFilterModal();
   };
 
-  // const asyncUserInfor = async() => { 
-    
-  //   const info = await AsyncStorage.getItem("@userInfo")
+  const getAskData = async() => {
+   const response = await client.get("/asks", {
+      params: {
+        category : category,
+        limit: limit,
+        page : page,
+        search : search,
+        hidden : hidden
+      },
+    })
 
-  //   console.log("UserInfo:", info)
-  
-  // }
+    const refinedResponse = response.data.asks;
 
-  // asyncUserInfor();
+    return refinedResponse;
+  }
+  const onRefresh = React.useCallback(()=>{
+    setRefreshing(true);
+    getAskData()
+    .then((response)=>{
+      setAllAsk(response)
+      setRefreshing(false);
+    })
+    .catch((error)=>{
+      console.log(error)
+      setRefreshing(false);
+    });
+  },[])
 
-  // console.log(asyncUserInfor);
 
   return (
     <View>
@@ -253,6 +272,7 @@ export default function Home() {
 
           <FlatList
             data={allAsk}
+            bounces
             renderItem={({item}) => {
               return <Ask data={item} />;
             }}
@@ -260,6 +280,11 @@ export default function Home() {
               <View>
                 <Text>Empty List</Text>
               </View>
+            }
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[
+                theme.color.primary_blue_light, theme.color.primary_purple, theme.color.secondary_green
+              ]}/>
             }
           />
         </View>

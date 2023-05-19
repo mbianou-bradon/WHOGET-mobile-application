@@ -1,16 +1,22 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image, Pressable, View } from "react-native";
-import { NativeStackParams } from "../../../App";
+import { NativeStackParams, TabStackParams } from "../../../App";
 
 
-export default function BackBtn(){
+export default function BackBtn(props: { dest: string, color? : string}){
 
-    const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
+    const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
     return (
-        <Pressable onPress={()=>navigation.goBack()}>
+        <Pressable onPress={()=>navigation.navigate("Home")}>
             <View>
-                <Image source={require("../../assets/icons/backarrow.png")}/>
+                {
+                    props.color?
+                         <Image source={require("../../assets/icons/backarrow.png")}/>
+                        :
+                        <Image source={require("../../assets/icons/backarrow_white.png")}/>
+                }
+                
             </View>
         </Pressable>
     )

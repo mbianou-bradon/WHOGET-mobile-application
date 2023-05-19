@@ -16,6 +16,7 @@ import { TabStackParams } from "../../../App";
 import { store } from "../../redux/store/store";
 import client from "../../config/axios";
 import { UserType } from "../../../dataType";
+import BackBtn from "../../components/backBtn/backBtn";
 
 
 export default function Profile(){
@@ -99,9 +100,7 @@ export default function Profile(){
             <ScrollView>
                 <View style={styles.headerContainer}>
                     <View style={styles.headerSubContainer}>
-                        <View>
-                            <Image source={require("../../assets/icons/backarrow_white.png")} />
-                        </View>
+                        <BackBtn dest="Home"/>
                         <View style={styles.headerUsernameContainer}>
                             <Text style={styles.headerUsernameText}>{currentUserInfo.username}</Text>
                         </View>

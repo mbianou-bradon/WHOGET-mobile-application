@@ -1,4 +1,4 @@
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
 import Category from "../../../components/Category/Category";
 import { styles } from "./CategoriesSelect.screen.styles";
 import Header from "../../../components/Header/Header";
@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../../App";
 import client from "../../../config/axios";
+import getAsyncData from "../../../utils/getAsyncStorage";
 
 
 export default function CategoriesSelect(){
@@ -21,11 +22,27 @@ export default function CategoriesSelect(){
     React.useEffect(()=> {
         setCategoriesArray([...new Set(selectedCategories)])
         console.log("categoriesArray:",categoriesArray)
-        client.get('/category')
+        getAsyncData("@categoryList")
         .then((response)=>{
-           const data = response.data
-            setCategoryData(data)
+            if(response !== null){
+                setCategoryData(response)
+            } else {
+                client.get('/category')
+                .then((response)=>{
+                const data = response.data
+                    setCategoryData(data)
+                })
+                .catch((err)=>{
+                    ToastAndroid.showWithGravity(
+                        `${err.message}`,
+                        ToastAndroid.TOP,
+                        ToastAndroid.LONG
+                    )
+                })
+            }
         })
+        .catch((err)=>console.log(err))
+        
     },[selectedCategories])
 
     const handleInterest = (name: string) => {
@@ -38,8 +55,23 @@ export default function CategoriesSelect(){
     }
    
     const handleNextScreen = () => {
-        dispatch(createUserSlice.actions.createNewUser({key:"category", value:`${categoriesArray}`}))
-        navigation.navigate("HowToContact");
+        if(selectedCategories.length < 2){
+            Alert.alert(
+            'ALERT CATEGORY',
+            "Please Select atleast 2 categories to proceed",
+            [
+                {
+                    text: "OK!"
+                },
+                
+            ],
+            );
+        }
+        else {
+            dispatch(createUserSlice.actions.createNewUser({key:"category", value:`${categoriesArray}`}))
+            navigation.navigate("HowToContact");
+        }
+ 
     }
     
     

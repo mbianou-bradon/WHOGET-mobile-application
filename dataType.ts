@@ -12,12 +12,14 @@ export interface askType {
     duration: number,
     visibility: boolean,
     location: string,
-    userId: string,
-    userName: string,
-    userProfile: string,
-    userPhone: string,
-    userEmail: string,
-    userWhatsapp: string,
+    user: { 
+        _id : string,
+        username: string,
+        profileImage: string,
+        phoneNumber: string,
+        email: string,
+        userWhatsapp: string,
+    }
     createdAt: string,
     updatedAt: string,
 }

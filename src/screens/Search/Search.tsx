@@ -1,11 +1,11 @@
-import {FlatList, Image, Text, TextInput, View} from 'react-native';
+import {FlatList, Text, TextInput, View} from 'react-native';
 import Header from '../../components/Header/Header';
 import {styles} from './Search.screen.styles';
 import BackBtn from '../../components/backBtn/backBtn';
-import Ask from '../../components/Ask/Ask';
 import React from 'react';
 import client from '../../config/axios';
 import LoadingScreen from '../../components/Loading/Loading';
+import Ask from '../../components/Ask/Ask';
 
 export default function Search() {
   // Fetch Params states
@@ -13,8 +13,7 @@ export default function Search() {
   const [search, setSearch] = React.useState<string>('');
   const [page, setPage] = React.useState<number>(1);
   const [limit, setLimit] = React.useState<number>(50);
-  const [location, setLocation] = React.useState<string>('');
-  const [date, setDate] = React.useState<number>();
+
   const hidden = true;
   // Data variables
   const [allAsk, setAllAsk] = React.useState([]);

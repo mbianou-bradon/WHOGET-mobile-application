@@ -14,8 +14,9 @@ export default function Ask(props : {data : askType}){
     const createDate = new Date(props.data.createdAt);
     const duration = (props.data.duration * 86400000 ) || 0;
     const expiringDate = new Date(createDate.getTime() + duration);
+    const user = props.data.user
    let  message = props.data.message
-   let anonymous = `Anomymous${props.data.userId}`
+   let anonymous = `Anomymous${user._id}`
 
    if(message.length > 100)
         message = message.slice(0, 50) + "..."
@@ -26,8 +27,8 @@ export default function Ask(props : {data : askType}){
             <View>
                 <View style={styles.askHeaderStyle}>
                     <View style={styles.profileImageContainer}>
-                        {props.data.userProfile !=="" ||props.data.userProfile?
-                            <Image source={{uri:props.data.userProfile}} style={styles.profileImage}/>
+                        {user.profileImage !=="" ||user.profileImage?
+                            <Image source={{uri:user.profileImage}} style={styles.profileImage}/>
                             :
                             <Image
                             source={require('../../assets/icons/userIcon.png')}
@@ -37,7 +38,7 @@ export default function Ask(props : {data : askType}){
                         {/* <Image source={require("../../assets/icons/userIcon.png")} style={styles.profileImage}/> */}
                     </View>
                     <View>
-                        <Text style={styles.askerUsernameStyle}>{props.data.userName? `${props.data.userName}` : `${anonymous}`}</Text>
+                        <Text style={styles.askerUsernameStyle}>{user.username? `${user.username}` : `${anonymous}`}</Text>
                         <Text style={styles.askerCreationDate}>{formatDistanceToNow(new Date(createDate), {addSuffix:true})}</Text>
                     </View>
                 </View>

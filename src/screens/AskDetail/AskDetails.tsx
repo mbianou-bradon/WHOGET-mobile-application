@@ -4,7 +4,6 @@ import {
   View,
   Linking,
   Pressable,
-  ActivityIndicator,
 } from 'react-native';
 import {styles} from './AskDetail.screen.styles';
 import BackBtn from '../../components/backBtn/backBtn';
@@ -12,9 +11,8 @@ import Header from '../../components/Header/Header';
 import React from 'react';
 import client from '../../config/axios';
 import {askType} from '../../../dataType';
-import {theme} from '../../theme/theme';
 import LoadingScreen from '../../components/Loading/Loading';
-import {Link, RouteProp, useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NativeStackParams, TabStackParams} from '../../../App';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
@@ -37,6 +35,8 @@ export default function AskDetails({route}:Props) {
 
   const id = route.params.id;
 
+
+  const user = details?.user
   const fetchAskDetails = () => {
     client
       .get(`/asks/${id}?hidden=false`)
@@ -62,17 +62,17 @@ export default function AskDetails({route}:Props) {
     const expiringDate = new Date(createDate.getTime() + duration);
 
     const images = details?.image!
-    const whatsapp = details?.userWhatsapp
-    const phoneNumber = details?.userPhone
-    const email = details?.userEmail
-    const userName = details?.userName
+    const whatsapp = user?.userWhatsapp
+    const phoneNumber = user?.phoneNumber
+    const email = user?.email
+    const userName = user?.username
     let url = ""
     const message = `Hello ${userName}, I saw your ask you posted on ${createDate.toDateString()} and I can offer my services`
     const emailConf = {
       subject: `RESPONSE TO WHOGET ASK OF ${createDate.toDateString()}`,
       body : message
     }
-     let anonymous = `Anomymous${details?.userId}`
+     let anonymous = `Anomymous${user?._id}`
     if(anonymous.length > 30)
         anonymous = anonymous.slice(0, 20)
 
@@ -134,7 +134,7 @@ export default function AskDetails({route}:Props) {
     }
 
 
-    console.log(details?.userName)
+    console.log(user?.username)
   return (
     <View>
       <Header />
@@ -144,12 +144,12 @@ export default function AskDetails({route}:Props) {
         <View style={styles.askDetailMain}>
           <View>
             <View style={styles.headerContainer}>
-              <BackBtn />
+              <BackBtn dest={'Home'} color='blue'/>
               <View>
                 <View style={styles.askHeaderStyle}>
                   <View style={styles.profileImageContainer}>
-                   {details?.userProfile !=="" || details.userProfile?
-                   <Image source={{uri:details?.userProfile}} style={styles.profileImage}/>
+                   {user?.profileImage !=="" || user.profileImage?
+                   <Image source={{uri:user?.profileImage}} style={styles.profileImage}/>
                    :
                     <Image
                       source={require('../../assets/icons/userIcon.png')}
@@ -157,9 +157,9 @@ export default function AskDetails({route}:Props) {
                     />
                    }
                   </View>
-                  <Pressable>
+                  <Pressable onPress={()=> nativeNavigation.navigate("UserDetails", {id: user?._id!})}>
                     <Text style={styles.askerUsernameStyle} >
-                      {details?.userName? `${details.userName}` : `${anonymous}`}
+                      {user?.username? `${user.username}` : `${anonymous}`}
                     </Text>
                     <Text style={styles.askerCreationDate}>{`${details?.location} -`}Cameroon</Text>
                   </Pressable>
