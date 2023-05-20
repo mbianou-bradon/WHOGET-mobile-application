@@ -69,38 +69,47 @@ export default function Home() {
     getAsyncData("@userInfo")
     .then((response)=>{
       console.log("Home Screen:",response);
-      if(response !== undefined)
+      if(response === null){
+         setCategory("");
+      }
+      else{
+       
         store.dispatch(createUserSlice.actions.currentUser(response));
-      //  const parse = JSON.parse(response)
+        console.log("Home screen userInfo:",response);
 
         store.dispatch(createUserSlice.actions.globalAuth(true));
+      }
+        
     })
   },[])
 
   React.useEffect(() => {
-    
-    const currentUserCategory = store.getState().userReducer.currentUser.category
 
     const fetchAskData = async () => {
       setIsLoading(true)
       try {
-        const  params : IParams = {
+        let  params : IParams = {
           category : category,
           limit: limit,
           page : page,
           search : search,
           hidden : hidden
         }
-        
+        console.log("Before filtering:", params);
         let endpoint = "/asks";
         if( location || dateLimit){
           endpoint = '/asks/filter';
-          params.location = location;
-          params.duration = dateLimit;
+          params = { 
+            ...params,
+            category: "",
+          location : location,
+          duration :dateLimit
+          }
           if (category) {
             params.category = category;
           }
         }
+        console.log("After:",params);
         const response = await client.get(endpoint, { params : params})
         const data = response.data.asks;
         const CategoriesData = response.data.category;
@@ -122,6 +131,7 @@ export default function Home() {
 
 
     if(isAuth){
+      const currentUserCategory = currentUser.category;
       setCategory(currentUserCategory)
       const unsubscribe = navigation.addListener("focus",()=>{
       setCategory(currentUserCategory)
@@ -273,6 +283,7 @@ export default function Home() {
           <FlatList
             data={allAsk}
             bounces
+            showsVerticalScrollIndicator={false}
             renderItem={({item}) => {
               return <Ask data={item} />;
             }}

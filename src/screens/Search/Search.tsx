@@ -51,7 +51,7 @@ export default function Search() {
         ) : (
           <>
             <View style={styles.searchHeaderContainer}>
-              <BackBtn />
+              <BackBtn dest='Home' color='blue'/>
               <View>
                 <TextInput
                   placeholder="Search all ask on WhoGet"

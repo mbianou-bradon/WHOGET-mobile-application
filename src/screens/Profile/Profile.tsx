@@ -17,10 +17,11 @@ import { store } from "../../redux/store/store";
 import client from "../../config/axios";
 import { UserType } from "../../../dataType";
 import BackBtn from "../../components/backBtn/backBtn";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ToastAndroid } from "react-native";
 
 
 export default function Profile(){
-    const profile = require("../../assets/icons/search.png")
     const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false)
     
     const dispatch = useAppDispatch();
@@ -28,7 +29,13 @@ export default function Profile(){
     const [userProfileInfo, setUserProfileInfo] = React.useState<UserType>() 
     
     const currentUserInfo = store.getState().userReducer.currentUser
+    const [updateUsername, setUpdateUsername] = React.useState(currentUserInfo.username);
+    const [updateUserEmail, setUpdateUserEmail] = React.useState(currentUserInfo.email);
+    const [updateUserNumber, setUpdateUserNumber] = React.useState(currentUserInfo.phoneNumber);
+    const [updateUserLocation, setUpdateUserLocation] = React.useState(currentUserInfo.town);
+
     console.log(currentUserInfo)
+
     const [profileImage, setProfileImage] = React.useState(currentUserInfo.profileImage);
     // const  id  = route.params.id
 
@@ -87,6 +94,7 @@ export default function Profile(){
         .then(()=>{
             dispatch(createUserSlice.actions.globalAuth(false));
             dispatch(createUserSlice.actions.currentUser({}))
+            AsyncStorage.removeItem("@userInfo");
         })
         .catch((err)=> console.log(err))
         .finally(()=>{
@@ -94,10 +102,18 @@ export default function Profile(){
         })
     }
 
+    const editProfileHandle = () => {
+        ToastAndroid.showWithGravity(
+            "Sorry you cannot edit your Profile For now!",
+            ToastAndroid.CENTER,
+            ToastAndroid.LONG
+        )
+    }
+
     return (
         <View>
             <Header/>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerContainer}>
                     <View style={styles.headerSubContainer}>
                         <BackBtn dest="Home"/>
@@ -107,11 +123,11 @@ export default function Profile(){
                     </View>
                     <View style={styles.profileImageContainer}>
                         <View style={styles.profileImageSubContainer}>
-                            <View style={{backgroundColor:'white', height:125,width:125,borderRadius:80}}>
+                            <View style={{backgroundColor:'white', height:125,width:125,borderRadius:80, justifyContent: "center", alignItems:"center"}}>
                                 {
                                     profileImage !== ""? <Image source={{uri:profileImage}} style={{width:"100%",height:"100%",borderRadius:80}}/>
                                     : 
-                                    <Image source={require("../../assets/images/cloud.png")} style={{width:"100%",height:"100%",borderRadius:80}}/>
+                                    <Image source={require("../../assets/images/cloud.png")} style={{width:"90%",height:"90%",borderRadius:80}}/>
                                 }
                                 
                             </View>
@@ -152,9 +168,12 @@ export default function Profile(){
                                 <Text style={styles.userInfoText}>{currentUserInfo.username}</Text>
                             </View>
                                 
-                            {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
+                            <Pressable onPress={editProfileHandle}>
+                                <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/>
+                            </Pressable>
                         </View>
                     </View>
+                    
 
                     <View style={styles.userInfoContainer}>
                         <View style={styles.IconContainer}>
@@ -166,7 +185,9 @@ export default function Profile(){
                                 <Text style={styles.userInfoText}>{currentUserInfo.email}</Text>
                             </View>
                                 
-                            {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
+                            <Pressable onPress={editProfileHandle}>
+                                <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/>
+                            </Pressable>
                         </View>
                     </View>
 
@@ -178,7 +199,9 @@ export default function Profile(){
                                 <Text style={styles.userInfoText}>+237 {currentUserInfo.phoneNumber}</Text>
                             </View>
                                 
-                            {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
+                            <Pressable onPress={editProfileHandle}>
+                                <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/>
+                            </Pressable>
                         </View>
                     </View>
 
@@ -190,7 +213,23 @@ export default function Profile(){
                                 <Text style={styles.userInfoText}>{`${currentUserInfo.town} -`} Cameroon</Text>
                             </View>
                                 
-                            {/* <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/> */}
+                            <Pressable onPress={editProfileHandle}>
+                                <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/>
+                            </Pressable>
+                        </View>
+                    </View>
+
+                    <View style={styles.userInfoContainer}>
+                        <Ionic name='star-outline' size={20} color={theme.color.neutral_black}/>
+                        <View style={styles.userInfoSubContainer}>
+                            <View>
+                                <Text style={styles.smallHeaderText}>Interest</Text>
+                                <Text style={[styles.userInfoText, {fontSize:12,width:220}]}>{currentUserInfo.category}</Text>
+                            </View>
+                                
+                            <Pressable onPress={editProfileHandle}>
+                                <MaterialCommunityIcon name='pencil-outline' color={theme.color.neutral_black}/>
+                            </Pressable>
                         </View>
                     </View>
 
@@ -198,7 +237,7 @@ export default function Profile(){
                         <Text style={{textAlign:"right", color:"red"}}>Log Out</Text>
                     </TouchableOpacity>
                 </View>
-                {/* <Image source={{uri:profileImage}}/> */}
+                
             </ScrollView>
         </View>
     )

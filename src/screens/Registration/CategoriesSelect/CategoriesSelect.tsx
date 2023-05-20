@@ -94,7 +94,7 @@ export default function CategoriesSelect(){
 
 
                 <View style={styles.flatListContainerStyle}>
-                    <FlatList data={categoryData} numColumns={2} renderItem={(category) => <Category category={category.item} onPress={()=>handleInterest(category.item.name)}/>} keyExtractor={(item, index) => item._id}/>
+                    <FlatList showsVerticalScrollIndicator={false} data={categoryData} numColumns={2} renderItem={(category) => <Category category={category.item} onPress={()=>handleInterest(category.item.name)}/>} keyExtractor={(item, index) => item._id}/>
                 </View>
 
                 <View style={styles.continueBtnContainer}>

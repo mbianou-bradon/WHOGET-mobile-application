@@ -8,7 +8,12 @@ export default function BackBtn(props: { dest: string, color? : string}){
 
     const navigation = useNavigation<NativeStackNavigationProp<TabStackParams>>()
     return (
-        <Pressable onPress={()=>navigation.navigate("Home")}>
+        <Pressable onPress={()=>{
+            if(props.dest === "Home")
+                navigation.navigate("Home")
+            else
+                navigation.goBack();
+        }}>
             <View>
                 {
                     props.color?

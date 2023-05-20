@@ -189,7 +189,7 @@ export default function AskScreen() {
         style={styles.AskMainContainer}
         showsVerticalScrollIndicator={false}>
         <View style={styles.AskSubContainerOne}>
-          <BackBtn />
+          <BackBtn dest='Home' color='blue'/>
           <View style={styles.tipsContainer}>
             <Text>Tips</Text>
             <View style={styles.tipsSubContainer}>

@@ -38,7 +38,7 @@ export default function HowToContact(){
             <Header/>
             <View style={styles.howToContactContainer}>
                 <View style={styles.howToContactDescContainer}>
-                    <BackBtn />
+                    <BackBtn dest="Back" color="blue"/>
                     <View style={styles.howToContactDescSubContainerOne}>
                         <Text style={styles.howToContactDesc}>How can we get back to you?</Text>
                         <Text style={styles.howToContactMinText}>Fill atleast one field</Text>

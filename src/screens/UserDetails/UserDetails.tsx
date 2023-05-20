@@ -43,7 +43,7 @@ export default function UserDetails({route} : Props){
     return (
         <View>
             <Header/>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerContainer}>
                     <View style={styles.headerSubContainer}>
                         <View>
