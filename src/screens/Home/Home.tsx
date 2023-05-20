@@ -219,7 +219,7 @@ export default function Home() {
               />
             </Pressable>
           )}
-          <View style={styles.searchContainer}>
+          <Pressable style={styles.searchContainer} onPress={()=>tabNavigation.navigate("Search")}>
             <View style={styles.searchIconContainer}>
               <Image
                 source={require('../../assets/icons/search.png')}
@@ -232,7 +232,7 @@ export default function Home() {
               autoCorrect
               style={styles.searchText}
             />
-          </View>
+          </Pressable>
 
           <Pressable
             android_ripple={{color: theme.color.primary_blue_light}}
