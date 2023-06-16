@@ -44,14 +44,17 @@ export default function Login(){
             handleGoogleAuthBtn()
             .then( (response) => {
                 const isNew =  response.additionalUserInfo?.isNewUser
-                const userEmail = response.user.email
+                const userEmail = response.user.email!
+                const userProfile = response.user.photoURL
                 console.log(userEmail);
                 AsyncStorage.setItem("@userAuthToken", JSON.stringify(response.user.getIdToken()))
                 if(isNew){
                     dispatch(createUserSlice.actions.createNewUser({key:"username", value:`${response.user.displayName}`}))
                     dispatch(createUserSlice.actions.createNewUser({key:"oAuthToken", value:`${response.user.getIdToken()}`}))
+                    dispatch(createUserSlice.actions.createNewUser({key: "email", value: `${userEmail}`}))
+                    dispatch(createUserSlice.actions.createNewUser({key: "profileImage", value: `${userProfile}`}))
                     dispatch(createUserSlice.actions.globalAuth(true))
-                    navigation.navigate("CategoriesSelect");
+                    navigation.navigate("CategoriesSelect", { email : userEmail});
                 }
                 else {
                     setIsLoading(true);

@@ -8,9 +8,11 @@ import { createUserSlice } from "../../../redux/features/createUserSlice";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../../App";
+import { store } from "../../../redux/store/store";
 
 
 export default function HowToContact(){
+    const userDefaultEmail = store.getState().userReducer.newUser.email
     const dispatch = useAppDispatch()
     const navigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>()
     const [userPhoneNumber, setUserPhoneNumber] = React.useState("");
@@ -58,7 +60,7 @@ export default function HowToContact(){
 
                         <View style={styles.contactOptions}>
                             <Image source={require("../../../assets/icons/google.png")} />
-                            <TextInput placeholder="Enter Email address" onChangeText={(value => setUserEmail(value))}/>
+                            <TextInput placeholder="Enter Email address" onChangeText={(value => setUserEmail(value))} defaultValue={userDefaultEmail}/>
                         </View>
                         
                     </View>

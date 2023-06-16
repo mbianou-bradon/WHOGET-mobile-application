@@ -45,7 +45,7 @@ export type NativeStackParams = {
   Login : undefined;
   About : undefined;
   HowToContact : undefined;
-  CategoriesSelect : undefined;
+  CategoriesSelect : {email : string};
   ConfirmationUsername : undefined;
   UserDetails : { id : string }
 }

@@ -21,6 +21,7 @@ import {
 } from '../../data/standardData';
 import BackBtn from '../../components/backBtn/backBtn';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import IonicIcon from 'react-native-vector-icons/Ionicons'
 import ImagePicker from 'react-native-image-crop-picker';
 import {theme} from '../../theme/theme';
 import {useNavigation} from '@react-navigation/native';
@@ -32,6 +33,7 @@ import AddImageBtn from '../../components/createAskBtns/AddImageBtn';
 import UploadPicture from '../../components/createAskBtns/UploadPicture';
 import { store } from '../../redux/store/store';
 import LoadingScreen from '../../components/Loading/Loading';
+import getAsyncData from '../../utils/getAsyncStorage';
 
 export default function AskScreen() {
   const [openCategory, setOpenCategory] = React.useState(false);
@@ -59,12 +61,32 @@ export default function AskScreen() {
 
 
   React.useEffect(()=> {
-        client.get('/category')
-        .then((response)=>{
-           const data = response.data
-            setCategoryItems(data)
-            console.log(data)
-        })
+    getAsyncData("@categoryList")
+      .then((response)=>{
+          if(response !== null){
+            const newResponse =  response.map((res : {_id : string, name: string}) => {
+              return {
+              key : res._id,
+              value : res.name
+            }})
+              setCategoryItems(newResponse)
+
+          } else {
+              client.get('/category')
+              .then((response)=>{
+              const data = response.data
+                  setCategoryItems(data)
+              })
+              .catch((err)=>{
+                  ToastAndroid.showWithGravity(
+                      `${err.message}`,
+                      ToastAndroid.TOP,
+                      ToastAndroid.LONG
+                  )
+              })
+          }
+      })
+      .catch((err)=>console.log(err))
     },[])
 
   const refinedImages = () => {
@@ -126,8 +148,6 @@ export default function AskScreen() {
           .putFile(uri);
 
           const resultURL = await storage().ref(metadata.fullPath).getDownloadURL();
-
-
           setImagesURL(prevURL => [resultURL, ...prevURL]);
         }
       } catch (error) {
@@ -175,7 +195,34 @@ export default function AskScreen() {
   };
 
   const handlePostAndAsk = async () => {
-    postAsk();
+    if(askMessage.length < 20){
+      ToastAndroid.showWithGravity(
+        'Ask Message Should be atleast 20 Characters Long',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    } else if(categoryValue === null ){
+      ToastAndroid.showWithGravity(
+        'Please select a category',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    } else if(timeValue === null){
+      ToastAndroid.showWithGravity(
+        'Please select a Time duration',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    } else if(locationValue === null){
+      ToastAndroid.showWithGravity(
+        'Please Select a Location for the ask',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    } else {
+      postAsk();
+    }
+    
   };
 
   return (
@@ -237,7 +284,7 @@ export default function AskScreen() {
             placeholder="Category"
             style={styles.dropdownContainer}
             ArrowDownIconComponent={() => (
-              <Image source={require('../../assets/icons/downarrow.png')} />
+              <IonicIcon name="chevron-down" size={23} color={theme.color.primary_blue_light} />
             )}
             placeholderStyle={styles.inputStyles}
           />
@@ -255,7 +302,7 @@ export default function AskScreen() {
             placeholder="Location"
             style={styles.dropdownContainer}
             ArrowDownIconComponent={() => (
-              <Image source={require('../../assets/icons/downarrow.png')} />
+              <IonicIcon name="chevron-down" size={23} color={theme.color.primary_blue_light} />
             )}
             placeholderStyle={styles.inputStyles}
           />
@@ -274,7 +321,7 @@ export default function AskScreen() {
             style={styles.dropdownContainer}
             selectedItemLabelStyle={styles.inputStyles}
             ArrowDownIconComponent={() => (
-              <Image source={require('../../assets/icons/downarrow.png')} />
+              <IonicIcon name="chevron-down" size={23} color={theme.color.primary_blue_light} />
             )}
             placeholderStyle={styles.inputStyles}
           />

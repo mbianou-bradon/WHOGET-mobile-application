@@ -226,12 +226,7 @@ export default function Home() {
                 style={styles.searchIcon}
               />
             </View>
-            <TextInput
-              placeholder="Search"
-              autoComplete="name"
-              autoCorrect
-              style={styles.searchText}
-            />
+            <Text>Search</Text>
           </Pressable>
 
           <Pressable
